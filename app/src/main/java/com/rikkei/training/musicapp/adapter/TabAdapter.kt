@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.rikkei.training.musicapp.personal.NewAlbumFragment
-import com.rikkei.training.musicapp.personal.NewSingerFragment
-import com.rikkei.training.musicapp.personal.NewSongFragment
+import com.rikkei.training.musicapp.ui.personal.NewAlbumFragment
+import com.rikkei.training.musicapp.ui.personal.NewSingerFragment
+import com.rikkei.training.musicapp.ui.personal.NewSongFragment
 
 class TabAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(

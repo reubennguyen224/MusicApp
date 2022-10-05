@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".chart.ChartFragment">
+    tools:context=".ui.chart.ChartFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/header_view"
-        android:name="com.rikkei.training.musicapp.header.HeaderFragment"
+        android:name="com.rikkei.training.musicapp.ui.header.HeaderFragment"
         tools:layout="@layout/fragment_header"/>
 
     <TextView
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:name="com.rikkei.training.musicapp.NowPlaying"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying"
         tools:layout="@layout/fragment_now_playing"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

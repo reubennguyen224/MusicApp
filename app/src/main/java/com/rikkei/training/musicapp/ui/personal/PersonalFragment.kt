@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.personal
+package com.rikkei.training.musicapp.ui.personal
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -18,16 +18,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
-import com.rikkei.training.musicapp.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.LibraryAdapter
 import com.rikkei.training.musicapp.adapter.TabAdapter
-import com.rikkei.training.musicapp.databinding.FragmentMusicLocalBinding
+import com.rikkei.training.musicapp.databinding.FragmentPersonalBinding
 import com.rikkei.training.musicapp.model.Album
 import com.rikkei.training.musicapp.model.Artist
 import com.rikkei.training.musicapp.model.LibraryCard
 import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.MusicPlayService
 import com.rikkei.training.musicapp.viewmodel.MusicLocalViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,12 +38,9 @@ import java.io.File
 
 class PersonalFragment : Fragment() {
 
-    private var _binding: FragmentMusicLocalBinding? = null
+    private var _binding: FragmentPersonalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MusicLocalViewModel by viewModels()
-//    by activityViewModels {
-//        MusicLocalFactory((activity?.application as MusicApplication).database.itemDao())
-//    }
 
     companion object {
         val songlist = ArrayList<Song>()
@@ -70,7 +67,7 @@ class PersonalFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMusicLocalBinding.inflate(inflater, container, false)
+        _binding = FragmentPersonalBinding.inflate(inflater, container, false)
         val view = binding.root
 
         findFile() //get music file in folder download

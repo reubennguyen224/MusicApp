@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.header
+package com.rikkei.training.musicapp.ui.header
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.HomeFragment
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentHeaderBinding
 

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/musicLocalFragment"
-        android:name="com.rikkei.training.musicapp.personal.PersonalFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.PersonalFragment"
         android:label="fragment_music_local"
-        tools:layout="@layout/fragment_music_local" >
+        tools:layout="@layout/fragment_personal" >
         <action
             android:id="@+id/action_musicLocalFragment_to_localAlbumFragment"
             app:destination="@id/localAlbumFragment" />
@@ -29,32 +29,32 @@
     </fragment>
     <fragment
         android:id="@+id/localMusicFragment"
-        android:name="com.rikkei.training.musicapp.personal.LocalMusicFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.LocalMusicFragment"
         android:label="fragment_local_music"
         tools:layout="@layout/fragment_local_music" />
     <fragment
         android:id="@+id/localAlbumFragment"
-        android:name="com.rikkei.training.musicapp.personal.LocalAlbumFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.LocalAlbumFragment"
         android:label="LocalAlbumFragment"
         tools:layout="@layout/fragment_local_music"/>
     <fragment
         android:id="@+id/localDownloadFragment"
-        android:name="com.rikkei.training.musicapp.personal.LocalDownloadFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.LocalDownloadFragment"
         android:label="LocalDownloadFragment"
         tools:layout="@layout/fragment_local_music"/>
     <fragment
         android:id="@+id/localSingerFragment"
-        android:name="com.rikkei.training.musicapp.personal.LocalSingerFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.LocalSingerFragment"
         android:label="LocalSingerFragment"
         tools:layout="@layout/fragment_local_music"/>
     <fragment
         android:id="@+id/localFavouriteFragment"
-        android:name="com.rikkei.training.musicapp.personal.LocalFavouriteFragment"
+        android:name="com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment"
         android:label="LocalFavouriteFragment"
         tools:layout="@layout/fragment_local_music"/>
     <fragment
         android:id="@+id/playMusicFragment"
-        android:name="com.rikkei.training.musicapp.PlayMusicFragment"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment"
         android:label="fragment_play_music"
         tools:layout="@layout/fragment_play_music">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.rikkei.training.musicapp.LoginFragment"
+        android:name="com.rikkei.training.musicapp.ui.header.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <deepLink
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.rikkei.training.musicapp.header.SearchFragment"
+        android:name="com.rikkei.training.musicapp.ui.header.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <deepLink
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/musicPlayingListFragment"
-        android:name="com.rikkei.training.musicapp.MusicPlayingListFragment"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.MusicPlayingListFragment"
         android:label="fragment_music_playing_list"
         tools:layout="@layout/fragment_music_playing_list" >
         <action
@@ -90,17 +90,17 @@
     </fragment>
     <fragment
         android:id="@+id/singerDetailFragment2"
-        android:name="com.rikkei.training.musicapp.discovery.SingerDetailFragment"
+        android:name="com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment"
         android:label="fragment_singer_detail"
         tools:layout="@layout/fragment_singer_detail" />
     <fragment
         android:id="@+id/newAlbumFragment2"
-        android:name="com.rikkei.training.musicapp.discovery.NewAlbumFragment"
+        android:name="com.rikkei.training.musicapp.ui.discovery.NewAlbumFragment"
         android:label="fragment_new_album2"
         tools:layout="@layout/fragment_new_album2" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.rikkei.training.musicapp.header.ProfileFragment"
+        android:name="com.rikkei.training.musicapp.ui.header.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <deepLink

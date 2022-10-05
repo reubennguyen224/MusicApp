@@ -6,13 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="5dp"
     android:background="@color/trans"
-    tools:context=".header.HeaderFragment">
+    tools:context=".ui.header.HeaderFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="5dp"
-        android:id="@+id/img_avatar_user"
+        android:id="@+id/imgAvatarUser"
         android:src="@drawable/splash_logo"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/trans"
@@ -23,9 +23,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:id="@+id/search_view_bar"
+        android:id="@+id/searchViewBar"
         android:background="@drawable/background_searchbar"
-        app:layout_constraintStart_toEndOf="@+id/img_avatar_user"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatarUser"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="5dp"

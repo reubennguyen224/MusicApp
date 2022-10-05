@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.rikkei.training.musicapp.model.AlbumItem
 import com.rikkei.training.musicapp.model.Artist
 import com.rikkei.training.musicapp.model.Song
-import com.rikkei.training.musicapp.personal.PersonalFragment
+import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import com.rikkei.training.musicapp.utils.MusicApplication
 import kotlinx.coroutines.launch
 import java.io.File
@@ -110,13 +110,3 @@ class MusicLocalViewModel(application: Application): AndroidViewModel(applicatio
         return tmp
     }
 }
-
-//@Suppress("UNCHECKED_CAST")
-//class MusicLocalFactory(private val roomDAO: RoomDAO): ViewModelProvider.Factory{
-//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//        if (modelClass.isAssignableFrom(MusicLocalViewModel::class.java)){
-//            return MusicLocalViewModel(roomDAO) as T
-//        }
-//        throw IllegalArgumentException("Unknown ViewModel class")
-//    }
-//}

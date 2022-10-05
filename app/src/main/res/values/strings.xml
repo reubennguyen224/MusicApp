@@ -20,4 +20,6 @@
     <string name="new_singer">Ca sĩ mới</string>
     <string name="suggest">Hôm nay nghe gì</string>
     <string name="favourite">Bài hát yêu thích</string>
+    <string name="btnback">btnBack</string>
+    <string name="playlist">Danh sách phát</string>
 </resources>

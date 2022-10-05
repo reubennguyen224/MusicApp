@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.splash
+package com.rikkei.training.musicapp.ui.splash
 
 import android.os.Build
 import android.os.Bundle

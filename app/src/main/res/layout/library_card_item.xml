@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/background_card"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/background_card">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="@color/trans"
+        android:padding="8dp"
         android:paddingEnd="60dp">
+
         <ImageView
+            android:id="@+id/cardItemIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/card_item_icon"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="icon"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="icon" />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/cardItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/card_item_title"
-            tools:text="Nghệ sĩ"
-            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/card_item_icon"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardItemIcon"
+            tools:text="Nghệ sĩ" />
+
         <TextView
-            android:id="@+id/card_number_items"
+            android:id="@+id/cardNumberItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="11"
+            android:layout_marginStart="15dp"
             android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/card_item_title"
-            app:layout_constraintTop_toBottomOf="@+id/card_item_icon"
-            android:layout_marginStart="15dp"/>
+            app:layout_constraintStart_toEndOf="@+id/cardItemTitle"
+            app:layout_constraintTop_toBottomOf="@+id/cardItemIcon"
+            tools:text="11" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

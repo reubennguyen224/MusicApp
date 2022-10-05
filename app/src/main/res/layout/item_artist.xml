@@ -10,7 +10,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/avatar_artist"
+        android:id="@+id/avatarArtist"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/trans"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,13 +18,13 @@
     <TextView
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:id="@+id/name_artist"
+        android:id="@+id/nameArtist"
         tools:text="Ca sĩ"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/avatar_artist"
+        app:layout_constraintTop_toBottomOf="@id/avatarArtist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

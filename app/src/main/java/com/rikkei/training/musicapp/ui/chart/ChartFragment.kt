@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.chart
+package com.rikkei.training.musicapp.ui.chart
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rikkei.training.musicapp.HomeFragment
-import com.rikkei.training.musicapp.R
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.adapter.ChartAdapter
 import com.rikkei.training.musicapp.databinding.FragmentChartBinding
 import com.rikkei.training.musicapp.model.Chart

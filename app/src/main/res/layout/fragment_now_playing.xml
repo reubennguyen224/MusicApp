@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".NowPlaying">
+    tools:context=".ui.moduleMusic.NowPlaying">
 
     <ImageView
+        android:id="@+id/imageMusic"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:id="@+id/image_music"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/nameSong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name_song"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_music"
-        tools:text="Anh ta bỏ em rồi"
         android:layout_marginStart="5dp"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAlignment="gravity"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:textAlignment="gravity"
-        android:gravity="center_vertical"/>
+        app:layout_constraintStart_toEndOf="@id/imageMusic"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Anh ta bỏ em rồi" />
+
     <TextView
+        android:id="@+id/nameSinger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name_singer"
-        app:layout_constraintStart_toEndOf="@id/image_music"
-        app:layout_constraintTop_toBottomOf="@id/name_song"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Hương Giang"
         android:layout_marginStart="5dp"
-        android:textSize="12sp"
         android:ellipsize="marquee"
-        android:singleLine="true"
+        android:gravity="center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
+        android:singleLine="true"
         android:textAlignment="gravity"
-        android:gravity="center_vertical"/>
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageMusic"
+        app:layout_constraintTop_toBottomOf="@id/nameSong"
+        tools:text="Hương Giang" />
 
     <ImageView
+        android:id="@+id/nextSongBar"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/ic_next"
-        android:id="@+id/next_song_bar"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/playPauseSongBar"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_play"
-        android:id="@+id/play_pause_song_bar"
-        app:layout_constraintEnd_toStartOf="@id/next_song_bar"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nextSongBar"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
