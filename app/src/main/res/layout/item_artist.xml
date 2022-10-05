@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/name_artist"
         tools:text="Ca sĩ"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"

@@ -20,7 +20,6 @@ import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentDiscoveryBinding
 import com.rikkei.training.musicapp.model.*
-import com.rikkei.training.musicapp.viewmodel.DiscoveryViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +32,7 @@ class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: DiscoveryViewModel
+    //private lateinit var viewModel: DiscoveryViewModel
 
     companion object{
         val newMusic = ArrayList<Song>()

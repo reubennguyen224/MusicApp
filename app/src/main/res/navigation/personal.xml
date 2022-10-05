@@ -9,7 +9,7 @@
         android:id="@+id/musicLocalFragment"
         android:name="com.rikkei.training.musicapp.personal.PersonalFragment"
         android:label="fragment_music_local"
-        tools:layout="@layout/fragment_music_local" >
+        tools:layout="@layout/fragment_personal" >
         <action
             android:id="@+id/action_musicLocalFragment_to_localAlbumFragment"
             app:destination="@id/localAlbumFragment" />

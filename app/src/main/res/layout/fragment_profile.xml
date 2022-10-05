@@ -62,7 +62,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/txtUpdateName"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtFirstName"
@@ -70,7 +71,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/white"
-                android:hint="Tên">
+                android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -86,7 +87,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="20dp"
                 app:boxBackgroundColor="@color/white"
-                android:hint="Họ">
+                android:hint="@string/familyName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -107,7 +108,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/txtUpdateDob"
-            android:hint="Ngày sinh">
+            android:hint="@string/dob">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +126,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:focusable="true"
             android:id="@+id/txtUpdateAddress"
-            android:hint="Địa chỉ">
+            android:hint="@string/address">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +145,7 @@
             android:id="@+id/txtUpdatePassword"
             app:endIconMode="password_toggle"
             android:focusableInTouchMode="true"
-            android:hint="Mật khẩu">
+            android:hint="@string/password">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +159,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtUpdatePassword"
-            android:text="Cập nhật hồ sơ"
+            android:text="@string/updateProfile"
             android:layout_marginTop="10dp"
             android:textColor="@color/red"
             android:backgroundTint="@color/white"/>
@@ -171,7 +172,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Đăng xuất"
+            android:text="@string/Logout"
             android:layout_marginTop="25dp"
             android:textColor="@color/red"
             android:backgroundTint="@color/white"/>

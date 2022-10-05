@@ -23,7 +23,7 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.LibraryAdapter
 import com.rikkei.training.musicapp.adapter.TabAdapter
-import com.rikkei.training.musicapp.databinding.FragmentMusicLocalBinding
+import com.rikkei.training.musicapp.databinding.FragmentPersonalBinding
 import com.rikkei.training.musicapp.model.Album
 import com.rikkei.training.musicapp.model.Artist
 import com.rikkei.training.musicapp.model.LibraryCard
@@ -38,7 +38,7 @@ import java.io.File
 
 class PersonalFragment : Fragment() {
 
-    private var _binding: FragmentMusicLocalBinding? = null
+    private var _binding: FragmentPersonalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MusicLocalViewModel by viewModels()
 //    by activityViewModels {
@@ -69,7 +69,7 @@ class PersonalFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMusicLocalBinding.inflate(inflater, container, false)
+        _binding = FragmentPersonalBinding.inflate(inflater, container, false)
         val view = binding.root
 
         findFile() //get music file in folder download
@@ -299,69 +299,6 @@ class PersonalFragment : Fragment() {
         list[2].numberItems = listMusicFile.size
         list[3].numberItems = singerList.size
         list[4].numberItems = favouriteList.size
-    }
-
-    @SuppressLint("Range")
-    private fun findAlbum(){
-//        albumList.clear()
-//        val selection = MediaStore.Audio.Media.IS_MUSIC
-//        val  res: ContentResolver = activity?.contentResolver!!
-//        val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val projection = arrayOf(
-//            MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
-//            MediaStore.Audio.AudioColumns.ALBUM,
-//            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
-//        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-//        if (cursor != null && cursor.moveToFirst()){
-//            do {
-//                val thisId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
-//                val thisArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
-//                val thisAlbum = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
-//                val uri = Uri.parse("content://media/external/audio/albumart")
-//                val thisImage = Uri.withAppendedPath(uri, thisId.toString()).toString()
-//
-//                val album = AlbumItem(id = thisId, image = thisImage, name = thisAlbum, singer_name = thisArtist)
-//                var has = false
-//
-//                if (albumList.size == 0)
-//                    albumList.add(album)
-//                else{
-//                    for (tmp in albumList){
-//                        if (tmp.name == album.name)
-//                            has = true
-//                    }
-//                    if (!has) albumList.add(album)
-//                }
-//
-//            } while (cursor.moveToNext())
-//            cursor.close()
-//        }
-    }
-
-    @SuppressLint("Range")
-    private fun findSinger(){
-//        singerList.clear()
-//        val selection = MediaStore.Audio.Media.IS_MUSIC
-//        val  res: ContentResolver = activity?.contentResolver!!
-//        val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val projection = arrayOf(
-//            MediaStore.Audio.Artists.ARTIST, MediaStore.Audio.Artists._ID)
-//        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-//        if (cursor != null && cursor.moveToFirst()){
-//            do {
-//                val thisId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Artists._ID))
-//                val thisArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST))
-//
-//                val singer = Artist(id = thisId, name = thisArtist, avatarID = null, description = null)
-//                var has = false
-//                for (tmp in singerList){
-//                    if (tmp.name == singer.name) has = true
-//                }
-//                if (!has) singerList.add(singer)
-//
-//            } while (cursor.moveToNext())
-//            cursor.close()
-//        }
     }
 
     private fun getFavouriteList(){
