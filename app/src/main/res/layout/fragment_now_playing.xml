@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NowPlaying">
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/image_music"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_song"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_music"
+        tools:text="Anh ta bỏ em rồi"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:textAlignment="gravity"
+        android:gravity="center_vertical"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_singer"
+        app:layout_constraintStart_toEndOf="@id/image_music"
+        app:layout_constraintTop_toBottomOf="@id/name_song"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Hương Giang"
+        android:layout_marginStart="5dp"
+        android:textSize="12sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:textAlignment="gravity"
+        android:gravity="center_vertical"/>
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_next"
+        android:id="@+id/next_song_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_play"
+        android:id="@+id/play_pause_song_bar"
+        app:layout_constraintEnd_toStartOf="@id/next_song_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

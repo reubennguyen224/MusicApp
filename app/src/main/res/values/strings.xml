@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">PLAY</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="music_app_name">PLAY</string>
+    <string name="personal">Cá nhân</string>
+    <string name="discovery">Khám phá</string>
+    <string name="bxh">Bảng xếp hạng</string>
+    <string name="newfeed">Bảng tin</string>
+    <string name="thuvien">Thư viện</string>
+    <string name="nghe_sy_yeu_thich">Nghệ sỹ yêu thích</string>
+    <string name="phat_ngau_nhien">Phát ngẫu nhiên</string>
+    <string name="login">Đăng nhập</string>
+    <string name="forgot_password">Chưa có tài khoản? </string>
+    <string name="register">Đăng ký tài khoản</string>
+    <string name="song_list">Bài hát</string>
+    <string name="download_list">Tải xuống</string>
+    <string name="singer_list">Ca sĩ</string>
+    <string name="favourite_list">Yêu thích</string>
+    <string name="new_release">Mới phát hành</string>
+    <string name="new_singer">Ca sĩ mới</string>
+    <string name="suggest">Hôm nay nghe gì</string>
+    <string name="favourite">Bài hát yêu thích</string>
+</resources>

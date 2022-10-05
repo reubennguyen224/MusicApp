@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable-v24/background_2nd_chart.xml" value="0.251" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable-v24/background_container.xml" value="0.209" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable-v24/button_primary_background.xml" value="0.209" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable-v24/ic_back_button.xml" value="0.209" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_1st_chart.xml" value="0.251" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_3rd_chart.xml" value="0.251" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_card.xml" value="0.19" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_new_album.xml" value="0.204" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_searchbar.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/background_splash.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/button_little_background.xml" value="0.2285" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/button_little_background_2.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_back_arrows_nobody.xml" value="0.204" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_clear.xml" value="0.3405" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_favorite.xml" value="0.251" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_favorite_border_24.xml" value="0.2425" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_login_background.xml" value="0.2425" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_next_song.xml" value="0.3445" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/ic_pause.xml" value="0.3445" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/login_button_background.xml" value="0.2425" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/scrim.xml" value="0.157" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/drawable/seekbar_thumb.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.16058763931104356" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/album_item.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/chart_items.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_chart.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_discovery.xml" value="0.29120879120879123" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_header.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_local_music.xml" value="0.37592592592592594" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_music_local.xml" value="0.33" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_music_playing_list.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_new_album.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_new_album2.xml" value="0.340625" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_new_feed.xml" value="0.16058763931104356" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_new_singer.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_new_song.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_now_playing.xml" value="0.16742654508611957" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_play_music.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_profile.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_search.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_singer_detail.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/fragment_splash.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/header.xml" value="0.33" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/item_artist.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/library_card_item.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/music_item.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/notification_custom.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/play_music_bar.xml" value="0.5" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/layout/seekbar_thumb.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MusicApp/app/src/main/res/menu/bottom_navigation.xml" value="0.34479166666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

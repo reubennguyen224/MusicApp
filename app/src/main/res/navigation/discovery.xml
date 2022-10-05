@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discovery"
+    app:startDestination="@id/discoveryFragment">
+
+    <fragment
+        android:id="@+id/discoveryFragment"
+        android:name="com.rikkei.training.musicapp.discovery.DiscoveryFragment"
+        android:label="fragment_discovery"
+        tools:layout="@layout/fragment_discovery" />
+    <fragment
+        android:id="@+id/newAlbumFragment"
+        android:name="com.rikkei.training.musicapp.discovery.NewAlbumFragment"
+        android:label="fragment_new_album2"
+        tools:layout="@layout/fragment_new_album2">
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="android-app://com.rikkei.training.musicapp/newAlbum/{local}/{album_position}" />
+        <argument
+            android:name="album_position"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="local"
+            app:argType="string"
+            android:defaultValue="local" />
+    </fragment>
+    <fragment
+        android:id="@+id/singerDetailFragment"
+        android:name="com.rikkei.training.musicapp.discovery.SingerDetailFragment"
+        android:label="fragment_singer_detail"
+        tools:layout="@layout/fragment_singer_detail">
+        <deepLink
+            android:id="@+id/deepLink5"
+            app:uri="android-app://com.rikkei.training.musicapp/singerDetail/{fromWhere}/{position}" />
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="fromWhere"
+            app:argType="string"
+            android:defaultValue="discovery" />
+    </fragment>
+    <fragment
+        android:id="@+id/playMusicFragment2"
+        android:name="com.rikkei.training.musicapp.PlayMusicFragment"
+        android:label="fragment_play_music"
+        tools:layout="@layout/fragment_play_music" >
+        <action
+            android:id="@+id/action_playMusicFragment2_to_discoveryFragment"
+            app:destination="@id/discoveryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicPlayingListFragment2"
+        android:name="com.rikkei.training.musicapp.MusicPlayingListFragment"
+        android:label="fragment_music_playing_list"
+        tools:layout="@layout/fragment_music_playing_list" />
+</navigation>

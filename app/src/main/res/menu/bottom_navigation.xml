@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/personal"
+        android:title="@string/personal"
+        android:contentDescription="@string/personal"
+        android:icon="@drawable/ic_library"/>
+    <item android:id="@+id/discovery"
+        android:title="@string/discovery"
+        android:contentDescription="@string/discovery"
+        android:icon="@drawable/ic_disc"/>
+    <item android:id="@+id/chart"
+        android:title="@string/bxh"
+        android:contentDescription="@string/bxh"
+        android:icon="@drawable/ic_chart" />
+    <item android:id="@+id/newFeed"
+        android:title="@string/newfeed"
+        android:contentDescription="@string/newfeed"
+        android:icon="@drawable/ic_new_feed"/>
+</menu>

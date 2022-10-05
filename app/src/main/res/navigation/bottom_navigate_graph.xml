@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_navigate_graph"
+    app:startDestination="@id/discovery">
+    <include app:graph="@navigation/personal" />
+    <include app:graph="@navigation/discovery" />
+    <include app:graph="@navigation/chart" />
+    <include app:graph="@navigation/newfeed" />
+</navigation>
