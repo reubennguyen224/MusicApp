@@ -214,25 +214,25 @@ class DiscoveryFragment : Fragment() {
                 }
             })
 
-            HomeFragment.loginAPI.getNewAlbums().enqueue(object : Callback<AlbumAPI> {
-                override fun onResponse(call: Call<AlbumAPI>, response: Response<AlbumAPI>) {
-                    newAlbum.clear()
-                    val albumList = response.body()
-                    for (album in albumList!!){
-                        newAlbum.add(
-                            AlbumItem(
-                            id = album.id.toLong(),
-                            name = album.name,
-                            singer_name = album.artist,
-                            image = album.cover
-                            )
-                        )
-                    }
-                }
-                override fun onFailure(call: Call<AlbumAPI>, t: Throwable) {
-                    Toast.makeText(context, "Failed to get data!", Toast.LENGTH_SHORT).show()
-                }
-            })
+//            HomeFragment.loginAPI.getNewAlbums().enqueue(object : Callback<AlbumAPI> {
+//                override fun onResponse(call: Call<AlbumAPI>, response: Response<AlbumAPI>) {
+//                    newAlbum.clear()
+//                    val albumList = response.body()
+//                    for (album in albumList!!){
+//                        newAlbum.add(
+//                            AlbumItem(
+//                            id = album.id.toLong(),
+//                            name = album.name,
+//                            singer_name = album.artist,
+//                            image = album.cover
+//                            )
+//                        )
+//                    }
+//                }
+//                override fun onFailure(call: Call<AlbumAPI>, t: Throwable) {
+//                    Toast.makeText(context, "Failed to get data!", Toast.LENGTH_SHORT).show()
+//                }
+//            })
 
             withContext(Dispatchers.Main){
                 songAdapter.notifyDataSetChanged()
