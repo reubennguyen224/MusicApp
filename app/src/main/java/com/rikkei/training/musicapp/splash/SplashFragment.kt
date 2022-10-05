@@ -2,13 +2,11 @@ package com.rikkei.training.musicapp.splash
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.karumi.dexter.Dexter
@@ -16,19 +14,14 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.rikkei.training.musicapp.MainActivity
-import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentSplashBinding
 import kotlinx.coroutines.delay
-import java.util.jar.Manifest
 
 @Suppress("DEPRECATION")
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
-
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +66,6 @@ class SplashFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     private suspend fun goToHomeFragment(){
         delay(3000)
-        //askRequest() //ask permissions to use app
         findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
     }
 }

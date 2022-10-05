@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,9 +34,7 @@ class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: DiscoveryViewModel by lazy {
-        ViewModelProvider(this, DiscoveryViewModel.AppViewModelFactory(requireActivity().application))[DiscoveryViewModel::class.java]
-    }
+    private val viewModel: DiscoveryViewModel by viewModels()
 
     companion object{
         val newMusic = ArrayList<Song>()
@@ -67,6 +65,7 @@ class DiscoveryFragment : Fragment() {
             binding.btnSong.background = ResourcesCompat.getDrawable(resources, R.drawable.button_little_background, null)
             binding.btnSong.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.purple_500))
             binding.listNew.adapter = albumAdapter
+            refreshData()
         }
 
         binding.btnSong.setOnClickListener {
@@ -146,8 +145,10 @@ class DiscoveryFragment : Fragment() {
 
     }
 
-    fun refreshData(){
-
+    private fun refreshData(){
+        viewModel.getNewAlbum()!!.observe(viewLifecycleOwner) {
+            newAlbum.addAll(it)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -9,7 +9,7 @@ import retrofit2.http.*
 
 interface DiscoveryAPI {
     @GET("getAlbum.php")
-    suspend fun getNewAlbums():AlbumAPI
+    fun getNewAlbums():Call<AlbumAPI>
 
     @GET("getArtist.php")
     fun getNewSingers(): Call<SingerAPI>

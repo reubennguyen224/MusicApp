@@ -7,4 +7,5 @@ class AppRepository(app: Application) {
 
     suspend fun getNewAlbumFromAPI() = HomeFragment.loginAPI.getNewAlbums()
 
+
 }
