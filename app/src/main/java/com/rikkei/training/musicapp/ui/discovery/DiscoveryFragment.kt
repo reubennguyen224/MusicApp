@@ -185,6 +185,8 @@ class DiscoveryFragment : Fragment() {
             songSSAdapter.dataset = it
             songSSAdapter.notifyDataSetChanged()
         }
+
+
     }
 
 
