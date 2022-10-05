@@ -21,7 +21,7 @@ class NewAlbumFragment : Fragment() {
 
     private val songlist = ArrayList<Song>()
     private val albumList = Album()
-    val adapter = AlbumAdapter(albumList)
+    private val adapter = AlbumAdapter(albumList, requireContext())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

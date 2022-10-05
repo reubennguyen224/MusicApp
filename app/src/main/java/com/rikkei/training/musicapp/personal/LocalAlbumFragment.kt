@@ -18,7 +18,7 @@ import com.rikkei.training.musicapp.model.Album
 import com.rikkei.training.musicapp.model.Song
 import java.io.File
 
-class LocalAlbumFragment: Fragment() {
+class LocalAlbumFragment : Fragment() {
 
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
@@ -48,11 +48,11 @@ class LocalAlbumFragment: Fragment() {
 
         binding.titleFragment.text = "Album"
         binding.titleNumSong.text = "${albumList.size} album"
-        val adapter = AlbumAdapter(albumList)
+        val adapter = AlbumAdapter(albumList, requireContext())
         binding.musicRecyclerList.adapter = adapter
-        binding.musicRecyclerList.layoutManager  = LinearLayoutManager(context)
+        binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 
-        adapter.setOnAlbumItemClickListener(object : AlbumAdapter.OnClickListener{
+        adapter.setOnAlbumItemClickListener(object : AlbumAdapter.OnClickListener {
             override fun onAlbumItemClickListener(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("album_position", position)
@@ -65,17 +65,26 @@ class LocalAlbumFragment: Fragment() {
         binding.btnPlaySuffle.visibility = View.GONE
     }
 
-    private fun getSongList(){
+    private fun getSongList() {
         val selection = MediaStore.Audio.Media.IS_MUSIC
         songlist.clear()
-        val  res: ContentResolver = activity?.contentResolver!!
+        val res: ContentResolver = activity?.contentResolver!!
         val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.MediaColumns.TITLE,
+        val projection = arrayOf(
+            MediaStore.MediaColumns.TITLE,
             MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
             MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
-        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-        if (cursor != null && cursor.moveToFirst()){
+            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
+        )
+        val cursor = res.query(
+            musicUri,
+            projection,
+            selection,
+            null,
+            MediaStore.Audio.Media.DATE_ADDED + " DESC",
+            null
+        )
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 val thisTitle = cursor.getString(0)
                 val thisId: Long = cursor.getLong(1)
@@ -101,11 +110,12 @@ class LocalAlbumFragment: Fragment() {
                 if (file.exists())
                     songlist.add(song)
             } while (cursor.moveToNext())
+            cursor.close()
         }
-        songlist.sortBy { it.dateModifier  }
+        songlist.sortBy { it.dateModifier }
     }
 
-    private fun findAlbum(){
+    private fun findAlbum() {
         albumList.clear()
         albumList.addAll(PersonalFragment.albumList)
     }

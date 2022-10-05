@@ -13,12 +13,12 @@ import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentLocalMusicBinding
 import com.rikkei.training.musicapp.model.Song
 
-class LocalDownloadFragment: Fragment() {
+class LocalDownloadFragment : Fragment() {
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
 
-    companion object{
-        val listMusicFile= ArrayList<Song>()
+    companion object {
+        val listMusicFile = ArrayList<Song>()
     }
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class LocalDownloadFragment: Fragment() {
         val adapter = MusicAdapter(listMusicFile)
         binding.musicRecyclerList.adapter = adapter
 
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)

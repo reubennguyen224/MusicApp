@@ -8,19 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.SingerRecyclerItemBinding
 import com.rikkei.training.musicapp.model.SongDetail
 
-class MusicListAdapter(private val dataset: ArrayList<SongDetail>):
+class MusicListAdapter(private val dataset: ArrayList<SongDetail>) :
     RecyclerView.Adapter<MusicListAdapter.ListViewHolder>() {
+
     private var viewPool = RecyclerView.RecycledViewPool()
     lateinit var ctx: Context
 
-    class ListViewHolder (binding: SingerRecyclerItemBinding): RecyclerView.ViewHolder(binding.root){
+    class ListViewHolder(binding: SingerRecyclerItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val title = binding.titleSong
         val recyclerView = binding.listSongArtist
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         ctx = parent.context
-        return ListViewHolder(SingerRecyclerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ListViewHolder(
+            SingerRecyclerItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {

@@ -9,8 +9,10 @@ import com.rikkei.training.musicapp.personal.NewSingerFragment
 import com.rikkei.training.musicapp.personal.NewSongFragment
 
 class TabAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(fragmentManager,
-        lifecycle) {
+    FragmentStateAdapter(
+        fragmentManager,
+        lifecycle
+    ) {
 
     override fun getItemCount(): Int {
         return 3

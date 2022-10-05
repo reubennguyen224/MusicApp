@@ -22,11 +22,11 @@ class LocalMusicFragment : Fragment() {
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
 
-    companion object{
+    companion object {
         val songlist = ArrayList<Song>()
     }
 
-    val adapter  = MusicAdapter(songlist)
+    val adapter = MusicAdapter(songlist)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +41,7 @@ class LocalMusicFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
@@ -60,7 +60,7 @@ class LocalMusicFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnPlaySuffle.setOnClickListener{
+        binding.btnPlaySuffle.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("songPosition", 0)
             bundle.putString("album", "MusicShuffleAdapter")
@@ -74,10 +74,10 @@ class LocalMusicFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
-    private fun getSongList(){
-        lifecycleScope.launch(Dispatchers.IO){
+    private fun getSongList() {
+        lifecycleScope.launch(Dispatchers.IO) {
             songlist.addAll(PersonalFragment.songlist)
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 binding.titleNumSong.text = "${songlist.size} bài hát"
                 adapter.notifyDataSetChanged()
             }

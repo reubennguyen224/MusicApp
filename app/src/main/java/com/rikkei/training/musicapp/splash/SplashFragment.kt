@@ -17,7 +17,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.rikkei.training.musicapp.databinding.FragmentSplashBinding
 import kotlinx.coroutines.delay
 
-@Suppress("DEPRECATION")
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
@@ -41,11 +40,13 @@ class SplashFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     fun askRequest() {
         Dexter.withContext(context)
-            .withPermissions(android.Manifest.permission.INTERNET,
+            .withPermissions(
+                android.Manifest.permission.INTERNET,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.ACCESS_NOTIFICATION_POLICY,
-                android.Manifest.permission.FOREGROUND_SERVICE) .withListener(object :
+                android.Manifest.permission.FOREGROUND_SERVICE
+            ).withListener(object :
                 MultiplePermissionsListener {
                 override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
                     lifecycleScope.launchWhenCreated {
@@ -64,7 +65,7 @@ class SplashFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    private suspend fun goToHomeFragment(){
+    private suspend fun goToHomeFragment() {
         delay(3000)
         findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
     }

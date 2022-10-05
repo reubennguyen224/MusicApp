@@ -31,7 +31,7 @@ class SingerDetailFragment : Fragment() {
     private var singerList = Singer()
     private lateinit var singer: Artist
 
-    companion object{
+    companion object {
         val songList = ArrayList<Song>()
         var position = 0
 
@@ -45,7 +45,7 @@ class SingerDetailFragment : Fragment() {
         val view = binding.root
         arguments?.let {
             position = it.getInt("position")
-            when(it.getString("fromWhere")){
+            when (it.getString("fromWhere")) {
                 "discovery" -> {
                     singerList = DiscoveryFragment.newSinger
                     singer = singerList[position]
@@ -93,7 +93,7 @@ class SingerDetailFragment : Fragment() {
 
     }
 
-    private fun collapsingToolbar(){
+    private fun collapsingToolbar() {
         binding.btnPlayShuffle.visibility = View.GONE
         binding.btnBack.setImageResource(R.drawable.ic_back_button)
         binding.titleSinger.visibility = View.GONE
@@ -105,7 +105,7 @@ class SingerDetailFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun expandToolbar(){
+    private fun expandToolbar() {
         binding.btnPlayShuffle.visibility = View.VISIBLE
         binding.titleSinger.visibility = View.VISIBLE
         binding.numSong.visibility = View.VISIBLE
@@ -114,14 +114,15 @@ class SingerDetailFragment : Fragment() {
         binding.numSong.text = "${songList.size} bài hát"
     }
 
-    private fun callingAPI(position: Int){
-        lifecycleScope.launch(Dispatchers.IO){
+    private fun callingAPI(position: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
             HomeFragment.loginAPI.getArtistItem(position).enqueue(object : Callback<MusicAPI> {
                 override fun onResponse(call: Call<MusicAPI>, response: Response<MusicAPI>) {
                     songList.clear()
                     val musicList = response.body()
-                    for (music in musicList!!){
-                            songList.add(Song(
+                    for (music in musicList!!) {
+                        songList.add(
+                            Song(
                                 thisId = music.id.toLong(),
                                 thisTile = music.title,
                                 thisArtist = music.artist,
@@ -129,11 +130,13 @@ class SingerDetailFragment : Fragment() {
                                 dateModifier = "",
                                 favourite = false,
                                 imageUri = music.coverURI,
-                                songUri = music.songURI)
+                                songUri = music.songURI
                             )
+                        )
                     }
                     adapter.notifyDataSetChanged()
                 }
+
                 override fun onFailure(call: Call<MusicAPI>, t: Throwable) {
                     Toast.makeText(context, "Failed to get music!", Toast.LENGTH_SHORT).show()
                 }

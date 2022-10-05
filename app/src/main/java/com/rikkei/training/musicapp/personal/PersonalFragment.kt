@@ -45,12 +45,12 @@ class PersonalFragment : Fragment() {
 //        MusicLocalFactory((activity?.application as MusicApplication).database.itemDao())
 //    }
 
-    companion object{
-         val songlist = ArrayList<Song>()
-         val albumList = Album()
-         val singerList = ArrayList<Artist>()
-         val listMusicFile= ArrayList<Song>()
-         var musicPlayService: MusicPlayService? = null
+    companion object {
+        val songlist = ArrayList<Song>()
+        val albumList = Album()
+        val singerList = ArrayList<Artist>()
+        val listMusicFile = ArrayList<Song>()
+        var musicPlayService: MusicPlayService? = null
     }
 
     private val artistAdapter = ArtistAdapter(singerList)
@@ -64,6 +64,7 @@ class PersonalFragment : Fragment() {
         LibraryCard(R.drawable.ic_heart, "Yêu thích", favouriteList.size),
     )
     val adapter = LibraryAdapter(list)
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,12 +74,11 @@ class PersonalFragment : Fragment() {
         val view = binding.root
 
         findFile() //get music file in folder download
-//        getSongList() //get music file in sdcard
 
         binding.libBlock.adapter = adapter
-        adapter.setOnItemClickListener(object : LibraryAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : LibraryAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                when(position){
+                when (position) {
                     0 -> findNavController().navigate(PersonalFragmentDirections.actionMusicLocalFragmentToLocalMusicFragment())
                     1 -> findNavController().navigate(PersonalFragmentDirections.actionMusicLocalFragmentToLocalAlbumFragment())
                     2 -> findNavController().navigate(PersonalFragmentDirections.actionMusicLocalFragmentToLocalDownloadFragment())
@@ -87,18 +87,18 @@ class PersonalFragment : Fragment() {
                 }
             }
         })
-
+        adapter.notifyDataSetChanged()
         binding.viewPagerLib.adapter = TabAdapter(childFragmentManager, lifecycle)
         val tab = binding.tabLayout
         tab.addTab(tab.newTab().setText("Nhạc mới cập nhật"))
         tab.addTab(tab.newTab().setText("Nghệ sĩ mới"))
         tab.addTab(tab.newTab().setText("Album mới"))
 
-        tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let { binding.viewPagerLib.currentItem = it.position }
             }
-            override fun onTabUnselected(tab: TabLayout.Tab?)  = Unit
+            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
             override fun onTabReselected(tab: TabLayout.Tab?) = Unit
         })
 
@@ -109,8 +109,6 @@ class PersonalFragment : Fragment() {
             }
         })
 
-//        findAlbum()
-//        findSinger()
         getFavouriteList() //get favourite song
 
         return view
@@ -131,13 +129,13 @@ class PersonalFragment : Fragment() {
         binding.artistBlock.adapter = artistAdapter
         val artistLayout = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         binding.artistBlock.layoutManager = artistLayout
-        
-        artistAdapter.setOnArtistClickListener(object : ArtistAdapter.OnItemClickListener{
+
+        artistAdapter.setOnArtistClickListener(object : ArtistAdapter.OnItemClickListener {
             override fun onArtistClickListener(position: Int) {
-                Toast.makeText(context, "Thông tin nghệ sĩ không khả dụng", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Thông tin nghệ sĩ không khả dụng", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
-
 
         if (musicPlayService == null) musicPlayService = PlayMusicFragment.musicPlayService
 
@@ -248,19 +246,22 @@ class PersonalFragment : Fragment() {
 //    }
 
     private fun findFile() {
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             listMusicFile.clear()
             val res: ContentResolver = activity?.contentResolver!!
             val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(MediaStore.MediaColumns.TITLE,
+            val projection = arrayOf(
+                MediaStore.MediaColumns.TITLE,
                 MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
                 MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
+                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
+            )
             val folder = arrayOf("%Download%")
-            val cursor = res.query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", folder, null)
+            val cursor =
+                res.query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", folder, null)
 
-            if (cursor != null && cursor.moveToFirst()){
-                do{
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
                     val thisTitle = cursor.getString(0)
                     val thisId: Long = cursor.getLong(1)
                     val thisArtist = cursor.getString(2)
@@ -287,13 +288,13 @@ class PersonalFragment : Fragment() {
                 } while (cursor.moveToNext())
                 cursor.close()
             }
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 adapter.notifyDataSetChanged()
             }
         }
     }
 
-    private fun fixData(){
+    private fun fixData() {
         list[0].numberItems = songlist.size
         list[1].numberItems = albumList.size
         list[2].numberItems = listMusicFile.size
@@ -302,7 +303,7 @@ class PersonalFragment : Fragment() {
     }
 
     @SuppressLint("Range")
-    private fun findAlbum(){
+    private fun findAlbum() {
 //        albumList.clear()
 //        val selection = MediaStore.Audio.Media.IS_MUSIC
 //        val  res: ContentResolver = activity?.contentResolver!!
@@ -339,7 +340,7 @@ class PersonalFragment : Fragment() {
     }
 
     @SuppressLint("Range")
-    private fun findSinger(){
+    private fun findSinger() {
 //        singerList.clear()
 //        val selection = MediaStore.Audio.Media.IS_MUSIC
 //        val  res: ContentResolver = activity?.contentResolver!!
@@ -364,7 +365,7 @@ class PersonalFragment : Fragment() {
 //        }
     }
 
-    private fun getFavouriteList(){
+    private fun getFavouriteList() {
         favouriteList.clear()
         favouriteList.addAll(LocalFavouriteFragment.favouriteList)
     }
