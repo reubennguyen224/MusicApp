@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,7 +34,9 @@ class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: DiscoveryViewModel
+    private val viewModel: DiscoveryViewModel by lazy {
+        ViewModelProvider(this, DiscoveryViewModel.AppViewModelFactory(requireActivity().application))[DiscoveryViewModel::class.java]
+    }
 
     companion object{
         val newMusic = ArrayList<Song>()
@@ -143,6 +146,10 @@ class DiscoveryFragment : Fragment() {
 
     }
 
+    fun refreshData(){
+
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun callAPIForData(){
         lifecycleScope.launch(Dispatchers.IO){
@@ -207,25 +214,25 @@ class DiscoveryFragment : Fragment() {
                 }
             })
 
-//            HomeFragment.loginAPI.getNewAlbums().enqueue(object : Callback<AlbumAPI> {
-//                override fun onResponse(call: Call<AlbumAPI>, response: Response<AlbumAPI>) {
-//                    newAlbum.clear()
-//                    val albumList = response.body()
-//                    for (album in albumList!!){
-//                        newAlbum.add(
-//                            AlbumItem(
-//                            id = album.id.toLong(),
-//                            name = album.name,
-//                            singer_name = album.artist,
-//                            image = album.cover
-//                            )
-//                        )
-//                    }
-//                }
-//                override fun onFailure(call: Call<AlbumAPI>, t: Throwable) {
-//                    Toast.makeText(context, "Failed to get data!", Toast.LENGTH_SHORT).show()
-//                }
-//            })
+            HomeFragment.loginAPI.getNewAlbums().enqueue(object : Callback<AlbumAPI> {
+                override fun onResponse(call: Call<AlbumAPI>, response: Response<AlbumAPI>) {
+                    newAlbum.clear()
+                    val albumList = response.body()
+                    for (album in albumList!!){
+                        newAlbum.add(
+                            AlbumItem(
+                            id = album.id.toLong(),
+                            name = album.name,
+                            singer_name = album.artist,
+                            image = album.cover
+                            )
+                        )
+                    }
+                }
+                override fun onFailure(call: Call<AlbumAPI>, t: Throwable) {
+                    Toast.makeText(context, "Failed to get data!", Toast.LENGTH_SHORT).show()
+                }
+            })
 
             withContext(Dispatchers.Main){
                 songAdapter.notifyDataSetChanged()
