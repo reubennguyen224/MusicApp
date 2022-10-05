@@ -3,7 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/new_singer_list"
-    tools:context=".personal.NewSingerFragment">
-
-</androidx.recyclerview.widget.RecyclerView>
+    android:id="@+id/newSingerList"
+    tools:context=".ui.personal.NewSingerFragment"/>

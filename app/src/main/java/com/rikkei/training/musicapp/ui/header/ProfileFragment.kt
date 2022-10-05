@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.header
+package com.rikkei.training.musicapp.ui.header
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.HomeFragment
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.databinding.FragmentProfileBinding
 import com.rikkei.training.musicapp.model.DataAPIX
 import com.rikkei.training.musicapp.model.Message

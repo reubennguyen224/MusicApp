@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.header
+package com.rikkei.training.musicapp.ui.header
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rikkei.training.musicapp.HomeFragment
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.adapter.MusicListAdapter
@@ -18,7 +18,7 @@ import com.rikkei.training.musicapp.databinding.FragmentSearchBinding
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.model.SongDetail
-import com.rikkei.training.musicapp.personal.PersonalFragment
+import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

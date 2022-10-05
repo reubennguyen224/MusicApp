@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.newfeed
+package com.rikkei.training.musicapp.ui.newfeed
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

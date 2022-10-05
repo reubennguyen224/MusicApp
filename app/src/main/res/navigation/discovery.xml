@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/discoveryFragment"
-        android:name="com.rikkei.training.musicapp.discovery.DiscoveryFragment"
+        android:name="com.rikkei.training.musicapp.ui.discovery.DiscoveryFragment"
         android:label="fragment_discovery"
         tools:layout="@layout/fragment_discovery" />
     <fragment
         android:id="@+id/newAlbumFragment"
-        android:name="com.rikkei.training.musicapp.discovery.NewAlbumFragment"
+        android:name="com.rikkei.training.musicapp.ui.discovery.NewAlbumFragment"
         android:label="fragment_new_album2"
         tools:layout="@layout/fragment_new_album2">
         <deepLink
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/singerDetailFragment"
-        android:name="com.rikkei.training.musicapp.discovery.SingerDetailFragment"
+        android:name="com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment"
         android:label="fragment_singer_detail"
         tools:layout="@layout/fragment_singer_detail">
         <deepLink
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/playMusicFragment2"
-        android:name="com.rikkei.training.musicapp.PlayMusicFragment"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment"
         android:label="fragment_play_music"
         tools:layout="@layout/fragment_play_music" >
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/musicPlayingListFragment2"
-        android:name="com.rikkei.training.musicapp.MusicPlayingListFragment"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.MusicPlayingListFragment"
         android:label="fragment_music_playing_list"
         tools:layout="@layout/fragment_music_playing_list" />
 </navigation>

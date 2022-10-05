@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.personal
+package com.rikkei.training.musicapp.ui.personal
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver

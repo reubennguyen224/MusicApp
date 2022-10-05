@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".newfeed.NewFeedFragment">
+    tools:context=".ui.newfeed.NewFeedFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/header_view"
-        android:name="com.rikkei.training.musicapp.header.HeaderFragment"
+        android:id="@+id/headerView"
+        android:name="com.rikkei.training.musicapp.ui.header.HeaderFragment"
         tools:layout="@layout/fragment_header"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.discovery
+package com.rikkei.training.musicapp.ui.discovery
 
 import android.annotation.SuppressLint
 import android.os.Bundle

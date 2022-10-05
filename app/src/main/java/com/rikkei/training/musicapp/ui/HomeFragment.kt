@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp
+package com.rikkei.training.musicapp.ui
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -22,11 +22,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.gson.GsonBuilder
+import com.rikkei.training.musicapp.MainActivity
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentHomeBinding
-import com.rikkei.training.musicapp.header.ProfileFragment
 import com.rikkei.training.musicapp.model.*
-import com.rikkei.training.musicapp.personal.LocalFavouriteFragment
-import com.rikkei.training.musicapp.personal.PersonalFragment
+import com.rikkei.training.musicapp.ui.header.LoginFragment
+import com.rikkei.training.musicapp.ui.header.ProfileFragment
+import com.rikkei.training.musicapp.ui.moduleMusic.MusicPlayingListFragment
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
+import com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment
+import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import com.rikkei.training.musicapp.utils.ChartClient
 import com.rikkei.training.musicapp.utils.DeezerAPI
 import com.rikkei.training.musicapp.utils.LoginAPI

@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.discovery
+package com.rikkei.training.musicapp.ui.discovery
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.HomeFragment
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.SingerDetailAdapter
 import com.rikkei.training.musicapp.databinding.FragmentSingerDetailBinding

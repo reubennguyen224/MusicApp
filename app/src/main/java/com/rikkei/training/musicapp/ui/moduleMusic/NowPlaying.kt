@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp
+package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentNowPlayingBinding
 import com.rikkei.training.musicapp.model.ListMessage
 import com.rikkei.training.musicapp.model.setSongPosition
+import com.rikkei.training.musicapp.ui.HomeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call

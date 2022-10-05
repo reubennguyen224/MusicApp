@@ -10,10 +10,10 @@ import android.media.MediaMetadataRetriever
 import android.view.View
 import android.widget.TextView
 import com.google.gson.annotations.SerializedName
-import com.rikkei.training.musicapp.PlayMusicFragment
-import com.rikkei.training.musicapp.PlayMusicFragment.Companion.thumbView
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment.Companion.thumbView
 import com.rikkei.training.musicapp.R
-import com.rikkei.training.musicapp.personal.LocalFavouriteFragment
+import com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment
 import java.util.concurrent.TimeUnit
 
 class User {

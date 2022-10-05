@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp
+package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
@@ -21,14 +21,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentPlayMusicBinding
-import com.rikkei.training.musicapp.discovery.DiscoveryFragment
-import com.rikkei.training.musicapp.discovery.NewAlbumFragment
-import com.rikkei.training.musicapp.discovery.SingerDetailFragment
-import com.rikkei.training.musicapp.header.SearchFragment
 import com.rikkei.training.musicapp.model.*
-import com.rikkei.training.musicapp.personal.LocalFavouriteFragment
-import com.rikkei.training.musicapp.personal.PersonalFragment
+import com.rikkei.training.musicapp.ui.HomeFragment
+import com.rikkei.training.musicapp.ui.discovery.DiscoveryFragment
+import com.rikkei.training.musicapp.ui.discovery.NewAlbumFragment
+import com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment
+import com.rikkei.training.musicapp.ui.header.SearchFragment
+import com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment
+import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import com.rikkei.training.musicapp.utils.MusicPlayService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

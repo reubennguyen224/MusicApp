@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp
+package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentMusicPlayingListBinding
 import com.rikkei.training.musicapp.model.Song

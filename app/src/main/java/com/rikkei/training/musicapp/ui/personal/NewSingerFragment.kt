@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.personal
+package com.rikkei.training.musicapp.ui.personal
 
 import android.os.Bundle
 import android.view.LayoutInflater

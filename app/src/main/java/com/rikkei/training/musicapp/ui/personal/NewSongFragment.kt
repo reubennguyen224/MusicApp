@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.personal
+package com.rikkei.training.musicapp.ui.personal
 
 import android.content.ContentResolver
 import android.net.Uri
