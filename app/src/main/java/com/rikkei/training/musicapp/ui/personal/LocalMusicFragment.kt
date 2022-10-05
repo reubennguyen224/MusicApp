@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.ui.personal
+package com.rikkei.training.musicapp.personal
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -26,7 +26,7 @@ class LocalMusicFragment : Fragment() {
         val songlist = ArrayList<Song>()
     }
 
-    val adapter = MusicAdapter()
+    val adapter = MusicAdapter(songlist)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +34,7 @@ class LocalMusicFragment : Fragment() {
     ): View? {
         _binding = FragmentLocalMusicBinding.inflate(inflater, container, false)
         val view = binding.root
-        adapter.dataset = songlist
+
         binding.musicRecyclerList.adapter = adapter
 
         binding.btnBack.setOnClickListener {

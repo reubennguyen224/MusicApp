@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.ui.personal
+package com.rikkei.training.musicapp.personal
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -48,8 +48,7 @@ class LocalAlbumFragment : Fragment() {
 
         binding.titleFragment.text = "Album"
         binding.titleNumSong.text = "${albumList.size} album"
-        val adapter = AlbumAdapter()
-        adapter.dataset = albumList
+        val adapter = AlbumAdapter(albumList, requireContext())
         binding.musicRecyclerList.adapter = adapter
         binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 

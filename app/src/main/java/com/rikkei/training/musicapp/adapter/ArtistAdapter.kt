@@ -9,16 +9,11 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.ItemArtistBinding
 import com.rikkei.training.musicapp.model.Artist
 
-class ArtistAdapter() :
+class ArtistAdapter(private val artistList: ArrayList<Artist>) :
     RecyclerView.Adapter<ArtistAdapter.MyViewHolder>() {
 
     private lateinit var ctx: Context
     private lateinit var mListener: OnItemClickListener
-    var artistList = ArrayList<Artist>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     class MyViewHolder(binding: ItemArtistBinding, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {

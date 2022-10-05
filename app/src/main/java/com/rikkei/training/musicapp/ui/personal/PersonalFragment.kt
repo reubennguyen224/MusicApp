@@ -1,4 +1,4 @@
-package com.rikkei.training.musicapp.ui.personal
+package com.rikkei.training.musicapp.personal
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -18,16 +18,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.rikkei.training.musicapp.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.LibraryAdapter
 import com.rikkei.training.musicapp.adapter.TabAdapter
-import com.rikkei.training.musicapp.databinding.FragmentPersonalBinding
+import com.rikkei.training.musicapp.databinding.FragmentMusicLocalBinding
 import com.rikkei.training.musicapp.model.Album
 import com.rikkei.training.musicapp.model.Artist
 import com.rikkei.training.musicapp.model.LibraryCard
 import com.rikkei.training.musicapp.model.Song
-import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.MusicPlayService
 import com.rikkei.training.musicapp.viewmodel.MusicLocalViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,9 +38,12 @@ import java.io.File
 
 class PersonalFragment : Fragment() {
 
-    private var _binding: FragmentPersonalBinding? = null
+    private var _binding: FragmentMusicLocalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MusicLocalViewModel by viewModels()
+//    by activityViewModels {
+//        MusicLocalFactory((activity?.application as MusicApplication).database.itemDao())
+//    }
 
     companion object {
         val songlist = ArrayList<Song>()
@@ -50,33 +53,28 @@ class PersonalFragment : Fragment() {
         var musicPlayService: MusicPlayService? = null
     }
 
-    private val artistAdapter = ArtistAdapter()
+    private val artistAdapter = ArtistAdapter(singerList)
     private val favouriteList = ArrayList<Song>()
 
-    private val list: ArrayList<LibraryCard> by lazy { arrayListOf(
+    private val list = arrayListOf(
         LibraryCard(R.drawable.ic_music_local, "Bài hát", songlist.size),
         LibraryCard(R.drawable.ic_album, "Album", albumList.size),
         LibraryCard(R.drawable.ic_download, "Tải xuống", listMusicFile.size),
         LibraryCard(R.drawable.ic_singer, "Ca sĩ", singerList.size),
         LibraryCard(R.drawable.ic_heart, "Yêu thích", favouriteList.size),
-    ) }
+    )
     val adapter = LibraryAdapter(list)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        adapter.notifyDataSetChanged()
-    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPersonalBinding.inflate(inflater, container, false)
+        _binding = FragmentMusicLocalBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        findFile()
-        artistAdapter.artistList = singerList
+        findFile() //get music file in folder download
+
         binding.libBlock.adapter = adapter
         adapter.setOnItemClickListener(object : LibraryAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -89,6 +87,7 @@ class PersonalFragment : Fragment() {
                 }
             }
         })
+        adapter.notifyDataSetChanged()
         binding.viewPagerLib.adapter = TabAdapter(childFragmentManager, lifecycle)
         val tab = binding.tabLayout
         tab.addTab(tab.newTab().setText("Nhạc mới cập nhật"))
@@ -301,7 +300,6 @@ class PersonalFragment : Fragment() {
         list[2].numberItems = listMusicFile.size
         list[3].numberItems = singerList.size
         list[4].numberItems = favouriteList.size
-        adapter.notifyDataSetChanged()
     }
 
     @SuppressLint("Range")
