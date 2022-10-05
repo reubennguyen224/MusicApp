@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentDiscoveryBinding
 import com.rikkei.training.musicapp.model.*
+import com.rikkei.training.musicapp.viewmodel.DiscoveryViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +34,9 @@ class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding get() = _binding!!
 
-    //private lateinit var viewModel: DiscoveryViewModel
+    private val viewModel: DiscoveryViewModel by lazy {
+        ViewModelProvider(this, DiscoveryViewModel.AppViewModelFactory(requireActivity().application))[DiscoveryViewModel::class.java]
+    }
 
     companion object{
         val newMusic = ArrayList<Song>()
@@ -139,6 +143,10 @@ class DiscoveryFragment : Fragment() {
         callAPIForData()
 
         albumAdapter.setOnAlbumItemClickListener(albumListener)
+
+    }
+
+    fun refreshData(){
 
     }
 
