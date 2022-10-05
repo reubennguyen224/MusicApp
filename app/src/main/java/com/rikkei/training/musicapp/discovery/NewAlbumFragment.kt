@@ -28,10 +28,10 @@ import retrofit2.Response
 
 
 class NewAlbumFragment : Fragment() {
-    private var _binding:FragmentNewAlbum2Binding? = null
+    private var _binding: FragmentNewAlbum2Binding? = null
     private val binding get() = _binding!!
 
-    companion object{
+    companion object {
         val albumItem = ArrayList<Song>()
         val albumList = Album()
         lateinit var album: AlbumItem
@@ -42,17 +42,17 @@ class NewAlbumFragment : Fragment() {
     var isLocal = false
 
 
-    private fun initial(bundle: Bundle){
+    private fun initial(bundle: Bundle) {
         albumList.clear()
         albumPosition = bundle.getInt("album_position", 0)
-        when(bundle.getString("local")){
+        when (bundle.getString("local")) {
             "local" -> {
                 isLocal = true
                 albumList.addAll(PersonalFragment.albumList)
                 album = albumList[albumPosition]
                 getAlbumLocalItem()
             }
-            "internet"->{
+            "internet" -> {
                 isLocal = false
                 albumList.addAll(DiscoveryFragment.newAlbum)
                 album = albumList[albumPosition]
@@ -101,10 +101,10 @@ class NewAlbumFragment : Fragment() {
         }
     }
 
-    private fun setSongView(){
+    private fun setSongView() {
         binding.albumItemList.adapter = adapter
         binding.albumItemList.layoutManager = LinearLayoutManager(context)
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
@@ -115,40 +115,44 @@ class NewAlbumFragment : Fragment() {
         })
     }
 
-    private fun getAlbumLocalItem(){
+    private fun getAlbumLocalItem() {
         albumItem.clear()
         val songList = PersonalFragment.songlist
-        for (song in songList){
+        for (song in songList) {
             if (song.thisAlbum == album.name)
                 albumItem.add(song)
         }
     }
 
-    private fun getAlbumOnlItem(){
+    private fun getAlbumOnlItem() {
         albumItem.clear()
-        lifecycleScope.launch(Dispatchers.IO){
-            HomeFragment.loginAPI.getAlbumItem(albumList[albumPosition].id.toInt()).enqueue(object : Callback<MusicAPI>{
-                override fun onResponse(call: Call<MusicAPI>, response: Response<MusicAPI>) {
-                    val musicList = response.body()
-                    for (music in musicList!!){
-                        albumItem.add(Song(
-                            thisId = music.id.toLong(),
-                            thisTile = music.title,
-                            thisArtist = music.artist,
-                            thisAlbum = "",
-                            dateModifier = "",
-                            favourite = false,
-                            imageUri = music.coverURI,
-                            songUri = music.songURI))
+        lifecycleScope.launch(Dispatchers.IO) {
+            HomeFragment.loginAPI.getAlbumItem(albumList[albumPosition].id.toInt())
+                .enqueue(object : Callback<MusicAPI> {
+                    override fun onResponse(call: Call<MusicAPI>, response: Response<MusicAPI>) {
+                        val musicList = response.body()
+                        for (music in musicList!!) {
+                            albumItem.add(
+                                Song(
+                                    thisId = music.id.toLong(),
+                                    thisTile = music.title,
+                                    thisArtist = music.artist,
+                                    thisAlbum = "",
+                                    dateModifier = "",
+                                    favourite = false,
+                                    imageUri = music.coverURI,
+                                    songUri = music.songURI
+                                )
+                            )
+                        }
+                        setSongView()
                     }
-                    setSongView()
-                }
-                override fun onFailure(call: Call<MusicAPI>, t: Throwable) {
-                    Toast.makeText(context, "Failed to get album", Toast.LENGTH_SHORT).show()
-                }
-            })
-            withContext(Dispatchers.Main){
 
+                    override fun onFailure(call: Call<MusicAPI>, t: Throwable) {
+                        Toast.makeText(context, "Failed to get album", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            withContext(Dispatchers.Main) {
                 adapter.notifyDataSetChanged()
             }
         }

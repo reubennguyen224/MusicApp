@@ -43,7 +43,7 @@ class NewSongFragment : Fragment() {
 
         binding.newSongsList.adapter = adapter
 
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
@@ -55,18 +55,27 @@ class NewSongFragment : Fragment() {
         getSongList()
     }
 
-    private fun getSongList(){
-        lifecycleScope.launch(Dispatchers.IO){
+    private fun getSongList() {
+        lifecycleScope.launch(Dispatchers.IO) {
             val selection = MediaStore.Audio.Media.IS_MUSIC
             songlist.clear()
-            val  res: ContentResolver = activity?.contentResolver!!
+            val res: ContentResolver = activity?.contentResolver!!
             val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(MediaStore.MediaColumns.TITLE,
+            val projection = arrayOf(
+                MediaStore.MediaColumns.TITLE,
                 MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
                 MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
-            val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-            if (cursor != null && cursor.moveToFirst()){
+                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
+            )
+            val cursor = res.query(
+                musicUri,
+                projection,
+                selection,
+                null,
+                MediaStore.Audio.Media.DATE_ADDED + " DESC",
+                null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
                     val thisTitle = cursor.getString(0)
                     val thisId: Long = cursor.getLong(1)
@@ -89,13 +98,13 @@ class NewSongFragment : Fragment() {
                         songUri = thisUri
                     )
                     val file = File(song.songUri!!)
-                    if (file.exists() )
+                    if (file.exists())
                         songlist.add(song)
                 } while (cursor.moveToNext() && songlist.size < 10)
                 cursor.close()
             }
-            songlist.sortBy { it.dateModifier  }
-            withContext(Dispatchers.Main){
+            songlist.sortBy { it.dateModifier }
+            withContext(Dispatchers.Main) {
                 adapter.notifyDataSetChanged()
             }
         }

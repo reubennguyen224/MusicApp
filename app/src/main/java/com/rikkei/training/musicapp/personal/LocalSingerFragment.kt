@@ -17,7 +17,7 @@ import com.rikkei.training.musicapp.model.Artist
 import com.rikkei.training.musicapp.model.Song
 import java.io.File
 
-class LocalSingerFragment:Fragment() {
+class LocalSingerFragment : Fragment() {
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
 
@@ -38,7 +38,7 @@ class LocalSingerFragment:Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getSongList()
+        //getSongList()
         findSinger()
         binding.titleNumSong.text = "${singerList.size} ca sĩ"
 
@@ -58,17 +58,26 @@ class LocalSingerFragment:Fragment() {
         _binding = null
     }
 
-    private fun getSongList(){
+    private fun getSongList() {
         val selection = MediaStore.Audio.Media.IS_MUSIC
         songlist.clear()
-        val  res: ContentResolver = activity?.contentResolver!!
+        val res: ContentResolver = activity?.contentResolver!!
         val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.MediaColumns.TITLE,
+        val projection = arrayOf(
+            MediaStore.MediaColumns.TITLE,
             MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
             MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
-        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-        if (cursor != null && cursor.moveToFirst()){
+            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
+        )
+        val cursor = res.query(
+            musicUri,
+            projection,
+            selection,
+            null,
+            MediaStore.Audio.Media.DATE_ADDED + " DESC",
+            null
+        )
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 val thisTitle = cursor.getString(0)
                 val thisId: Long = cursor.getLong(1)
@@ -96,10 +105,10 @@ class LocalSingerFragment:Fragment() {
             } while (cursor.moveToNext())
             cursor.close()
         }
-        songlist.sortBy { it.dateModifier  }
+        songlist.sortBy { it.dateModifier }
     }
 
-    private fun findSinger(){
+    private fun findSinger() {
         singerList.clear()
         singerList.addAll(PersonalFragment.singerList)
     }

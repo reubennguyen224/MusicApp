@@ -37,14 +37,14 @@ class NewSingerFragment : Fragment() {
     }
 
 
-    private fun findSinger(){
+    private fun findSinger() {
         singerList.clear()
-        var x=0
-        if (PersonalFragment.singerList.size < 10){
+        var x = 0
+        if (PersonalFragment.singerList.size < 10) {
             singerList.addAll(PersonalFragment.singerList)
-        }else{
-            while (x++ <= 10){
-                 singerList.add(PersonalFragment.singerList[x])
+        } else {
+            while (x++ <= 10) {
+                singerList.add(PersonalFragment.singerList[x])
             }
         }
     }

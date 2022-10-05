@@ -9,15 +9,16 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.ItemArtistBinding
 import com.rikkei.training.musicapp.model.Artist
 
-class ArtistAdapter (private val artistList: ArrayList<Artist>) :
+class ArtistAdapter(private val artistList: ArrayList<Artist>) :
     RecyclerView.Adapter<ArtistAdapter.MyViewHolder>() {
 
     private lateinit var ctx: Context
-    private lateinit var mListener:OnItemClickListener
+    private lateinit var mListener: OnItemClickListener
 
-    class MyViewHolder(binding: ItemArtistBinding, listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(binding: ItemArtistBinding, listener: OnItemClickListener) :
+        RecyclerView.ViewHolder(binding.root) {
         val avatarArtist = binding.avatarArtist
-        val nameArtist  = binding.nameArtist
+        val nameArtist = binding.nameArtist
 
         init {
             binding.root.setOnClickListener {
@@ -28,14 +29,20 @@ class ArtistAdapter (private val artistList: ArrayList<Artist>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         ctx = parent.context
-        return MyViewHolder(ItemArtistBinding.inflate(LayoutInflater.from(parent.context), parent, false), mListener)
+        return MyViewHolder(
+            ItemArtistBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), mListener
+        )
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onArtistClickListener(position: Int)
     }
 
-    fun setOnArtistClickListener(listener: OnItemClickListener){
+    fun setOnArtistClickListener(listener: OnItemClickListener) {
         mListener = listener
     }
 
