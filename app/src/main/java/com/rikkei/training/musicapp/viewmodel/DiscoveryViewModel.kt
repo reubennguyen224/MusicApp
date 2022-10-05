@@ -1,32 +1,60 @@
 package com.rikkei.training.musicapp.viewmodel
 
-import android.app.Application
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
-import com.rikkei.training.musicapp.data.AppRepository
-import com.rikkei.training.musicapp.utils.Resource
+import com.rikkei.training.musicapp.HomeFragment
+import com.rikkei.training.musicapp.model.Album
+import com.rikkei.training.musicapp.model.AlbumAPI
+import com.rikkei.training.musicapp.model.AlbumItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class DiscoveryViewModel(application: Application): ViewModel() {
+class DiscoveryViewModel: ViewModel() {
 
-    private val appRepository: AppRepository = AppRepository(application)
-
-    fun getNewAlbumAPI() = liveData(Dispatchers.IO){
-        try {
-            emit(Resource.success(appRepository.getNewAlbumFromAPI()))
-        } catch (ex: Exception){
-            emit(Resource.failed(null, ex.message ?: "Lỗi chưa xác định"))
-        }
+    private var _newAlbumList =  MutableLiveData<Album>()
+    fun getNewAlbum(): LiveData<Album>?{
+        return _newAlbumList
+    }
+    init {
+        _newAlbumList = getNewAlbumAPI()!!
     }
 
-    class AppViewModelFactory(private val application: Application): ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DiscoveryViewModel::class.java)){
+    private fun getNewAlbumAPI(): MutableLiveData<Album>?{
+        val albumListLiveData: MutableLiveData<Album> = MutableLiveData<Album>()
 
-                return DiscoveryViewModel(application = application) as T
+        CoroutineScope(Dispatchers.Default).launch{
+            val album = Album()
+            launch(Dispatchers.IO) {
+                HomeFragment.loginAPI.getNewAlbums().enqueue(object : Callback<AlbumAPI>{
+                    override fun onResponse(call: Call<AlbumAPI>, response: Response<AlbumAPI>) {
+                        val albumList = response.body()!!
+                        for (item in albumList){
+                            album.add(
+                                AlbumItem(
+                                    id = item.id.toLong(),
+                                    name = item.name,
+                                    singer_name = item.artist,
+                                    image = item.cover
+                            ))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<AlbumAPI>, t: Throwable) {
+                        Log.e("API Failed", "Can't get data from API")
+                    }
+                })
             }
-            throw IllegalArgumentException("Unable construct ViewModel")
+            withContext(Dispatchers.Default){
+                albumListLiveData.postValue(album)
+            }
         }
+        return albumListLiveData
     }
 }

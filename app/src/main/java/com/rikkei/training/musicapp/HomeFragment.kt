@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
         val dataAPI = ArrayList<DataAPIX>()
         var userToken: String = ""
         val deezerAPI: DeezerAPI = ChartClient.getInstance().create(DeezerAPI::class.java)
-        val loginAPI = LoginClient.getInstance().create(LoginAPI::class.java)
+        val loginAPI = LoginClient.getInstance().create(LoginAPI::class.java)!!
         val allSongLocal = ArrayList<Song>()
     }
 
