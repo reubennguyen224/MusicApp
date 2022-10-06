@@ -12,11 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.SingerDetailAdapter
 import com.rikkei.training.musicapp.databinding.FragmentSingerDetailBinding
 import com.rikkei.training.musicapp.model.*
+import com.rikkei.training.musicapp.ui.HomeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -34,7 +34,6 @@ class SingerDetailFragment : Fragment() {
     companion object {
         val songList = ArrayList<Song>()
         var position = 0
-
     }
 
     override fun onCreateView(

@@ -50,17 +50,22 @@ class PersonalFragment : Fragment() {
         var musicPlayService: MusicPlayService? = null
     }
 
-    private val artistAdapter = ArtistAdapter(singerList)
+    private val artistAdapter = ArtistAdapter()
     private val favouriteList = ArrayList<Song>()
 
-    private val list = arrayListOf(
+    private val list: ArrayList<LibraryCard> by lazy { arrayListOf(
         LibraryCard(R.drawable.ic_music_local, "Bài hát", songlist.size),
         LibraryCard(R.drawable.ic_album, "Album", albumList.size),
         LibraryCard(R.drawable.ic_download, "Tải xuống", listMusicFile.size),
         LibraryCard(R.drawable.ic_singer, "Ca sĩ", singerList.size),
         LibraryCard(R.drawable.ic_heart, "Yêu thích", favouriteList.size),
-    )
+    ) }
     val adapter = LibraryAdapter(list)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adapter.notifyDataSetChanged()
+    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
@@ -70,8 +75,8 @@ class PersonalFragment : Fragment() {
         _binding = FragmentPersonalBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        findFile() //get music file in folder download
-
+        findFile()
+        artistAdapter.artistList = singerList
         binding.libBlock.adapter = adapter
         adapter.setOnItemClickListener(object : LibraryAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -84,7 +89,6 @@ class PersonalFragment : Fragment() {
                 }
             }
         })
-        adapter.notifyDataSetChanged()
         binding.viewPagerLib.adapter = TabAdapter(childFragmentManager, lifecycle)
         val tab = binding.tabLayout
         tab.addTab(tab.newTab().setText("Nhạc mới cập nhật"))
@@ -297,6 +301,7 @@ class PersonalFragment : Fragment() {
         list[2].numberItems = listMusicFile.size
         list[3].numberItems = singerList.size
         list[4].numberItems = favouriteList.size
+        adapter.notifyDataSetChanged()
     }
 
     @SuppressLint("Range")

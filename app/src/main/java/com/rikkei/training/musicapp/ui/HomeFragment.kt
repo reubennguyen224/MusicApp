@@ -1,11 +1,8 @@
 package com.rikkei.training.musicapp.ui
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.transition.Slide
 import android.transition.TransitionManager
 import android.view.Gravity
@@ -15,7 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -25,7 +22,9 @@ import com.google.gson.GsonBuilder
 import com.rikkei.training.musicapp.MainActivity
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentHomeBinding
-import com.rikkei.training.musicapp.model.*
+import com.rikkei.training.musicapp.model.DataAPIX
+import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.model.User
 import com.rikkei.training.musicapp.ui.header.LoginFragment
 import com.rikkei.training.musicapp.ui.header.ProfileFragment
 import com.rikkei.training.musicapp.ui.moduleMusic.MusicPlayingListFragment
@@ -36,10 +35,7 @@ import com.rikkei.training.musicapp.utils.ChartClient
 import com.rikkei.training.musicapp.utils.DeezerAPI
 import com.rikkei.training.musicapp.utils.LoginAPI
 import com.rikkei.training.musicapp.utils.LoginClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
+import com.rikkei.training.musicapp.viewmodel.HomeViewModel
 
 
 class HomeFragment : Fragment() {
@@ -49,6 +45,8 @@ class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHostFragment: NavHostFragment
+
+    val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,123 +136,135 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("Range")
     private fun getSongList() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val selection = MediaStore.Audio.Media.IS_MUSIC
-            val songlist = ArrayList<Song>()
-            val albumList = Album()
-            val singerList = ArrayList<Artist>()
-
-            val res: ContentResolver = activity?.contentResolver!!
-            val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(
-                MediaStore.MediaColumns.TITLE,
-                MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
-                MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID,
-                MediaStore.Audio.Artists.ARTIST, MediaStore.Audio.Artists._ID
-            )
-            val cursor = res.query(
-                musicUri,
-                projection,
-                selection,
-                null,
-                MediaStore.Audio.Media.DATE_ADDED + " DESC",
-                null
-            )
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    val thisTitle =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
-                    val thisId: Long =
-                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
-                    val thisArtist =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST))
-                    val thisAlbum =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM))
-                    val thisDate =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED))
-                    val thisUri =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
-                    val albumId =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
-                    val uri = Uri.parse("content://media/external/audio/albumart")
-                    val thisImage = Uri.withAppendedPath(uri, albumId).toString()
-
-                    val song = Song(
-                        thisId = thisId,
-                        thisTile = thisTitle,
-                        thisArtist = thisArtist,
-                        thisAlbum = thisAlbum,
-                        dateModifier = thisDate,
-                        favourite = false,
-                        imageUri = thisImage,
-                        songUri = thisUri
-                    )
-                    val file = File(song.songUri!!)
-                    if (file.exists())
-                        songlist.add(song)
-
-                    val singerId =
-                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Artists._ID))
-                    val artistName =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST))
-                    val singer = Artist(
-                        id = singerId,
-                        name = artistName,
-                        avatarID = null,
-                        description = null
-                    )
-                    var has = false
-                    for (tmp in singerList) {
-                        if (tmp.name == singer.name) has = true
-                    }
-                    if (!has) singerList.add(singer)
-
-                    val album = AlbumItem(
-                        id = albumId.toLong(),
-                        image = thisImage,
-                        name = thisAlbum,
-                        singer_name = artistName
-                    )
-                    has = false
-
-                    if (albumList.size == 0)
-                        albumList.add(album)
-                    else {
-                        for (tmp in albumList) {
-                            if (tmp.name == album.name)
-                                has = true
-                        }
-                        if (!has) albumList.add(album)
-                    }
-                } while (cursor.moveToNext())
-                cursor.close()
-            }
-            singerList.add(
-                Artist(
-                    PersonalFragment.singerList.size.toLong(),
-                    "Various Artist",
-                    null,
-                    ""
-                )
-            )
-            singerList.add(
-                Artist(
-                    PersonalFragment.singerList.size.toLong(),
-                    "Unknown Artist",
-                    null,
-                    ""
-                )
-            )
-            songlist.sortBy {
-                it.dateModifier
-            }
-            withContext(Dispatchers.Main) {
-                PersonalFragment.songlist.addAll(songlist)
-                PersonalFragment.singerList.addAll(singerList)
-                PersonalFragment.albumList.addAll(albumList)
-            }
+        viewModel.getLocalSongList().observe(this){
+            PersonalFragment.songlist.addAll(it)
         }
+
+        viewModel.getLocalAlbumList().observe(this){
+            PersonalFragment.albumList.addAll(it)
+        }
+
+        viewModel.getLocalSingerList().observe(this){
+            PersonalFragment.singerList.addAll(it)
+        }
+
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val selection = MediaStore.Audio.Media.IS_MUSIC
+//            val songlist = ArrayList<Song>()
+//            val albumList = Album()
+//            val singerList = ArrayList<Artist>()
+//
+//            val res: ContentResolver = activity?.contentResolver!!
+//            val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+//            val projection = arrayOf(
+//                MediaStore.MediaColumns.TITLE,
+//                MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
+//                MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
+//                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID,
+//                MediaStore.Audio.Artists.ARTIST, MediaStore.Audio.Artists._ID
+//            )
+//            val cursor = res.query(
+//                musicUri,
+//                projection,
+//                selection,
+//                null,
+//                MediaStore.Audio.Media.DATE_ADDED + " DESC",
+//                null
+//            )
+//            if (cursor != null && cursor.moveToFirst()) {
+//                do {
+//                    val thisTitle =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
+//                    val thisId: Long =
+//                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
+//                    val thisArtist =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST))
+//                    val thisAlbum =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM))
+//                    val thisDate =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED))
+//                    val thisUri =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
+//                    val albumId =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+//                    val uri = Uri.parse("content://media/external/audio/albumart")
+//                    val thisImage = Uri.withAppendedPath(uri, albumId).toString()
+//
+//                    val song = Song(
+//                        thisId = thisId,
+//                        thisTile = thisTitle,
+//                        thisArtist = thisArtist,
+//                        thisAlbum = thisAlbum,
+//                        dateModifier = thisDate,
+//                        favourite = false,
+//                        imageUri = thisImage,
+//                        songUri = thisUri
+//                    )
+//                    val file = File(song.songUri!!)
+//                    if (file.exists())
+//                        songlist.add(song)
+//
+//                    val singerId =
+//                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Artists._ID))
+//                    val artistName =
+//                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST))
+//                    val singer = Artist(
+//                        id = singerId,
+//                        name = artistName,
+//                        avatarID = null,
+//                        description = null
+//                    )
+//                    var has = false
+//                    for (tmp in singerList) {
+//                        if (tmp.name == singer.name) has = true
+//                    }
+//                    if (!has) singerList.add(singer)
+//
+//                    val album = AlbumItem(
+//                        id = albumId.toLong(),
+//                        image = thisImage,
+//                        name = thisAlbum,
+//                        singer_name = artistName
+//                    )
+//                    has = false
+//
+//                    if (albumList.size == 0)
+//                        albumList.add(album)
+//                    else {
+//                        for (tmp in albumList) {
+//                            if (tmp.name == album.name)
+//                                has = true
+//                        }
+//                        if (!has) albumList.add(album)
+//                    }
+//                } while (cursor.moveToNext())
+//                cursor.close()
+//            }
+//            singerList.add(
+//                Artist(
+//                    PersonalFragment.singerList.size.toLong(),
+//                    "Various Artist",
+//                    null,
+//                    ""
+//                )
+//            )
+//            singerList.add(
+//                Artist(
+//                    PersonalFragment.singerList.size.toLong(),
+//                    "Unknown Artist",
+//                    null,
+//                    ""
+//                )
+//            )
+//            songlist.sortBy {
+//                it.dateModifier
+//            }
+//            withContext(Dispatchers.Main) {
+//                PersonalFragment.songlist.addAll(songlist)
+//                PersonalFragment.singerList.addAll(singerList)
+//                PersonalFragment.albumList.addAll(albumList)
+//            }
+//        }
 
     }
 }

@@ -9,14 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rikkei.training.musicapp.adapter.NewSingerAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewSingerBinding
 import com.rikkei.training.musicapp.model.Artist
-import com.rikkei.training.musicapp.model.Song
 
 class NewSingerFragment : Fragment() {
 
     private var _binding: FragmentNewSingerBinding? = null
     private val binding get() = _binding!!
 
-    private val songlist = ArrayList<Song>()
     private val singerList = ArrayList<Artist>()
 
     override fun onCreateView(
@@ -28,12 +26,19 @@ class NewSingerFragment : Fragment() {
         return view
     }
 
+    val singerAdapter = NewSingerAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         findSinger()
-        binding.newSingerList.adapter = NewSingerAdapter(singerList)
-        binding.newSingerList.layoutManager = LinearLayoutManager(context)
+        singerAdapter.dataset  = singerList
+        binding.newSingerList.apply {
+            adapter = singerAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
     }
 
 

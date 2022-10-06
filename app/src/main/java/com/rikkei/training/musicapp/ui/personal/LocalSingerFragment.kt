@@ -35,6 +35,8 @@ class LocalSingerFragment : Fragment() {
         return view
     }
 
+    val singerAdapter = NewSingerAdapter()
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +47,8 @@ class LocalSingerFragment : Fragment() {
         singerList.sortBy {
             it.name
         }
-        binding.musicRecyclerList.adapter = NewSingerAdapter(singerList)
+        binding.musicRecyclerList.adapter = singerAdapter
+        singerAdapter.dataset = singerList
         binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 
         binding.btnBack.setOnClickListener {

@@ -27,7 +27,7 @@ class NewSongFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val songlist = ArrayList<Song>()
-    val adapter = MusicAdapter(songlist)
+    val adapter = MusicAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class NewSongFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        adapter.dataset = songlist
         binding.newSongsList.adapter = adapter
 
         adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {

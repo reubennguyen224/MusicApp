@@ -11,7 +11,6 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.AlbumAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewAlbumBinding
 import com.rikkei.training.musicapp.model.Album
-import com.rikkei.training.musicapp.model.Song
 
 
 class NewAlbumFragment : Fragment() {
@@ -19,9 +18,8 @@ class NewAlbumFragment : Fragment() {
     private var _binding: FragmentNewAlbumBinding? = null
     private val binding get() = _binding!!
 
-    private val songlist = ArrayList<Song>()
     private val albumList = Album()
-    private val adapter = AlbumAdapter(albumList, requireContext())
+    private val adapter = AlbumAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +34,7 @@ class NewAlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         findAlbum()
 
+        adapter.dataset = albumList
         binding.newAlbumList.adapter = adapter
         binding.newAlbumList.layoutManager = LinearLayoutManager(context)
 

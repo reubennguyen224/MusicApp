@@ -26,7 +26,7 @@ class LocalMusicFragment : Fragment() {
         val songlist = ArrayList<Song>()
     }
 
-    val adapter = MusicAdapter(songlist)
+    val adapter = MusicAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +34,7 @@ class LocalMusicFragment : Fragment() {
     ): View? {
         _binding = FragmentLocalMusicBinding.inflate(inflater, container, false)
         val view = binding.root
-
+        adapter.dataset = songlist
         binding.musicRecyclerList.adapter = adapter
 
         binding.btnBack.setOnClickListener {

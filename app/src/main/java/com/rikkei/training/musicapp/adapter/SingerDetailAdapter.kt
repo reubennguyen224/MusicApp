@@ -33,17 +33,21 @@ class SingerDetailAdapter(private val dataset: ArrayList<SingerDetail>) :
 
     override fun onBindViewHolder(holder: SingerDetailViewModel, position: Int) {
         holder.title.text = dataset[position].title
-        val layoutManager = LinearLayoutManager(ctx)
-        layoutManager.initialPrefetchItemCount = dataset[position].listSong.size
-        val childAdapter = MusicAdapter(dataset[position].listSong)
+        val layoutManagers = LinearLayoutManager(ctx)
+        layoutManagers.initialPrefetchItemCount = dataset[position].listSong.size
+        val childAdapter = MusicAdapter()
+        childAdapter.dataset = dataset[position].listSong
         childAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
 
             }
         })
-        holder.recyclerView.layoutManager = layoutManager
-        holder.recyclerView.adapter = childAdapter
-        holder.recyclerView.setRecycledViewPool(viewPool)
+        holder.recyclerView.apply {
+            layoutManager = layoutManagers
+            holder.recyclerView.adapter = childAdapter
+            holder.recyclerView.setRecycledViewPool(viewPool)
+        }
+
     }
 
     override fun getItemCount(): Int = dataset.size
