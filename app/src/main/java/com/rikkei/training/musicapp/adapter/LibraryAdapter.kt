@@ -7,25 +7,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.LibraryCardItemBinding
 import com.rikkei.training.musicapp.model.LibraryCard
 
-class LibraryAdapter(private val dataSet: ArrayList<LibraryCard>):
+class LibraryAdapter(private val dataSet: ArrayList<LibraryCard>) :
     RecyclerView.Adapter<LibraryAdapter.MyViewHolder>() {
 
     private lateinit var mListener: OnItemClickListener
 
-    class MyViewHolder(binding: LibraryCardItemBinding, listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(binding: LibraryCardItemBinding, listener: OnItemClickListener) :
+        RecyclerView.ViewHolder(binding.root) {
         val imageView = binding.cardItemIcon
         val title = binding.cardItemTitle
         val number = binding.cardNumberItems
 
         init {
-            binding.root.setOnClickListener{
+            binding.root.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LibraryCardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), mListener)
+        return MyViewHolder(
+            LibraryCardItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), mListener
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -40,11 +47,11 @@ class LibraryAdapter(private val dataSet: ArrayList<LibraryCard>):
     }
 
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         mListener = listener
     }
 }

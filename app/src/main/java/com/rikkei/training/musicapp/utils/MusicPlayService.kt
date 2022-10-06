@@ -11,8 +11,8 @@ import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.NowPlaying
-import com.rikkei.training.musicapp.PlayMusicFragment
+import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.model.getImgArt
 import com.rikkei.training.musicapp.model.getThumb

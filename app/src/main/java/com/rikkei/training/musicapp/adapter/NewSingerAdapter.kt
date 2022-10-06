@@ -1,41 +1,32 @@
 package com.rikkei.training.musicapp.adapter
 
-import android.content.ContentResolver
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
-import android.net.Uri
-import android.provider.BaseColumns
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.AlbumItemBinding
 import com.rikkei.training.musicapp.model.Artist
-import com.rikkei.training.musicapp.model.Song
-import java.io.File
 
-class NewSingerAdapter(val dataset: ArrayList<Artist>):
+class NewSingerAdapter:
     RecyclerView.Adapter<NewSingerAdapter.MyViewHolder>() {
 
     lateinit var ctx: Context
+    var dataset = ArrayList<Artist>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class MyViewHolder(binding: AlbumItemBinding, data: ArrayList<Artist>) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         val imageView = binding.imageMusicItem
         val titleSong = binding.titleMusicItem
-        private val list = data
-
         override fun onClick(v: View?) {
-            val position = adapterPosition
-            val song = this.list[position]
+
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

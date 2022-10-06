@@ -1,35 +1,26 @@
 package com.rikkei.training.musicapp.adapter
 
-import android.content.ContentResolver
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
-import android.net.Uri
-import android.provider.BaseColumns
-import android.provider.MediaStore
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.MusicItemBinding
 import com.rikkei.training.musicapp.model.Album
-import com.rikkei.training.musicapp.model.Artist
-import com.rikkei.training.musicapp.model.Song
-import java.io.File
 
-class AlbumAdapter(val dataset: Album):
+class AlbumAdapter :
     RecyclerView.Adapter<AlbumAdapter.MyViewHolder>() {
 
-    lateinit var ctx: Context
     private lateinit var mListener: OnClickListener
+    var dataset = Album()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    lateinit var ctx: Context
 
-    class MyViewHolder(binding: MusicItemBinding, listener: OnClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(binding: MusicItemBinding, listener: OnClickListener) :
+        RecyclerView.ViewHolder(binding.root) {
         val imageView = binding.imageMusicItem
         val titleSong = binding.titleMusicItem
         val artist = binding.artistMusicItem
@@ -40,17 +31,24 @@ class AlbumAdapter(val dataset: Album):
             }
         }
     }
-    interface OnClickListener{
+
+    interface OnClickListener {
         fun onAlbumItemClickListener(position: Int)
     }
 
-    fun setOnAlbumItemClickListener(listener: OnClickListener){
+    fun setOnAlbumItemClickListener(listener: OnClickListener) {
         this.mListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         ctx = parent.context
-        return MyViewHolder(MusicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), mListener)
+        return MyViewHolder(
+            MusicItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), mListener
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -67,10 +65,5 @@ class AlbumAdapter(val dataset: Album):
     override fun getItemCount(): Int {
         return dataset.size
     }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-    }
-
 
 }

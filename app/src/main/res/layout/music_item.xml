@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:padding="3dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="3dp">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageMusicItem"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        app:shapeAppearanceOverlay="@style/rounded_corner"
-        android:id="@+id/image_music_item"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:shapeAppearanceOverlay="@style/rounded_corner" />
 
     <TextView
+        android:id="@+id/titleMusicItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_music_item"
+        android:layout_marginStart="5dp"
         android:ellipsize="marquee"
-        android:singleLine="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:scrollHorizontally="true"
-        android:textAlignment="gravity"
         android:gravity="center_vertical"
-        tools:text="All Too Well (10 Minute Version)"
-        android:textSize="20dp"
-        android:layout_marginStart="5dp"
-        android:textStyle="normal"
-        android:id="@+id/title_music_item"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title_music_item"
-        app:layout_constraintStart_toEndOf="@id/image_music_item"
-        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:marqueeRepeatLimit="marquee_forever"
+        android:textAlignment="gravity"
+        android:textSize="20dp"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        tools:text="Taylor Swift"
-        android:id="@+id/artist_music_item"/>
+        app:layout_constraintStart_toEndOf="@+id/imageMusicItem"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="All Too Well (10 Minute Version)" />
 
+    <TextView
+        android:id="@+id/artistMusicItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageMusicItem"
+        app:layout_constraintTop_toBottomOf="@id/titleMusicItem"
+        tools:text="Taylor Swift" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

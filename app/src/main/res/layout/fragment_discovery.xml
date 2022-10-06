@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".discovery.DiscoveryFragment">
+    tools:context=".ui.discovery.DiscoveryFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/header_view"
-        android:name="com.rikkei.training.musicapp.header.HeaderFragment"
+        android:id="@+id/headerView"
+        android:name="com.rikkei.training.musicapp.ui.header.HeaderFragment"
         tools:layout="@layout/fragment_header"/>
 
     <androidx.core.widget.NestedScrollView
@@ -22,15 +22,16 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:padding="5dp"
-        app:layout_constraintTop_toBottomOf="@id/header_view"
-        app:layout_constraintBottom_toTopOf="@id/music_bar"
+        app:layout_constraintTop_toBottomOf="@id/headerView"
+        app:layout_constraintBottom_toTopOf="@id/musicBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
             <TextView
-                android:id="@+id/newRelease_title"
+                android:id="@+id/newReleaseTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -44,11 +45,11 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/blk_tab"
+                android:id="@+id/blkTab"
                 android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/newRelease_title"
+                app:layout_constraintTop_toBottomOf="@id/newReleaseTitle"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -59,7 +60,7 @@
                     android:background="@drawable/button_little_background"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:id="@+id/btn_song"/>
+                    android:id="@+id/btnSong"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,26 +70,26 @@
                     android:textStyle="bold"
                     android:background="@drawable/button_little_background"
                     android:textSize="12sp"
-                    android:id="@+id/btn_album"/>
+                    android:id="@+id/btnAlbum"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="135dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/list_new"
+                android:id="@+id/listNew"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blk_tab"/>
+                app:layout_constraintTop_toBottomOf="@id/blkTab"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/newSinger_title"
+                android:id="@+id/newSingerTitle"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/list_new"
+                app:layout_constraintTop_toBottomOf="@id/listNew"
                 android:text="@string/new_singer"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -97,33 +98,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="115dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/newSingerOnline_list"
+                android:id="@+id/newSingerOnlineList"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/newSinger_title"/>
+                app:layout_constraintTop_toBottomOf="@id/newSingerTitle"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/suggest_title"
+                android:id="@+id/suggestTitle"
                 android:text="@string/suggest"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/newSingerOnline_list"
+                app:layout_constraintTop_toBottomOf="@id/newSingerOnlineList"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="17sp"/>
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/suggest_list"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggest_title"/>
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintHeight_min="40dp"
+                app:layout_constraintTop_toBottomOf="@id/suggestTitle">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/suggestList"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <androidx.fragment.app.FragmentContainerView
@@ -131,11 +144,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:id="@+id/music_bar"
+        android:id="@+id/musicBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:name="com.rikkei.training.musicapp.NowPlaying"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying"
         tools:layout="@layout/fragment_now_playing"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

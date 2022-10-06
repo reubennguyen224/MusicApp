@@ -20,18 +20,6 @@
     <string name="new_singer">Ca sĩ mới</string>
     <string name="suggest">Hôm nay nghe gì</string>
     <string name="favourite">Bài hát yêu thích</string>
-    <string name="name">Tên</string>
-    <string name="familyName">Họ</string>
-    <string name="dob">Ngày sinh</string>
-    <string name="address">Địa chỉ</string>
-    <string name="password">Mật khẩu</string>
-    <string name="updateProfile">Cập nhật hồ sơ</string>
-    <string name="Logout">Đăng xuất</string>
+    <string name="btnback">btnBack</string>
     <string name="playlist">Danh sách phát</string>
-    <string name="back_button">Back Button</string>
-    <string name="previous_song">Previous Song</string>
-    <string name="play_pause">Play/Pause</string>
-    <string name="next_song">Next Song</string>
-    <string name="favourite_btn">Favourite</string>
-    <string name="btnclose">btnClose</string>
 </resources>

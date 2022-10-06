@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".discovery.SingerDetailFragment">
+    tools:context=".ui.discovery.SingerDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -13,90 +13,99 @@
         android:background="#00000000"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             android:background="#00000000"
+            android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="25dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgAvatarArtist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:shapeAppearanceOverlay="@style/bound_corner"
-                android:id="@+id/imgAvatarArtist"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax"
+                app:shapeAppearanceOverlay="@style/bound_corner" />
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_gravity="bottom"
-                app:shapeAppearanceOverlay="@style/bound_corner"
-                android:background="@drawable/scrim" />
+                android:background="@drawable/scrim"
+                app:shapeAppearanceOverlay="@style/bound_corner" />
+
             <TextView
+                android:id="@+id/titleSinger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/title_singer"
                 android:layout_gravity="bottom"
                 android:layout_marginStart="35dp"
-                tools:text="Bài hát"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:layout_marginBottom="85dp"
-                android:textSize="37sp"/>
+                android:textColor="@color/white"
+                android:textSize="37sp"
+                android:textStyle="bold"
+                tools:text="Bài hát" />
+
             <TextView
                 android:id="@+id/numSong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="12 bài hát"
-                android:textColor="@color/white"
+                android:layout_gravity="bottom"
                 android:layout_marginStart="35dp"
                 android:layout_marginBottom="65dp"
-                android:layout_gravity="bottom"/>
+                android:textColor="@color/white"
+                tools:text="12 bài hát" />
+
             <Button
                 android:id="@+id/btnPlayShuffle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
+                android:layout_margin="15dp"
                 android:background="@drawable/button_primary_background"
-                android:text="Phát ngẫu nhiên"
-                android:layout_margin="15dp"/>
+                android:text="Phát ngẫu nhiên" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/animToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:background="#00000000"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/toolbarBlock"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@color/trans"
-                    android:id="@+id/toolbarBlock">
+                    android:background="@color/trans">
+
                     <ImageView
+                        android:id="@+id/btnBack"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_back_arrows_nobody"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:clickable="true"
-                        android:id="@+id/btnBack"
-                        android:focusable="true" />
+                        android:focusable="true"
+                        android:src="@drawable/ic_back_arrows_nobody"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/titleFragment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/titleFragment"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/btnBack"
-                        android:layout_marginStart="15dp"
-                        tools:text="Bài hát"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Bài hát" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -106,23 +115,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="29dp"
-        android:paddingBottom="29dp"
         android:fillViewport="true"
         android:padding="5dp"
+        android:paddingTop="29dp"
+        android:paddingBottom="29dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listSong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/listSong"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

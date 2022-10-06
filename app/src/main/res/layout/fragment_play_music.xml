@@ -1,170 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#AB000000"
-    tools:context=".PlayMusicFragment">
+    android:background="#BC000000"
+    tools:context=".ui.moduleMusic.PlayMusicFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbarBlock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
         android:padding="5dp"
-        android:id="@+id/toolbar_block">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
+            android:id="@+id/collapsePlayMusic"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_down_arrow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="5dp"
-            android:id="@+id/collapse_play_music"
-            android:contentDescription="@string/back_button" />
+            android:src="@drawable/ic_down_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/nameSong"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Tặng anh cho cô ấy"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/collapse_play_music"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
-            android:id="@+id/name_song"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:scrollHorizontally="true"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name_song"
-            app:layout_constraintStart_toEndOf="@id/collapse_play_music"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Hương Giang"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:layout_marginStart="10dp"
-            android:singleLine="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
-            android:id="@+id/singer_name"/>
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/collapsePlayMusic"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tặng anh cho cô ấy" />
+
+        <TextView
+            android:id="@+id/singerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/collapsePlayMusic"
+            app:layout_constraintTop_toBottomOf="@id/nameSong"
+            tools:text="Hương Giang" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/songImg"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:id="@+id/song_img"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_block"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/trans"
-        app:civ_border_overlay="true"
+        android:layout_marginTop="30dp"
         android:src="@drawable/ic_logo"
         android:stateListAnimator="@anim/rotation"
-        android:layout_marginTop="30dp"/>
-
+        app:civ_border_color="@color/trans"
+        app:civ_border_overlay="true"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarBlock" />
 
     <SeekBar
+        android:id="@+id/timestampSong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timestamp_song"
+        android:layout_margin="40dp"
         android:thumb="@drawable/seekbar_thumb"
-        app:layout_constraintTop_toBottomOf="@id/song_img"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="40dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/songImg" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playControllerBlock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="25dp"
-        android:id="@+id/play_controller_block"
-        app:layout_constraintTop_toBottomOf="@id/timestamp_song">
+        app:layout_constraintTop_toBottomOf="@id/timestampSong">
+
         <ImageView
+            android:id="@+id/previousSong"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_back_song"
-            android:id="@+id/previous_song"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="35dp"
-            android:contentDescription="@string/previous_song" />
+            android:src="@drawable/ic_back_song"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
+            android:id="@+id/playMusic"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/trans"
             android:src="@drawable/ic_play_music"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/previous_song"
-            app:layout_constraintEnd_toStartOf="@id/next_song"
-            android:id="@+id/play_music"
-            android:contentDescription="@string/play_pause" />
+            app:layout_constraintEnd_toStartOf="@id/nextSong"
+            app:layout_constraintStart_toEndOf="@id/previousSong"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
+            android:id="@+id/nextSong"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_next_song"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="35dp"
-            android:id="@+id/next_song"
-            android:contentDescription="@string/next_song" />
+            android:src="@drawable/ic_next_song"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="25dp"
-        app:layout_constraintTop_toBottomOf="@id/play_controller_block">
+        app:layout_constraintTop_toBottomOf="@id/playControllerBlock">
+
         <ImageView
+            android:id="@+id/btnFavour"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="35dp"
             android:src="@drawable/ic_favorite_border_24"
-            android:id="@+id/btn_favour"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/favourite_btn" />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/playlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="9dp"
             android:text="@string/playlist"
             android:textColor="@color/white"
-            android:id="@+id/playlist"
             android:textSize="17sp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_playlist"
-            android:layout_marginEnd="9dp"
-            />
+            app:layout_constraintEnd_toStartOf="@id/btnPlaylist"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/btnPlaylist"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/btn_playlist"
+            android:layout_marginEnd="35dp"
             android:src="@drawable/ic_playlist"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="35dp"
-            android:contentDescription="@string/playlist" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
-interface LoginAPI{
+interface LoginAPI {
 
     @FormUrlEncoded
     @POST("login.php")
@@ -52,7 +52,7 @@ interface LoginAPI{
     ): Call<Message>
 
     @GET("getAlbum.php")
-    fun getNewAlbums():Call<AlbumAPI>
+    fun getNewAlbums(): Call<AlbumAPI>
 
     @GET("getArtist.php")
     fun getNewSingers(): Call<SingerAPI>
@@ -77,8 +77,8 @@ interface LoginAPI{
     fun updateNumberOfStream(@Field("Id") id: Int): Call<ListMessage>
 }
 
-class LoginClient{
-    companion object{
+class LoginClient {
+    companion object {
         private const val BASE_URL = "https://hoang2204.000webhostapp.com/server/"
         lateinit var gson: Gson
         var retrofit: Retrofit? = null
@@ -87,7 +87,7 @@ class LoginClient{
             .writeTimeout(9000, TimeUnit.MILLISECONDS) // thoi gian ghi du lieu
             .connectTimeout(15000, TimeUnit.MILLISECONDS) //thoi gian cho server phan hoi
             .retryOnConnectionFailure(true)
-        private val authInterceptor = Interceptor{ chain ->
+        private val authInterceptor = Interceptor { chain ->
             val newUrl = chain.request().url
                 .newBuilder()
                 .build()
@@ -99,8 +99,8 @@ class LoginClient{
         }
         private val apiClient = OkHttpClient().newBuilder().addInterceptor(authInterceptor).build()
 
-        fun getInstance(): Retrofit{
-            if (retrofit == null){
+        fun getInstance(): Retrofit {
+            if (retrofit == null) {
                 gson = GsonBuilder()
                     .setLenient()
                     .create()

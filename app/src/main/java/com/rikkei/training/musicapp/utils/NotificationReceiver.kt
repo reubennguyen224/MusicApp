@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.NowPlaying
-import com.rikkei.training.musicapp.PlayMusicFragment
+import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.model.favouriteChecker
 import com.rikkei.training.musicapp.model.setSongPosition

@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:id="@+id/image_music_item"
+        android:id="@+id/imageMusicItem"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -18,13 +18,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_music_item"
+        app:layout_constraintStart_toEndOf="@+id/imageMusicItem"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="All Too Well (10 Minute Version)"
         android:textSize="20dp"
         android:layout_marginStart="5dp"
         android:textStyle="normal"
-        android:id="@+id/title_music_item"/>
+        android:id="@+id/titleMusicItem"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
