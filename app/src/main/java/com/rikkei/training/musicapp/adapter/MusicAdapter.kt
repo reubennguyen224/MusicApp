@@ -7,17 +7,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.MusicItemBinding
 import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.ItemMoveCallback
 import java.util.*
 
-class MusicAdapter(private var dataset: ArrayList<Song>):
+class MusicAdapter:
     RecyclerView.Adapter<MusicAdapter.MyViewHolder>(), ItemMoveCallback.ItemTouchHelperContact {
 
     private lateinit var mListener: OnItemClickListener
+    var dataset = ArrayList<Song>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class MyViewHolder(binding:MusicItemBinding, listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
         val imageView = binding.imageMusicItem
@@ -57,6 +62,7 @@ class MusicAdapter(private var dataset: ArrayList<Song>):
     }
 
     override fun getItemCount(): Int {
+        if (dataset.size == 15) return  dataset.size/2
         return dataset.size
     }
 

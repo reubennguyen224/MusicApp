@@ -8,10 +8,16 @@ import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.databinding.MusicItemBinding
 import com.rikkei.training.musicapp.model.Album
 
-class AlbumAdapter(val dataset: Album,val ctx: Context) :
+class AlbumAdapter :
     RecyclerView.Adapter<AlbumAdapter.MyViewHolder>() {
 
     private lateinit var mListener: OnClickListener
+    var dataset = Album()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    lateinit var ctx: Context
 
     class MyViewHolder(binding: MusicItemBinding, listener: OnClickListener) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,6 +41,7 @@ class AlbumAdapter(val dataset: Album,val ctx: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        ctx = parent.context
         return MyViewHolder(
             MusicItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -58,10 +65,5 @@ class AlbumAdapter(val dataset: Album,val ctx: Context) :
     override fun getItemCount(): Int {
         return dataset.size
     }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-    }
-
 
 }

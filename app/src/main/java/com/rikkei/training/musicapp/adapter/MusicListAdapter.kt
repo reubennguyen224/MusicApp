@@ -35,7 +35,8 @@ class MusicListAdapter(private val dataset: ArrayList<SongDetail>) :
         holder.title.text = dataset[position].title
         val layoutManager = LinearLayoutManager(ctx)
         layoutManager.initialPrefetchItemCount = dataset[position].listSong.size
-        val childAdapter = MusicAdapter(dataset[position].listSong)
+        val childAdapter = MusicAdapter()
+        childAdapter.dataset = dataset[position].listSong
         childAdapter.setOnItemClickListener(dataset[position].listener)
         holder.recyclerView.layoutManager = layoutManager
         holder.recyclerView.adapter = childAdapter

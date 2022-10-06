@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewAlbum2Binding
@@ -18,6 +17,7 @@ import com.rikkei.training.musicapp.model.Album
 import com.rikkei.training.musicapp.model.AlbumItem
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,7 +90,8 @@ class NewAlbumFragment : Fragment() {
         binding.txtAlbumTitle.text = albumList[albumPosition].name
         binding.txtAlbumArtist.text = albumList[albumPosition].singer_name
 
-        adapter = MusicAdapter(albumItem)
+        adapter = MusicAdapter()
+        adapter.dataset = albumItem
         setSongView()
 
         binding.btnPlayAlbum.setOnClickListener {

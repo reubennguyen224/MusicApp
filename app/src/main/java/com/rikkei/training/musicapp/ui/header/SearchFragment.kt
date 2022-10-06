@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.adapter.MusicListAdapter
@@ -18,6 +17,7 @@ import com.rikkei.training.musicapp.databinding.FragmentSearchBinding
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.model.SongDetail
+import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -112,7 +112,6 @@ class SearchFragment : Fragment() {
                     musicListInternetSearch.clear()
                     val musicList = response.body()
                     for (music in musicList!!){
-                        //for (music in tmp.data){
                             musicListInternetSearch.add(Song(
                                 thisId = music.id.toLong(),
                                 thisTile = music.title,
@@ -122,7 +121,7 @@ class SearchFragment : Fragment() {
                                 favourite = false,
                                 imageUri = music.coverURI,
                                 songUri = music.songURI))
-                        //}
+
                     }
                     adapter.notifyDataSetChanged()
                 }

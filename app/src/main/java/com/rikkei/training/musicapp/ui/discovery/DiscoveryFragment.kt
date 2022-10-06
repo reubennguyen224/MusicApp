@@ -35,10 +35,10 @@ class DiscoveryFragment : Fragment() {
         val songSuggest = ArrayList<Song>()
     }
 
-    private val songAdapter: MusicAdapter = MusicAdapter(newMusic)
-    private val albumAdapter: AlbumAdapter by lazy { AlbumAdapter(newAlbum, requireContext()) }
-    private val singerAdapter: ArtistAdapter = ArtistAdapter(newSinger)
-    private val songSSAdapter: MusicAdapter = MusicAdapter(songSuggest)
+    private val songAdapter = MusicAdapter()
+    private val albumAdapter = AlbumAdapter()
+    private val singerAdapter = ArtistAdapter()
+    private val songSSAdapter = MusicAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,21 +97,27 @@ class DiscoveryFragment : Fragment() {
         }
 
         albumAdapter.setOnAlbumItemClickListener(albumListener)
-        binding.suggestList.adapter = songSSAdapter
-        binding.suggestList.layoutManager = LinearLayoutManager(context)
+
+        binding.suggestList.apply {
+            adapter = songSSAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
 
         songSSAdapter.setOnItemClickListener(songSSListener)
-
-        binding.newSingerOnlineList.adapter = singerAdapter
-        binding.newSingerOnlineList.layoutManager =
-            GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        binding.newSingerOnlineList.apply {
+            adapter = singerAdapter
+            layoutManager =
+                GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        }
 
         singerAdapter.setOnArtistClickListener(singerListener)
 
+        binding.listNew.apply {
+            adapter = songAdapter
+            layoutManager =
+                GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
+        }
 
-        binding.listNew.adapter = songAdapter
-        binding.listNew.layoutManager =
-            GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
         songAdapter.setOnItemClickListener(newSongListener)
 
         return view
@@ -164,19 +170,19 @@ class DiscoveryFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun refreshData() {
         viewModel.getNewAlbum().observe(viewLifecycleOwner) {
-            newAlbum.addAll(it)
+            albumAdapter.dataset = it
             albumAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSinger().observe(viewLifecycleOwner) {
-            newSinger.addAll(it)
+            singerAdapter.artistList = it
             singerAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSong().observe(viewLifecycleOwner) {
-            newMusic.addAll(it)
+            songAdapter.dataset = it
             songAdapter.notifyDataSetChanged()
         }
         viewModel.getSongSuggest().observe(viewLifecycleOwner) {
-            songSuggest.addAll(it)
+            songSSAdapter.dataset = it
             songSSAdapter.notifyDataSetChanged()
         }
     }

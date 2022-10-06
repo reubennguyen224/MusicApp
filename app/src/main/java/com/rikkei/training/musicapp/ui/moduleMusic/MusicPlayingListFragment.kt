@@ -45,7 +45,8 @@ class MusicPlayingListFragment : Fragment() {
 
         binding.songListTitle.text = "Danh sách phát(${musicList.size})"
 
-        val adapter = MusicAdapter(musicList)
+        val adapter = MusicAdapter()
+        adapter.dataset = musicList
         val callback = ItemMoveCallback(adapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.musicPlayingList)

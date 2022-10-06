@@ -44,7 +44,8 @@ class LocalDownloadFragment : Fragment() {
 
         binding.titleNumSong.text = "${listMusicFile.size} bài hát"
 
-        val adapter = MusicAdapter(listMusicFile)
+        val adapter = MusicAdapter()
+        adapter.dataset = listMusicFile
         binding.musicRecyclerList.adapter = adapter
 
         adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {

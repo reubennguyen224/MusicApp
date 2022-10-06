@@ -45,7 +45,8 @@ class LocalFavouriteFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        val adapter = MusicAdapter(favouriteList)
+        val adapter = MusicAdapter()
+        adapter.dataset = favouriteList
         binding.musicRecyclerList.adapter = adapter
         binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 
