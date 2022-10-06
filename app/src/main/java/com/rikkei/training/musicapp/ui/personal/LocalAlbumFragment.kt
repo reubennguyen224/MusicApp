@@ -48,7 +48,8 @@ class LocalAlbumFragment : Fragment() {
 
         binding.titleFragment.text = "Album"
         binding.titleNumSong.text = "${albumList.size} album"
-        val adapter = AlbumAdapter(albumList, requireContext())
+        val adapter = AlbumAdapter()
+        adapter.dataset = albumList
         binding.musicRecyclerList.adapter = adapter
         binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 
