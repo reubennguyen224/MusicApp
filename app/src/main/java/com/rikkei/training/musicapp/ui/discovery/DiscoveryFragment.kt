@@ -171,22 +171,28 @@ class DiscoveryFragment : Fragment() {
     private fun refreshData() {
         viewModel.getNewAlbum().observe(viewLifecycleOwner) {
             albumAdapter.dataset = it
+            newAlbum.clear()
+            newAlbum.addAll(it)
             albumAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSinger().observe(viewLifecycleOwner) {
             singerAdapter.artistList = it
+            newSinger.clear()
+            newSinger.addAll(it)
             singerAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSong().observe(viewLifecycleOwner) {
             songAdapter.dataset = it
+            newMusic.clear()
+            newMusic.addAll(it)
             songAdapter.notifyDataSetChanged()
         }
         viewModel.getSongSuggest().observe(viewLifecycleOwner) {
             songSSAdapter.dataset = it
+            songSuggest.clear()
+            songSuggest.addAll(it)
             songSSAdapter.notifyDataSetChanged()
         }
-
-
     }
 
 
