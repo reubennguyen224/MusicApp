@@ -13,16 +13,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/header_view"
+        android:id="@+id/headerView"
         android:name="com.rikkei.training.musicapp.ui.header.HeaderFragment"
         tools:layout="@layout/fragment_header"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/title_bxh"
+        android:id="@+id/titleBxh"
         android:text="Bảng xếp hạng âm nhạc"
-        app:layout_constraintTop_toBottomOf="@id/header_view"
+        app:layout_constraintTop_toBottomOf="@id/headerView"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
         android:textStyle="bold"
@@ -35,16 +35,16 @@
         android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_bxh"
-        app:layout_constraintBottom_toTopOf="@id/music_bar"
-        android:id="@+id/list_chart"/>
+        app:layout_constraintTop_toBottomOf="@id/titleBxh"
+        app:layout_constraintBottom_toTopOf="@id/musicBar"
+        android:id="@+id/listChart"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:id="@+id/music_bar"
+        android:id="@+id/musicBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

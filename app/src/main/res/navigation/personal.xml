@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/personal"
-    app:startDestination="@id/musicLocalFragment">
+    app:startDestination="@id/personalFragment">
 
     <fragment
-        android:id="@+id/musicLocalFragment"
+        android:id="@+id/personalFragment"
         android:name="com.rikkei.training.musicapp.ui.personal.PersonalFragment"
         android:label="fragment_music_local"
         tools:layout="@layout/fragment_personal" >
@@ -59,7 +59,7 @@
         tools:layout="@layout/fragment_play_music">
         <action
             android:id="@+id/action_playMusicFragment_to_musicLocalFragment"
-            app:destination="@id/musicLocalFragment" />
+            app:destination="@id/personalFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

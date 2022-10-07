@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentHeaderBinding
+import com.rikkei.training.musicapp.ui.HomeFragment
 
 class HeaderFragment : Fragment() {
     private var _binding: FragmentHeaderBinding? = null
@@ -43,16 +43,17 @@ class HeaderFragment : Fragment() {
             findNavController().navigate(uri)
         }
 
-        if (HomeFragment.dataAPI.isNotEmpty())
-        if (HomeFragment.dataAPI[0].avataruri != null)
-            Glide.with(requireContext())
-                .load(HomeFragment.dataAPI[0].avataruri)
-                .fitCenter()
-                .into(binding.imgAvatarUser)
-        else
-            Glide.with(requireContext())
-                .load(R.drawable.splash_logo)
-                .centerCrop()
-                .into(binding.imgAvatarUser)
+        if (HomeFragment.dataAPI.isNotEmpty()) {
+            if (HomeFragment.dataAPI[0].avataruri != "")
+                Glide.with(requireContext())
+                    .load(HomeFragment.dataAPI[0].avataruri)
+                    .fitCenter()
+                    .into(binding.imgAvatarUser)
+            else
+                Glide.with(requireContext())
+                    .load(R.drawable.splash_logo)
+                    .centerCrop()
+                    .into(binding.imgAvatarUser)
+        }
     }
 }

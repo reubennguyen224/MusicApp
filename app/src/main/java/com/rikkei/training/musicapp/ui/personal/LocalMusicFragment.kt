@@ -6,42 +6,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentLocalMusicBinding
-import com.rikkei.training.musicapp.model.Song
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.rikkei.training.musicapp.viewmodel.LocalViewModel
 
 class LocalMusicFragment : Fragment() {
 
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        val songlist = ArrayList<Song>()
-    }
+    private val viewModel: LocalViewModel by viewModels()
 
-    val adapter = MusicAdapter()
+    private val songAdapter = MusicAdapter()
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLocalMusicBinding.inflate(inflater, container, false)
         val view = binding.root
-        adapter.dataset = songlist
-        binding.musicRecyclerList.adapter = adapter
 
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+        viewModel.getSongList().observe(viewLifecycleOwner) {
+            songAdapter.dataset = it
+            binding.titleNumSong.text = "${it.size} bài hát"
         }
 
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
+        binding.musicRecyclerList.apply {
+            adapter = songAdapter
+            layoutManager = LinearLayoutManager(context)
+
+        }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().navigate(findNavController().previousBackStackEntry?.destination!!.id)
+        }
+
+        songAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
@@ -50,9 +55,7 @@ class LocalMusicFragment : Fragment() {
             }
         })
 
-        binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
         binding.titleFragment.text = "Bài hát"
-        getSongList()
 
         return view
     }
@@ -71,16 +74,5 @@ class LocalMusicFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
-    private fun getSongList() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            songlist.addAll(PersonalFragment.songlist)
-            withContext(Dispatchers.Main) {
-                binding.titleNumSong.text = "${songlist.size} bài hát"
-                adapter.notifyDataSetChanged()
-            }
-        }
     }
 }

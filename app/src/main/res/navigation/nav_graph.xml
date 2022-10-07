@@ -23,4 +23,9 @@
         android:name="com.rikkei.training.musicapp.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/playMusicFragment3"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment"
+        android:label="fragment_play_music"
+        tools:layout="@layout/fragment_play_music" />
 </navigation>

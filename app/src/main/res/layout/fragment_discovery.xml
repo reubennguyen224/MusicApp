@@ -149,7 +149,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:name="com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying"
-        tools:layout="@layout/fragment_now_playing"
-        app:navGraph="@navigation/now_playing"/>
+        tools:layout="@layout/fragment_now_playing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

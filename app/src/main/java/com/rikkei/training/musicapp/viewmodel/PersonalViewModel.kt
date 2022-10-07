@@ -9,43 +9,114 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.rikkei.training.musicapp.model.Album
-import com.rikkei.training.musicapp.model.AlbumItem
-import com.rikkei.training.musicapp.model.Artist
-import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.R
+import com.rikkei.training.musicapp.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class PersonalViewModel(application: Application) : AndroidViewModel(application) {
+    private var _libraryCard = MutableLiveData<ArrayList<LibraryCard>>()
+    private var _singerList = MutableLiveData<ArrayList<Artist>>()
+    private var _songlist = MutableLiveData<ArrayList<Song>>()
+    private var _albumlist = MutableLiveData<Album>()
+    private var _downloadlist = MutableLiveData<ArrayList<Song>>()
 
-    private var songlist = MutableLiveData<ArrayList<Song>>()
-    private var albumlist = MutableLiveData<Album>()
-    private var singerlist = MutableLiveData<ArrayList<Artist>>()
-    private var downloadList = MutableLiveData<ArrayList<Song>>()
-
-    fun getMusicDownloadList(): LiveData<ArrayList<Song>> {
-        return downloadList
+    fun getLibraryCard(): LiveData<ArrayList<LibraryCard>> {
+        return _libraryCard
     }
 
-    fun getLocalSongList(): LiveData<ArrayList<Song>> {
-        return songlist
+    fun getArtistList(): LiveData<ArrayList<Artist>> {
+        return _singerList
     }
 
-    fun getLocalAlbumList(): LiveData<Album> {
-        return albumlist
-    }
-
-    fun getLocalSingerList(): LiveData<ArrayList<Artist>> {
-        return singerlist
+    companion object {
+        var songArraylist = ArrayList<Song>()
+        var albumArrayList = Album()
+        var singerArrayList = ArrayList<Artist>()
+        var favouriteList = ArrayList<Song>()
+        var listMusicFile = ArrayList<Song>()
     }
 
     init {
-        songlist = getMusicFile()
-        singerlist = getSingerList()
-        albumlist = getAlbumList()
-        downloadList = getDownloadList()
+        _singerList = getSingerList()
+        _songlist = getMusicFile()
+        _albumlist = getAlbumList()
+        _downloadlist = getDownloadList()
+        _libraryCard = libraryCard()
+    }
+
+    private fun libraryCard(): MutableLiveData<ArrayList<LibraryCard>> {
+        val library = MutableLiveData<ArrayList<LibraryCard>>()
+        viewModelScope.launch {
+            val card = ArrayList<LibraryCard>()
+            withContext(Dispatchers.IO) {
+                card.add(LibraryCard(R.drawable.ic_music_local, "Bài hát", songArraylist.size))
+                card.add(LibraryCard(R.drawable.ic_album, "Album", albumArrayList.size))
+                card.add(LibraryCard(R.drawable.ic_download, "Tải xuống", listMusicFile.size))
+                card.add(LibraryCard(R.drawable.ic_singer, "Ca sĩ", singerArrayList.size))
+                card.add(LibraryCard(R.drawable.ic_heart, "Yêu thích", favouriteList.size))
+            }
+            library.postValue(card)
+        }
+        return library
+    }
+
+    private fun getDownloadList(): MutableLiveData<ArrayList<Song>> {
+        val downloadSong = MutableLiveData<ArrayList<Song>>()
+        viewModelScope.launch {
+            val res: ContentResolver = getApplication<Application>().contentResolver!!
+            val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            val projection = arrayOf(
+                MediaStore.MediaColumns.TITLE,
+                MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
+                MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
+                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
+            )
+            val folder = arrayOf("%Download%")
+            val downloadFile = ArrayList<Song>()
+            withContext(Dispatchers.IO) {
+                val cursor =
+                    res.query(
+                        uri,
+                        projection,
+                        MediaStore.Audio.Media.DATA + " like ? ",
+                        folder,
+                        null
+                    )
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        val thisTitle = cursor.getString(0)
+                        val thisId: Long = cursor.getLong(1)
+                        val thisArtist = cursor.getString(2)
+                        val thisAlbum = cursor.getString(3)
+                        val thisDate = cursor.getString(4)
+                        val thisUri = cursor.getString(5)
+                        val albumId = cursor.getString(6)
+                        val uri = Uri.parse("content://media/external/audio/albumart")
+                        val thisImage = Uri.withAppendedPath(uri, albumId).toString()
+
+                        val song = Song(
+                            thisId = thisId,
+                            thisTile = thisTitle,
+                            thisArtist = thisArtist,
+                            thisAlbum = thisAlbum,
+                            dateModifier = thisDate,
+                            favourite = false,
+                            imageUri = thisImage,
+                            songUri = thisUri
+                        )
+                        val file = File(song.songUri!!)
+                        if (file.exists())
+                            downloadFile.add(song)
+                    } while (cursor.moveToNext())
+                    cursor.close()
+                }
+                downloadSong.postValue(downloadFile)
+            }
+        }
+        return downloadSong
     }
 
     @SuppressLint("Range")
@@ -174,8 +245,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     @SuppressLint("Range")
-    private fun getMusicFile(): MutableLiveData<ArrayList<Song>> {
-
+    fun getMusicFile(): MutableLiveData<ArrayList<Song>> {
         val songList = MutableLiveData<ArrayList<Song>>()
         viewModelScope.launch {
             val selection = MediaStore.Audio.Media.IS_MUSIC
@@ -240,64 +310,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 songList.postValue(musicList)
             }
-
         }
         return songList
-    }
-
-    private fun getDownloadList(): MutableLiveData<ArrayList<Song>> {
-        val downloadSong = MutableLiveData<ArrayList<Song>>()
-        viewModelScope.launch {
-            val res: ContentResolver = getApplication<Application>().contentResolver!!
-            val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(
-                MediaStore.MediaColumns.TITLE,
-                MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
-                MediaStore.Audio.AudioColumns.ALBUM, MediaStore.MediaColumns.DATE_MODIFIED,
-                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID
-            )
-            val folder = arrayOf("%Download%")
-            val musicList = ArrayList<Song>()
-            withContext(Dispatchers.IO) {
-                val cursor =
-                    res.query(
-                        uri,
-                        projection,
-                        MediaStore.Audio.Media.DATA + " like ? ",
-                        folder,
-                        null
-                    )
-                if (cursor != null && cursor.moveToFirst()) {
-                    do {
-                        val thisTitle = cursor.getString(0)
-                        val thisId: Long = cursor.getLong(1)
-                        val thisArtist = cursor.getString(2)
-                        val thisAlbum = cursor.getString(3)
-                        val thisDate = cursor.getString(4)
-                        val thisUri = cursor.getString(5)
-                        val albumId = cursor.getString(6)
-                        val uri = Uri.parse("content://media/external/audio/albumart")
-                        val thisImage = Uri.withAppendedPath(uri, albumId).toString()
-
-                        val song = Song(
-                            thisId = thisId,
-                            thisTile = thisTitle,
-                            thisArtist = thisArtist,
-                            thisAlbum = thisAlbum,
-                            dateModifier = thisDate,
-                            favourite = false,
-                            imageUri = thisImage,
-                            songUri = thisUri
-                        )
-                        val file = File(song.songUri!!)
-                        if (file.exists())
-                            musicList.add(song)
-                    } while (cursor.moveToNext())
-                    cursor.close()
-                }
-                downloadSong.postValue(musicList)
-            }
-        }
-        return downloadSong
     }
 }

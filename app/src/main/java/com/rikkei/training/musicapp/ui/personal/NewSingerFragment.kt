@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rikkei.training.musicapp.adapter.NewSingerAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewSingerBinding
-import com.rikkei.training.musicapp.model.Artist
+import com.rikkei.training.musicapp.viewmodel.NewReleaseLocalViewModel
 
 class NewSingerFragment : Fragment() {
 
     private var _binding: FragmentNewSingerBinding? = null
     private val binding get() = _binding!!
 
-    private val singerList = ArrayList<Artist>()
+    private val viewModel: NewReleaseLocalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,32 +27,21 @@ class NewSingerFragment : Fragment() {
         return view
     }
 
-    val singerAdapter = NewSingerAdapter()
+    private val singerAdapter = NewSingerAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        findSinger()
-        singerAdapter.dataset  = singerList
+        viewModel.getNewSingerLocal().observe(viewLifecycleOwner){
+            singerAdapter.dataset  = it
+        }
+
         binding.newSingerList.apply {
             adapter = singerAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
 
-    }
-
-
-    private fun findSinger() {
-        singerList.clear()
-        var x = 0
-        if (PersonalFragment.singerList.size < 10) {
-            singerList.addAll(PersonalFragment.singerList)
-        } else {
-            while (x++ <= 10) {
-                singerList.add(PersonalFragment.singerList[x])
-            }
-        }
     }
 
 }

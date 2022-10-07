@@ -53,9 +53,10 @@ class NowPlaying : Fragment() {
             val bundle = Bundle()
             bundle.putInt("songPosition", PlayMusicFragment.songPosition)
             bundle.putString("album", "NowPlaying")
-            if (findNavController().currentDestination?.id == R.id.musicLocalFragment)
+            if (findNavController().currentDestination?.id == R.id.personalFragment)
                 findNavController().navigate(R.id.playMusicFragment, bundle)
             else findNavController().navigate(R.id.playMusicFragment2, bundle)
+            findNavController()
         }
 
     }

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.ui.HomeFragment
-import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,7 +30,7 @@ class SearchViewModel: ViewModel() {
     private fun getLocalSongList(query: String): MutableLiveData<ArrayList<Song>>{
         val localSong = MutableLiveData<ArrayList<Song>>()
         val songList = ArrayList<Song>()
-        for (song in PersonalFragment.songlist){
+        for (song in PersonalViewModel.songArraylist){
             if (song.thisTile.lowercase().contains(query))
                 songList.add(song)
         }

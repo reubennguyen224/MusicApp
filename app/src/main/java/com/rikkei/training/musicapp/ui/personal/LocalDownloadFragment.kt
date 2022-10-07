@@ -6,20 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentLocalMusicBinding
-import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.viewmodel.LocalViewModel
 
 class LocalDownloadFragment : Fragment() {
     private var _binding: FragmentLocalMusicBinding? = null
     private val binding get() = _binding!!
-
-    companion object {
-        val listMusicFile = ArrayList<Song>()
-    }
+    private val viewModel: LocalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,22 +31,22 @@ class LocalDownloadFragment : Fragment() {
         return view
     }
 
+    val songAdapter = MusicAdapter()
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        findFile()
-        listMusicFile.sortBy {
-            it.dateModifier
+        viewModel.getDownloadList().observe(viewLifecycleOwner){
+            binding.titleNumSong.text = "${it.size} bài hát"
+            songAdapter.dataset = it
         }
 
-        binding.titleNumSong.text = "${listMusicFile.size} bài hát"
+        binding.musicRecyclerList.apply {
+            adapter = songAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
 
-        val adapter = MusicAdapter()
-        adapter.dataset = listMusicFile
-        binding.musicRecyclerList.adapter = adapter
-
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
+        songAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
@@ -56,8 +54,6 @@ class LocalDownloadFragment : Fragment() {
                 findNavController().navigate(R.id.playMusicFragment, bundle)
             }
         })
-
-        binding.musicRecyclerList.layoutManager = LinearLayoutManager(context)
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -69,8 +65,4 @@ class LocalDownloadFragment : Fragment() {
         _binding = null
     }
 
-    private fun findFile() {
-        listMusicFile.clear()
-        listMusicFile.addAll(PersonalFragment.listMusicFile)
-    }
 }

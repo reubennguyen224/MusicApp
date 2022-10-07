@@ -7,10 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.LibraryCardItemBinding
 import com.rikkei.training.musicapp.model.LibraryCard
 
-class LibraryAdapter(private val dataSet: ArrayList<LibraryCard>) :
+class LibraryAdapter :
     RecyclerView.Adapter<LibraryAdapter.MyViewHolder>() {
 
     private lateinit var mListener: OnItemClickListener
+    var dataSet= ArrayList<LibraryCard>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class MyViewHolder(binding: LibraryCardItemBinding, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {

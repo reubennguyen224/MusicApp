@@ -10,10 +10,10 @@ import android.media.MediaMetadataRetriever
 import android.view.View
 import android.widget.TextView
 import com.google.gson.annotations.SerializedName
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment.Companion.thumbView
-import com.rikkei.training.musicapp.R
-import com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment
+import com.rikkei.training.musicapp.viewmodel.LocalFavouriteViewModel
 import java.util.concurrent.TimeUnit
 
 class User {
@@ -106,7 +106,7 @@ fun getThumb(progress: Int, context: Context): Drawable {
 
 fun favouriteChecker(id: Long): Int{
     PlayMusicFragment.isFavourite = false
-    LocalFavouriteFragment.favouriteList.forEachIndexed { index, song ->
+    LocalFavouriteViewModel.favouriteList.forEachIndexed { index, song ->
         if (id == song.thisId){
             PlayMusicFragment.isFavourite = true
             return index

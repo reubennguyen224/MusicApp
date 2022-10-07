@@ -27,12 +27,12 @@ import com.rikkei.training.musicapp.databinding.FragmentPlayMusicBinding
 import com.rikkei.training.musicapp.model.*
 import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.ui.discovery.DiscoveryFragment
-import com.rikkei.training.musicapp.ui.discovery.NewAlbumFragment
 import com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment
 import com.rikkei.training.musicapp.ui.header.SearchFragment
-import com.rikkei.training.musicapp.ui.personal.LocalFavouriteFragment
-import com.rikkei.training.musicapp.ui.personal.PersonalFragment
 import com.rikkei.training.musicapp.utils.MusicPlayService
+import com.rikkei.training.musicapp.viewmodel.LocalFavouriteViewModel
+import com.rikkei.training.musicapp.viewmodel.NewAlbumViewModel
+import com.rikkei.training.musicapp.viewmodel.PersonalViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -98,7 +98,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(PersonalFragment.songlist)
+                song.addAll(PersonalViewModel.songArraylist)
                 binding.btnFavour.setOnClickListener {
                     btnFavorView(isFavourite)
                 }
@@ -119,7 +119,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(PersonalFragment.songlist)
+                song.addAll(PersonalViewModel.songArraylist)
 
             }
             "AlbumFragment" -> {
@@ -127,7 +127,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(NewAlbumFragment.albumItem)
+                song.addAll(NewAlbumViewModel.album)
                 binding.btnFavour.setOnClickListener {
                     btnFavorView(isFavourite)
                 }
@@ -138,7 +138,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(NewAlbumFragment.albumItem)
+                song.addAll(NewAlbumViewModel.album)
                 binding.btnFavour.setOnClickListener {
                     btnFavorView(isFavourite)
                 }
@@ -185,7 +185,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(LocalFavouriteFragment.favouriteList)
+                song.addAll(LocalFavouriteViewModel.favouriteList)
                 binding.btnFavour.setOnClickListener {
                     btnFavorView(isFavourite)
                 }
@@ -195,7 +195,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(LocalFavouriteFragment.favouriteList)
+                song.addAll(LocalFavouriteViewModel.favouriteList)
                 song.shuffle()
                 binding.btnFavour.setOnClickListener {
                     btnFavorView(isFavourite)
@@ -238,9 +238,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         super.onViewCreated(view, savedInstanceState)
 
         binding.collapsePlayMusic.setOnClickListener{
-//            if (local == "local") findNavController().navigate(R.id.musicLocalFragment)
-//            else findNavController().navigate(R.id.discovery)
-            findNavController().popBackStack()
+            findNavController().navigate(findNavController().previousBackStackEntry?.destination!!.id)
         }
 
         animation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotation)
@@ -282,7 +280,11 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             prevNextSong(increment = false)
         }
         binding.btnFavour.setOnClickListener {
-            btnFavorView(isFavourite)
+            if (HomeFragment.userToken == ""){
+                val uri = Uri.parse("android-app://com.rikkei.training.musicapp/login")
+                findNavController().navigate(uri)
+            }
+            else btnFavorView(isFavourite)
         }
     }
 
@@ -290,12 +292,12 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         if (status) {
             isFavourite = false
             binding.btnFavour.setImageResource(R.drawable.ic_favorite_border_24)
-            LocalFavouriteFragment.favouriteList.removeAt(fIndex)
+            LocalFavouriteViewModel.favouriteList.removeAt(fIndex)
         }
         else {
             isFavourite = true
             binding.btnFavour.setImageResource(R.drawable.ic_favorite)
-            LocalFavouriteFragment.favouriteList.add(song[songPosition])
+            LocalFavouriteViewModel.favouriteList.add(song[songPosition])
         }
     }
 
