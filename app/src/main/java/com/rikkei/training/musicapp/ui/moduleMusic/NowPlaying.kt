@@ -2,25 +2,15 @@ package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentNowPlayingBinding
-import com.rikkei.training.musicapp.model.ListMessage
 import com.rikkei.training.musicapp.model.setSongPosition
-import com.rikkei.training.musicapp.ui.HomeFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class NowPlaying : Fragment() {
 
@@ -68,30 +58,6 @@ class NowPlaying : Fragment() {
             else findNavController().navigate(R.id.playMusicFragment2, bundle)
         }
 
-        lifecycleScope.launch(Dispatchers.IO){
-            if (PlayMusicFragment.song.isNotEmpty()) {
-                HomeFragment.loginAPI.updateNumberOfStream(PlayMusicFragment.song[PlayMusicFragment.songPosition - 1].thisId.toInt())
-                    .enqueue(object :
-                        Callback<ListMessage> {
-                        override fun onResponse(
-                            call: Call<ListMessage>,
-                            response: Response<ListMessage>
-                        ) {
-                            val mesList = response.body()
-                            for (tmp in mesList!!)
-                                Log.d("Update Done!", tmp.message)
-                        }
-
-                        override fun onFailure(call: Call<ListMessage>, t: Throwable) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Something were wrong!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
-            }
-        }
     }
 
     override fun onResume() {

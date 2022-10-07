@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/now_playing"
+    app:startDestination="@id/nowPlaying">
+
+    <fragment
+        android:id="@+id/nowPlaying"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying"
+        android:label="fragment_now_playing"
+        tools:layout="@layout/fragment_now_playing" >
+        <action
+            android:id="@+id/action_nowPlaying_to_playMusicFragment3"
+            app:destination="@id/playMusicFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/playMusicFragment3"
+        android:name="com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment"
+        android:label="fragment_play_music"
+        tools:layout="@layout/fragment_play_music" />
+</navigation>

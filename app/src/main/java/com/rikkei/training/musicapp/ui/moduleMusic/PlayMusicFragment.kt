@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -80,6 +81,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(SearchFragment.musicListSearch)
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
             }
             "MusicSearchInternetAdapter"->{
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
@@ -87,6 +91,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(SearchFragment.musicListInternetSearch)
+
             }
             "MusicShuffleAdapter"->{
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
@@ -94,6 +99,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(PersonalFragment.songlist)
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
                 song.shuffle()
             }
             "NowPlaying"-> {
@@ -120,6 +128,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(NewAlbumFragment.albumItem)
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
                 songPosition = bundle.getInt("position", 0)
             }
             "AlbumSufferFragment" -> {
@@ -128,6 +139,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(NewAlbumFragment.albumItem)
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
                 song.shuffle()
                 songPosition = bundle.getInt("position", 0)
             }
@@ -172,6 +186,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 song.clear()
                 song.addAll(LocalFavouriteFragment.favouriteList)
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
             }
             "FavouriteSuffer" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
@@ -180,6 +197,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 song.clear()
                 song.addAll(LocalFavouriteFragment.favouriteList)
                 song.shuffle()
+                binding.btnFavour.setOnClickListener {
+                    btnFavorView(isFavourite)
+                }
             }
         }
     }
@@ -218,8 +238,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         super.onViewCreated(view, savedInstanceState)
 
         binding.collapsePlayMusic.setOnClickListener{
-            if (local == "local") findNavController().navigate(R.id.musicLocalFragment)
-            else findNavController().navigate(R.id.discovery)
+//            if (local == "local") findNavController().navigate(R.id.musicLocalFragment)
+//            else findNavController().navigate(R.id.discovery)
+            findNavController().popBackStack()
         }
 
         animation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotation)
@@ -237,22 +258,20 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) musicPlayService!!.songPlayer!!.seekTo(progress)
                 binding.timestampSong.progress = progress
-                binding.timestampSong.thumb = getThumb(progress, requireContext())
+                binding.timestampSong.thumb = context?.let { getThumb(progress, it) }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar?)  = Unit
         })
 
         binding.playlist.setOnClickListener {
-            if (local == "local")
-                findNavController().navigate(R.id.musicPlayingListFragment)
-            else findNavController().navigate(R.id.musicPlayingListFragment2)
+            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/playlist")
+            findNavController().navigate(uri)
         }
 
         binding.btnPlaylist.setOnClickListener {
-            if (local == "local")
-                findNavController().navigate(R.id.musicPlayingListFragment)
-            else findNavController().navigate(R.id.musicPlayingListFragment2)
+            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/playlist")
+            findNavController().navigate(uri)
         }
 
         binding.nextSong.setOnClickListener {
@@ -262,12 +281,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         binding.previousSong.setOnClickListener {
             prevNextSong(increment = false)
         }
-
         binding.btnFavour.setOnClickListener {
             btnFavorView(isFavourite)
         }
-
-
     }
 
     private fun btnFavorView(status: Boolean){

@@ -304,69 +304,6 @@ class PersonalFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    @SuppressLint("Range")
-    private fun findAlbum() {
-//        albumList.clear()
-//        val selection = MediaStore.Audio.Media.IS_MUSIC
-//        val  res: ContentResolver = activity?.contentResolver!!
-//        val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val projection = arrayOf(
-//            MediaStore.Audio.Media._ID, MediaStore.Audio.AudioColumns.ARTIST,
-//            MediaStore.Audio.AudioColumns.ALBUM,
-//            MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID)
-//        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-//        if (cursor != null && cursor.moveToFirst()){
-//            do {
-//                val thisId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
-//                val thisArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
-//                val thisAlbum = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
-//                val uri = Uri.parse("content://media/external/audio/albumart")
-//                val thisImage = Uri.withAppendedPath(uri, thisId.toString()).toString()
-//
-//                val album = AlbumItem(id = thisId, image = thisImage, name = thisAlbum, singer_name = thisArtist)
-//                var has = false
-//
-//                if (albumList.size == 0)
-//                    albumList.add(album)
-//                else{
-//                    for (tmp in albumList){
-//                        if (tmp.name == album.name)
-//                            has = true
-//                    }
-//                    if (!has) albumList.add(album)
-//                }
-//
-//            } while (cursor.moveToNext())
-//            cursor.close()
-//        }
-    }
-
-    @SuppressLint("Range")
-    private fun findSinger() {
-//        singerList.clear()
-//        val selection = MediaStore.Audio.Media.IS_MUSIC
-//        val  res: ContentResolver = activity?.contentResolver!!
-//        val musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val projection = arrayOf(
-//            MediaStore.Audio.Artists.ARTIST, MediaStore.Audio.Artists._ID)
-//        val cursor = res.query(musicUri, projection, selection, null, MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
-//        if (cursor != null && cursor.moveToFirst()){
-//            do {
-//                val thisId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Artists._ID))
-//                val thisArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST))
-//
-//                val singer = Artist(id = thisId, name = thisArtist, avatarID = null, description = null)
-//                var has = false
-//                for (tmp in singerList){
-//                    if (tmp.name == singer.name) has = true
-//                }
-//                if (!has) singerList.add(singer)
-//
-//            } while (cursor.moveToNext())
-//            cursor.close()
-//        }
-    }
-
     private fun getFavouriteList() {
         favouriteList.clear()
         favouriteList.addAll(LocalFavouriteFragment.favouriteList)

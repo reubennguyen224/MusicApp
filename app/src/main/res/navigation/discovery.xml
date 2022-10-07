@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_playMusicFragment2_to_discoveryFragment"
             app:destination="@id/discoveryFragment" />
+        <action
+            android:id="@+id/action_playMusicFragment2_to_musicPlayingListFragment2"
+            app:destination="@id/musicPlayingListFragment2" />
     </fragment>
     <fragment
         android:id="@+id/musicPlayingListFragment2"

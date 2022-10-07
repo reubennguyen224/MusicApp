@@ -20,19 +20,19 @@ class UploadUtil(activity: Activity) {
     var serverUploadPath = "https://hoang2204.000webhostapp.com/img/userAvatar/"
     val client = OkHttpClient()
 
-    fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null){
+    fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {
         uploadFile(File(sourceFilePath), uploadedFileName)
     }
 
-    fun uploadFile(sourceFileUri: Uri, uploadedFileName: String? = null){
+    fun uploadFile(sourceFileUri: Uri, uploadedFileName: String? = null) {
         val pathFromUri = URIPathHelper().getPath(activity, sourceFileUri)
         uploadFile(File(pathFromUri), uploadedFileName)
     }
 
-    fun uploadFile(sourceFile: File, uploadedFileName: String? = null){
-        Thread{
+    fun uploadFile(sourceFile: File, uploadedFileName: String? = null) {
+        Thread {
             val mimeType = getMIMEType(sourceFile)
-            if (mimeType == null){
+            if (mimeType == null) {
                 Log.e("ERROR_FILE", "Can't get mime type of file")
                 return@Thread
             }
@@ -41,44 +41,49 @@ class UploadUtil(activity: Activity) {
             try {
                 val requestBody: RequestBody = MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("uploaded_file", fileName, sourceFile.asRequestBody(mimeType.toMediaTypeOrNull()))
+                    .addFormDataPart(
+                        "uploaded_file",
+                        fileName,
+                        sourceFile.asRequestBody(mimeType.toMediaTypeOrNull())
+                    )
                     .build()
                 val request: Request = Request.Builder().url(serverURL).post(requestBody).build()
 
                 val response: Response = client.newCall(request).execute()
 
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     Log.d("File Upload", "Upload File success")
-                } else{
+                } else {
                     Log.e("File Upload", "Upload File Failed")
                 }
-            } catch (ex: Exception){
+            } catch (ex: Exception) {
                 ex.printStackTrace()
             }
         }.start()
     }
 
-    private fun getMIMEType(file: File): String?{
+    private fun getMIMEType(file: File): String? {
         var type: String? = null
         val extension = MimeTypeMap.getFileExtensionFromUrl(file.path)
-        if (extension != null){
+        if (extension != null) {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
         }
         return type
     }
 }
-class URIPathHelper{
-    fun getPath(context: Context, uri: Uri): String?{
+
+class URIPathHelper {
+    fun getPath(context: Context, uri: Uri): String? {
         val isKit = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT // >= adnroid 4
 
-        if (isKit && DocumentsContract.isDocumentUri(context, uri)){
-            if (isMediaDocument(uri)){
+        if (isKit && DocumentsContract.isDocumentUri(context, uri)) {
+            if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).toTypedArray()
                 val type = split[0]
                 var contentUri: Uri? = null
 
-                if ("image" == type){
+                if ("image" == type) {
                     contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 }
 
@@ -90,13 +95,19 @@ class URIPathHelper{
         return null
     }
 
-    private fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String?{
+    private fun getDataColumn(
+        context: Context,
+        uri: Uri?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(column)
         try {
-            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
-            if (cursor != null && cursor.moveToFirst()){
+            cursor =
+                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+            if (cursor != null && cursor.moveToFirst()) {
                 val column_index: Int = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(column_index)
             }

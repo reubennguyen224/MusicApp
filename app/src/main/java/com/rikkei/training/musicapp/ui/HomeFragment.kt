@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHostFragment: NavHostFragment
 
-    val viewModel: HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -265,6 +265,5 @@ class HomeFragment : Fragment() {
 //                PersonalFragment.albumList.addAll(albumList)
 //            }
 //        }
-
     }
 }

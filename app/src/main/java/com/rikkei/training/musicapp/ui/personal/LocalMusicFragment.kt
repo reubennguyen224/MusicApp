@@ -82,6 +82,5 @@ class LocalMusicFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
-
     }
 }

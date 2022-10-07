@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,22 +15,18 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.adapter.MusicListAdapter
 import com.rikkei.training.musicapp.databinding.FragmentSearchBinding
-import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.model.SongDetail
-import com.rikkei.training.musicapp.ui.HomeFragment
-import com.rikkei.training.musicapp.ui.personal.PersonalFragment
+import com.rikkei.training.musicapp.viewmodel.SearchViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    val viewModel: SearchViewModel by viewModels()
 
     companion object{
         val musicListSearch= ArrayList<Song>()
@@ -67,14 +64,14 @@ class SearchFragment : Fragment() {
         SongDetail("Nhạc trên thiết bị", musicListSearch, musicLocalListener),
         SongDetail("Nhạc trực tuyến", musicListInternetSearch, musicInternetListener)
     )
-    val adapter = MusicListAdapter(list)
+    val adapter = MusicListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnBackSearch.setOnClickListener {
             findNavController().popBackStack()
         }
-
+        adapter.dataset = list
         binding.searchResultList.adapter = adapter
         binding.searchResultList.layoutManager = LinearLayoutManager(context)
 
@@ -84,15 +81,16 @@ class SearchFragment : Fragment() {
                 musicListSearch.clear()
                 if (newText != null){
                     val userInput = newText.lowercase()
-                    for (song in PersonalFragment.songlist){
-                        if (song.thisTile.lowercase().contains(userInput) && musicListSearch.size < 6)
-                            musicListSearch.add(song)
+                    viewModel.getLocalList(query = userInput).observe(viewLifecycleOwner){
+                        musicListSearch.addAll(it)
                     }
                     adapter.notifyDataSetChanged()
                     lifecycleScope.launch{
-                        if (userInput != "")
+                        //if (userInput != "")
                             callAPI(query = userInput)
-                        adapter.notifyDataSetChanged()
+                        withContext(Dispatchers.Main){
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                     if (userInput == ""){
                         musicListSearch.clear()
@@ -106,30 +104,8 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun callAPI(query: String){
-        lifecycleScope.launch(Dispatchers.IO){
-            HomeFragment.loginAPI.getSearchRequest(query).enqueue(object : Callback<MusicAPI>{
-                override fun onResponse(call: Call<MusicAPI>, response: Response<MusicAPI>) {
-                    musicListInternetSearch.clear()
-                    val musicList = response.body()
-                    for (music in musicList!!){
-                            musicListInternetSearch.add(Song(
-                                thisId = music.id.toLong(),
-                                thisTile = music.title,
-                                thisArtist = music.artist,
-                                thisAlbum = "",
-                                dateModifier = "",
-                                favourite = false,
-                                imageUri = music.coverURI,
-                                songUri = music.songURI))
-
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-                override fun onFailure(call: Call<MusicAPI>, t: Throwable) = Unit
-            })
-            withContext(Dispatchers.Main){
-                adapter.notifyDataSetChanged()
-            }
+        viewModel.getInternetList(query).observe(viewLifecycleOwner){
+            musicListInternetSearch.addAll(it)
         }
 
     }

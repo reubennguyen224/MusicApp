@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.SingerRecyclerItemBinding
 import com.rikkei.training.musicapp.model.SongDetail
 
-class MusicListAdapter(private val dataset: ArrayList<SongDetail>) :
+class MusicListAdapter :
     RecyclerView.Adapter<MusicListAdapter.ListViewHolder>() {
 
     private var viewPool = RecyclerView.RecycledViewPool()
@@ -19,6 +19,12 @@ class MusicListAdapter(private val dataset: ArrayList<SongDetail>) :
         val title = binding.titleSong
         val recyclerView = binding.listSongArtist
     }
+
+    var dataset = ArrayList<SongDetail>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         ctx = parent.context

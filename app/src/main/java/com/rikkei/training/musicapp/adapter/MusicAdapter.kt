@@ -14,7 +14,7 @@ import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.ItemMoveCallback
 import java.util.*
 
-class MusicAdapter:
+class MusicAdapter :
     RecyclerView.Adapter<MusicAdapter.MyViewHolder>(), ItemMoveCallback.ItemTouchHelperContact {
 
     private lateinit var mListener: OnItemClickListener
@@ -24,7 +24,8 @@ class MusicAdapter:
             notifyDataSetChanged()
         }
 
-    class MyViewHolder(binding:MusicItemBinding, listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(binding: MusicItemBinding, listener: OnItemClickListener) :
+        RecyclerView.ViewHolder(binding.root) {
         val imageView = binding.imageMusicItem
         val titleSong = binding.titleMusicItem
         val artist = binding.artistMusicItem
@@ -37,17 +38,23 @@ class MusicAdapter:
         }
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         mListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         //ctx = parent.context
-        return MyViewHolder(MusicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), mListener)
+        return MyViewHolder(
+            MusicItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), mListener
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -62,38 +69,33 @@ class MusicAdapter:
     }
 
     override fun getItemCount(): Int {
-        if (dataset.size == 15) return  dataset.size/2
         return dataset.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateMusicList(searchList: ArrayList<Song>){
+    fun updateMusicList(searchList: ArrayList<Song>) {
         dataset = ArrayList()
         dataset.addAll(searchList)
         notifyDataSetChanged()
     }
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
-        if(fromPosition < toPosition){
-            for (i in fromPosition .. toPosition){
-                Collections.swap(dataset, i, i + 1)
-                Collections.swap(PlayMusicFragment.song, i, i + 1)
-            }
-        } else{
-            for (i in fromPosition downTo toPosition step 1){
-                Collections.swap(dataset, i, i - 1)
-                Collections.swap(PlayMusicFragment.song, i, i - 1)
-            }
+        if (fromPosition < toPosition) {
+            Collections.swap(PlayMusicFragment.song, fromPosition, toPosition)
+
+        } else {
+            Collections.swap(PlayMusicFragment.song, toPosition, fromPosition)
+
         }
         notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun onRowSelected(viewHolder: MyViewHolder) {
-        viewHolder.view.setBackgroundColor(Color.argb(10,0,0,0))
+        viewHolder.view.setBackgroundColor(Color.argb(10, 0, 0, 0))
     }
 
     override fun onRowClear(myViewHolder: MyViewHolder) {
-        myViewHolder.view.setBackgroundColor(Color.argb(0,0,0,0))
+        myViewHolder.view.setBackgroundColor(Color.argb(0, 0, 0, 0))
     }
 
 }
