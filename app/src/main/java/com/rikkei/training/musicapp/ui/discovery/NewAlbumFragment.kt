@@ -13,10 +13,7 @@ import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewAlbum2Binding
-import com.rikkei.training.musicapp.model.Album
-import com.rikkei.training.musicapp.model.AlbumItem
 import com.rikkei.training.musicapp.viewmodel.NewAlbumViewModel
-import com.rikkei.training.musicapp.viewmodel.NewReleaseLocalViewModel
 
 
 class NewAlbumFragment : Fragment() {
@@ -24,31 +21,23 @@ class NewAlbumFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: NewAlbumViewModel by viewModels()
 
-    companion object {
-        val albumList = Album()
-        lateinit var album: AlbumItem
-    }
-
     private var albumPosition: Int = 0
     var position = ""
     var isLocal = false
 
 
     private fun initial(bundle: Bundle) {
-        albumList.clear()
         albumPosition = bundle.getInt("album_position", 0)
         when (bundle.getString("local")) {
             "local" -> {
                 isLocal = true
-                albumList.addAll(NewReleaseLocalViewModel.albums)
-                album = albumList[albumPosition]
-                getAlbumLocalItem(album.name)
+                viewModel.setCompanionObjectData("local", albumPosition)
+                getAlbumLocalItem()
             }
             "internet" -> {
                 isLocal = false
-                albumList.addAll(DiscoveryFragment.newAlbum)
-                album = albumList[albumPosition]
-                getAlbumOnlItem(album.id.toInt())
+                viewModel.setCompanionObjectData("internet", albumPosition)
+                getAlbumOnlItem()
             }
         }
     }
@@ -74,11 +63,12 @@ class NewAlbumFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        Glide.with(requireContext()).load(albumList[albumPosition].image).centerCrop()
-            .into(binding.albumArt)
-
-        binding.txtAlbumTitle.text = albumList[albumPosition].name
-        binding.txtAlbumArtist.text = albumList[albumPosition].singer_name
+        viewModel.getAlbumDetail().observe(viewLifecycleOwner){
+            Glide.with(requireContext()).load(it.image).centerCrop()
+                .into(binding.albumArt)
+            binding.txtAlbumTitle.text = it.name
+            binding.txtAlbumArtist.text = it.singer_name
+        }
 
         setSongView()
 
@@ -106,8 +96,8 @@ class NewAlbumFragment : Fragment() {
         })
     }
 
-    private fun getAlbumLocalItem(name : String) {
-        viewModel.getAlbumLocalItemList(name).observe(viewLifecycleOwner){
+    private fun getAlbumLocalItem() {
+        viewModel.getAlbumLocalItemList().observe(viewLifecycleOwner){
             musicAdapter.dataset = it
         }
     }
@@ -116,8 +106,8 @@ class NewAlbumFragment : Fragment() {
         Toast.makeText(context, "Failed to get album", Toast.LENGTH_SHORT).show()
     }
 
-    private fun getAlbumOnlItem(id: Int) {
-        viewModel.getAlbumItemList(id).observe(viewLifecycleOwner){
+    private fun getAlbumOnlItem() {
+        viewModel.getAlbumItemList().observe(viewLifecycleOwner){
             musicAdapter.dataset = it
         }
 

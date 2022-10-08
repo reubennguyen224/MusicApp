@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.rikkei.training.musicapp.model.Album
+import com.rikkei.training.musicapp.model.AlbumItem
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.ui.HomeFragment
@@ -19,29 +21,48 @@ import retrofit2.Response
 
 class NewAlbumViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var _albumLocalItemList = MutableLiveData<ArrayList<Song>>()
-    private var _albumItemList = MutableLiveData<ArrayList<Song>>()
-
-    fun getAlbumLocalItemList(name: String): LiveData<ArrayList<Song>> {
-        return getAlbumLocalItem(name)
+    fun getAlbumLocalItemList(): LiveData<ArrayList<Song>> {
+        return getAlbumLocalItem()
     }
 
-    fun getAlbumItemList(id: Int): LiveData<ArrayList<Song>> {
-        return getAlbumItem(id)
+    fun getAlbumItemList(): LiveData<ArrayList<Song>> {
+        return getAlbumItem()
+    }
+
+    fun getAlbumDetail(): LiveData<AlbumItem>{
+        val album = MutableLiveData<AlbumItem>()
+        album.postValue(item)
+        return album
     }
 
     companion object {
         val album = ArrayList<Song>()
+        val albumList = Album()
+        lateinit var item: AlbumItem
     }
 
-    private fun getAlbumLocalItem(albumName: String): MutableLiveData<ArrayList<Song>> {
+    fun setCompanionObjectData(from: String, position: Int){
+        albumList.clear()
+        when(from){
+            "local" -> {
+                albumList.addAll(PersonalViewModel.albumArrayList)
+                item = albumList[position]
+            }
+            "internet" -> {
+                albumList.addAll(DiscoveryViewModel.newAlbumList)
+                item = albumList[position]
+            }
+        }
+    }
+
+    private fun getAlbumLocalItem(): MutableLiveData<ArrayList<Song>> {
         album.clear()
         val albumItem = MutableLiveData<ArrayList<Song>>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val songList = PersonalViewModel.songArraylist
                 for (song in songList) {
-                    if (song.thisAlbum == albumName) album.add(song)
+                    if (song.thisAlbum == item.name) album.add(song)
                 }
             }
             albumItem.postValue(album)
@@ -49,12 +70,13 @@ class NewAlbumViewModel(application: Application) : AndroidViewModel(application
         return albumItem
     }
 
-    private fun getAlbumItem(albumId: Int): MutableLiveData<ArrayList<Song>> {
+    private fun getAlbumItem(): MutableLiveData<ArrayList<Song>> {
         album.clear()
         val albumItem = MutableLiveData<ArrayList<Song>>()
         viewModelScope.launch {
+            val songs = ArrayList<Song>()
             withContext(Dispatchers.IO) {
-                HomeFragment.loginAPI.getAlbumItem(albumId)
+                HomeFragment.loginAPI.getAlbumItem(item.id.toInt())
                     .enqueue(object : Callback<MusicAPI> {
                         override fun onResponse(
                             call: Call<MusicAPI>,
@@ -62,7 +84,7 @@ class NewAlbumViewModel(application: Application) : AndroidViewModel(application
                         ) {
                             val musicList = response.body()
                             for (music in musicList!!) {
-                                album.add(
+                                songs.add(
                                     Song(
                                         thisId = music.id.toLong(),
                                         thisTile = music.title,
@@ -75,6 +97,8 @@ class NewAlbumViewModel(application: Application) : AndroidViewModel(application
                                     )
                                 )
                             }
+                            album.addAll(songs)
+                            albumItem.postValue(songs)
                         }
 
                         override fun onFailure(call: Call<MusicAPI>, t: Throwable) {
@@ -82,7 +106,6 @@ class NewAlbumViewModel(application: Application) : AndroidViewModel(application
                             Toast.makeText(getApplication(), "", Toast.LENGTH_SHORT).show()
                         }
                     })
-                albumItem.postValue(album)
             }
         }
         return albumItem

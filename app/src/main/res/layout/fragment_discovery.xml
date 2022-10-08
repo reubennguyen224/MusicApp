@@ -22,6 +22,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:padding="5dp"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/headerView"
         app:layout_constraintBottom_toTopOf="@id/musicBar"
         app:layout_constraintStart_toStartOf="parent"

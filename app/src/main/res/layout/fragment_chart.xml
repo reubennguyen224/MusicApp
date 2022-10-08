@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titleBxh"
-        android:text="Bảng xếp hạng âm nhạc"
+        android:text="@string/musicChart"
         app:layout_constraintTop_toBottomOf="@id/headerView"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"

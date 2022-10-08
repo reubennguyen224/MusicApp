@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_playMusicFragment_to_musicLocalFragment"
             app:destination="@id/personalFragment" />
+        <action
+            android:id="@+id/action_playMusicFragment_to_musicPlayingListFragment"
+            app:destination="@id/musicPlayingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -83,10 +86,13 @@
         android:id="@+id/musicPlayingListFragment"
         android:name="com.rikkei.training.musicapp.ui.moduleMusic.MusicPlayingListFragment"
         android:label="fragment_music_playing_list"
-        tools:layout="@layout/fragment_music_playing_list" >
+        tools:layout="@layout/fragment_music_playing_list">
         <action
             android:id="@+id/action_musicPlayingListFragment_to_playMusicFragment"
             app:destination="@id/playMusicFragment" />
+        <deepLink
+            android:id="@+id/deepLink7"
+            app:uri="android-app://com.rikkei.training.musicapp/playlist" />
     </fragment>
     <fragment
         android:id="@+id/singerDetailFragment2"

@@ -1,6 +1,5 @@
 package com.rikkei.training.musicapp.ui
 
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.TransitionManager
@@ -16,8 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.gson.GsonBuilder
-import com.rikkei.training.musicapp.MainActivity
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentHomeBinding
 import com.rikkei.training.musicapp.model.DataAPIX
@@ -32,7 +29,6 @@ import com.rikkei.training.musicapp.utils.DeezerAPI
 import com.rikkei.training.musicapp.utils.LoginAPI
 import com.rikkei.training.musicapp.utils.LoginClient
 import com.rikkei.training.musicapp.viewmodel.HomeViewModel
-import com.rikkei.training.musicapp.viewmodel.LocalFavouriteViewModel
 import com.rikkei.training.musicapp.viewmodel.PersonalViewModel
 
 
@@ -125,10 +121,10 @@ class HomeFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        val editor = MainActivity().getSharedPreferences("Favourite", MODE_PRIVATE).edit()
-        val jsonString = GsonBuilder().create().toJson(LocalFavouriteViewModel.favouriteList)
-        editor.putString("FavouriteSong", jsonString)
-        editor.apply()
+//        val editor = MainActivity().getSharedPreferences("Favourite", MODE_PRIVATE).edit()
+//        val jsonString = GsonBuilder().create().toJson(LocalFavouriteViewModel.favouriteList)
+//        editor.putString("FavouriteSong", jsonString)
+//        editor.apply()
     }
 
     companion object {

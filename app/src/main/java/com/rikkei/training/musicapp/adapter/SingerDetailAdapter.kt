@@ -8,11 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.SingerRecyclerItemBinding
 import com.rikkei.training.musicapp.model.SingerDetail
 
-class SingerDetailAdapter(private val dataset: ArrayList<SingerDetail>) :
+class SingerDetailAdapter :
     RecyclerView.Adapter<SingerDetailAdapter.SingerDetailViewModel>() {
 
     private var viewPool = RecyclerView.RecycledViewPool()
     private lateinit var ctx: Context
+    var dataset= ArrayList<SingerDetail>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class SingerDetailViewModel(binding: SingerRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,6 +42,7 @@ class SingerDetailAdapter(private val dataset: ArrayList<SingerDetail>) :
         layoutManagers.initialPrefetchItemCount = dataset[position].listSong.size
         val childAdapter = MusicAdapter()
         childAdapter.dataset = dataset[position].listSong
+        childAdapter.notifyDataSetChanged()
         childAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,23 +17,13 @@ import com.rikkei.training.musicapp.adapter.AlbumAdapter
 import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentDiscoveryBinding
-import com.rikkei.training.musicapp.model.Album
-import com.rikkei.training.musicapp.model.Singer
-import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.viewmodel.DiscoveryViewModel
 
 class DiscoveryFragment : Fragment() {
     private var _binding: FragmentDiscoveryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: DiscoveryViewModel by viewModels()
-
-    companion object {
-        val newMusic = ArrayList<Song>()
-        val newAlbum = Album()
-        val newSinger = Singer()
-        val songSuggest = ArrayList<Song>()
-    }
+    private val viewModel: DiscoveryViewModel by activityViewModels()
 
     private val songAdapter = MusicAdapter()
     private val albumAdapter = AlbumAdapter()
@@ -163,7 +153,6 @@ class DiscoveryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         refreshData()
     }
 
@@ -171,26 +160,18 @@ class DiscoveryFragment : Fragment() {
     private fun refreshData() {
         viewModel.getNewAlbum().observe(viewLifecycleOwner) {
             albumAdapter.dataset = it
-            newAlbum.clear()
-            newAlbum.addAll(it)
             albumAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSinger().observe(viewLifecycleOwner) {
             singerAdapter.artistList = it
-            newSinger.clear()
-            newSinger.addAll(it)
             singerAdapter.notifyDataSetChanged()
         }
         viewModel.getNewSong().observe(viewLifecycleOwner) {
             songAdapter.dataset = it
-            newMusic.clear()
-            newMusic.addAll(it)
             songAdapter.notifyDataSetChanged()
         }
         viewModel.getSongSuggest().observe(viewLifecycleOwner) {
             songSSAdapter.dataset = it
-            songSuggest.clear()
-            songSuggest.addAll(it)
             songSSAdapter.notifyDataSetChanged()
         }
     }

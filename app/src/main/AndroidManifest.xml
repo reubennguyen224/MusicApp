@@ -32,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".utils.MusicPlayService"/>
+        <service android:name=".utils.MusicPlayService"
+            android:foregroundServiceType="mediaPlayback"
+            android:enabled="true"/>
         <receiver android:name=".utils.NotificationReceiver"
             android:enabled="true"/>
     </application>

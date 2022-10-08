@@ -1,10 +1,12 @@
 package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,7 +18,7 @@ import com.rikkei.training.musicapp.databinding.FragmentMusicPlayingListBinding
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.utils.ItemMoveCallback
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 class MusicPlayingListFragment : Fragment() {
 
     private var _binding: FragmentMusicPlayingListBinding? = null
@@ -34,6 +36,8 @@ class MusicPlayingListFragment : Fragment() {
         return view
     }
 
+    private val songAdapter = MusicAdapter()
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,15 +49,14 @@ class MusicPlayingListFragment : Fragment() {
 
         binding.songListTitle.text = "Danh sách phát(${musicList.size})"
 
-        val adapter = MusicAdapter()
-        adapter.dataset = musicList
-        val callback = ItemMoveCallback(adapter)
+        songAdapter.dataset = musicList
+        val callback = ItemMoveCallback(songAdapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.musicPlayingList)
-        binding.musicPlayingList.adapter = adapter
+        binding.musicPlayingList.adapter = songAdapter
         binding.musicPlayingList.layoutManager = LinearLayoutManager(context)
 
-        adapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
+        songAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 PlayMusicFragment.songPosition = position
                 PlayMusicFragment.musicPlayService!!.createMediaPlayer()
@@ -69,7 +72,6 @@ class MusicPlayingListFragment : Fragment() {
                 PlayMusicFragment.musicPlayService!!.sendNotification(R.drawable.ic_pause_bar)
                 NowPlaying.binding.playPauseSongBar.setImageResource(R.drawable.ic_pause_bar)
             }
-
         })
     }
 

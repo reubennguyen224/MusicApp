@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -18,6 +19,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,10 +28,10 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentPlayMusicBinding
 import com.rikkei.training.musicapp.model.*
 import com.rikkei.training.musicapp.ui.HomeFragment
-import com.rikkei.training.musicapp.ui.discovery.DiscoveryFragment
 import com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment
 import com.rikkei.training.musicapp.ui.header.SearchFragment
 import com.rikkei.training.musicapp.utils.MusicPlayService
+import com.rikkei.training.musicapp.viewmodel.DiscoveryViewModel
 import com.rikkei.training.musicapp.viewmodel.LocalFavouriteViewModel
 import com.rikkei.training.musicapp.viewmodel.NewAlbumViewModel
 import com.rikkei.training.musicapp.viewmodel.PersonalViewModel
@@ -40,16 +42,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@RequiresApi(Build.VERSION_CODES.O)
 class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
-    companion object{
-        val song= ArrayList<Song>()
+    companion object {
+        val song = ArrayList<Song>()
         var songPosition: Int = 0
         var isPlaying: Boolean = false
         var musicPlayService: MusicPlayService? = null
+
         @SuppressLint("StaticFieldLeak")
         var _binding: FragmentPlayMusicBinding? = null
         val binding get() = _binding!!
+
         @SuppressLint("StaticFieldLeak")
         lateinit var thumbView: View
         var nowPlayingId: String = ""
@@ -66,16 +71,17 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         arguments?.let {
             initializeLayout(it)
         }
-        thumbView = LayoutInflater.from(requireContext()).inflate(R.layout.seekbar_thumb, null, false)
+        thumbView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.seekbar_thumb, null, false)
     }
 
     var nowPlaying = false
 
-    private fun initializeLayout(bundle: Bundle){
+    private fun initializeLayout(bundle: Bundle) {
         songPosition = bundle.getInt("songPosition", 0)
 
-        when(bundle.getString("album")){
-            "MusicSearchAdapter"->{
+        when (bundle.getString("album")) {
+            "MusicSearchAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
@@ -85,7 +91,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                     btnFavorView(isFavourite)
                 }
             }
-            "MusicSearchInternetAdapter"->{
+            "MusicSearchInternetAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
@@ -93,7 +99,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 song.addAll(SearchFragment.musicListInternetSearch)
 
             }
-            "MusicShuffleAdapter"->{
+            "MusicShuffleAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
@@ -104,7 +110,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 }
                 song.shuffle()
             }
-            "NowPlaying"-> {
+            "NowPlaying" -> {
                 nowPlaying = true
                 binding.timestampSong.progress = musicPlayService!!.songPlayer!!.currentPosition
                 binding.timestampSong.max = musicPlayService!!.songPlayer!!.duration
@@ -114,7 +120,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 else
                     binding.playMusic.setImageResource(R.drawable.ic_play_music)
             }
-            "MusicAdapter" ->{
+            "MusicAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
@@ -167,7 +173,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(DiscoveryFragment.newMusic)
+                song.addAll(DiscoveryViewModel.newMusicList)
                 songPosition = bundle.getInt("position", 0)
                 local = "discovery"
             }
@@ -176,7 +182,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 song.clear()
-                song.addAll(DiscoveryFragment.songSuggest)
+                song.addAll(DiscoveryViewModel.songSuggestList)
                 songPosition = bundle.getInt("position", 0)
                 local = "discovery"
             }
@@ -206,9 +212,10 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
 
     override fun onResume() {
         super.onResume()
-        if (nowPlaying){
+        if (nowPlaying) {
             binding.playMusic.setImageResource(R.drawable.ic_pause)
-            binding.timestampSong.thumb = getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
+            binding.timestampSong.thumb =
+                getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
             binding.timestampSong.progress = musicPlayService!!.songPlayer!!.currentPosition
             binding.timestampSong.max = musicPlayService!!.songPlayer!!.duration
         }
@@ -223,10 +230,11 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         val view = binding.root
 
         initialSongInformation()
-        if (nowPlaying || isPlaying){
+        if (nowPlaying || isPlaying) {
             nowPlaying = false
 
-            binding.timestampSong.thumb = getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
+            binding.timestampSong.thumb =
+                getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
             binding.timestampSong.progress = musicPlayService!!.songPlayer!!.currentPosition
             binding.timestampSong.max = musicPlayService!!.songPlayer!!.duration
         }
@@ -237,7 +245,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.collapsePlayMusic.setOnClickListener{
+        binding.collapsePlayMusic.setOnClickListener {
             findNavController().navigate(findNavController().previousBackStackEntry?.destination!!.id)
         }
 
@@ -245,32 +253,26 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
 
         binding.songImg.startAnimation(animation)
 
-        binding.playMusic.setOnClickListener{
-            if (isPlaying){
+        binding.playMusic.setOnClickListener {
+            if (isPlaying) {
                 pauseMusic()
-            } else{
+            } else {
                 playMusic()
             }
         }
-        binding.timestampSong.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.timestampSong.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) musicPlayService!!.songPlayer!!.seekTo(progress)
                 binding.timestampSong.progress = progress
                 binding.timestampSong.thumb = context?.let { getThumb(progress, it) }
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?)  = Unit
+            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
         })
 
-        binding.playlist.setOnClickListener {
-            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/playlist")
-            findNavController().navigate(uri)
-        }
-
-        binding.btnPlaylist.setOnClickListener {
-            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/playlist")
-            findNavController().navigate(uri)
-        }
+        binding.playlist.setOnClickListener(playlistListener)
+        binding.btnPlaylist.setOnClickListener(playlistListener)
 
         binding.nextSong.setOnClickListener {
             prevNextSong(increment = true)
@@ -280,28 +282,32 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             prevNextSong(increment = false)
         }
         binding.btnFavour.setOnClickListener {
-            if (HomeFragment.userToken == ""){
+            if (HomeFragment.userToken == "") {
                 val uri = Uri.parse("android-app://com.rikkei.training.musicapp/login")
                 findNavController().navigate(uri)
-            }
-            else btnFavorView(isFavourite)
+            } else btnFavorView(isFavourite)
         }
     }
 
-    private fun btnFavorView(status: Boolean){
+    private val playlistListener = View.OnClickListener {
+        if( local == "local") findNavController().navigate(R.id.musicPlayingListFragment)
+        else findNavController().navigate(R.id.musicPlayingListFragment2)
+    }
+
+    private fun btnFavorView(status: Boolean) {
         if (status) {
             isFavourite = false
             binding.btnFavour.setImageResource(R.drawable.ic_favorite_border_24)
             LocalFavouriteViewModel.favouriteList.removeAt(fIndex)
-        }
-        else {
+        } else {
             isFavourite = true
             binding.btnFavour.setImageResource(R.drawable.ic_favorite)
             LocalFavouriteViewModel.favouriteList.add(song[songPosition])
         }
     }
 
-    private fun playMusic(){
+
+    private fun playMusic() {
         binding.playMusic.setImageResource(R.drawable.ic_pause)
         musicPlayService!!.sendNotification(R.drawable.ic_pause_bar)
         isPlaying = true
@@ -310,7 +316,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         runtimeTimestamp()
     }
 
-    private fun pauseMusic(){
+    private fun pauseMusic() {
         binding.playMusic.setImageResource(R.drawable.ic_play_music)
         musicPlayService!!.sendNotification(R.drawable.ic_play)
         isPlaying = false
@@ -318,12 +324,12 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         musicPlayService!!.songPlayer!!.pause()
     }
 
-    private fun prevNextSong(increment: Boolean){
-        if (increment){
+    private fun prevNextSong(increment: Boolean) {
+        if (increment) {
             setSongPosition(increment = true)
             initialSongInformation()
             createMediaPlayer()
-        } else{
+        } else {
             setSongPosition(increment = false)
             initialSongInformation()
             createMediaPlayer()
@@ -347,9 +353,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
 
     }
 
-    private fun createMediaPlayer(){
+    private fun createMediaPlayer() {
         try {
-            if(musicPlayService!!.songPlayer == null) musicPlayService!!.songPlayer = MediaPlayer()
+            if (musicPlayService!!.songPlayer == null) musicPlayService!!.songPlayer = MediaPlayer()
             musicPlayService!!.songPlayer!!.reset()
             musicPlayService!!.songPlayer!!.setDataSource(song[songPosition].songUri)
             musicPlayService!!.songPlayer!!.prepare()
@@ -357,10 +363,11 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             isPlaying = true
             binding.playMusic.setImageResource(R.drawable.ic_pause)
             binding.timestampSong.max = musicPlayService!!.songPlayer!!.duration
-            binding.timestampSong.thumb = getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
+            binding.timestampSong.thumb =
+                getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
             musicPlayService!!.songPlayer!!.setOnCompletionListener(this) //chuyen bai khi bai hat hien tại ket thuc
             nowPlayingId = song[songPosition].thisId.toString()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return
         }
     }
@@ -375,12 +382,13 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         runtimeTimestamp()
     }
 
-    private fun runtimeTimestamp(){
+    private fun runtimeTimestamp() {
         lifecycleScope.launch {
-            while (isPlaying){
+            while (isPlaying) {
                 binding.playMusic.setImageResource(R.drawable.ic_pause)
                 binding.timestampSong.progress = musicPlayService!!.songPlayer!!.currentPosition
-                binding.timestampSong.thumb = getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
+                binding.timestampSong.thumb =
+                    getThumb(musicPlayService!!.songPlayer!!.currentPosition, requireContext())
                 delay(600)
             }
         }
@@ -391,18 +399,27 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        lifecycleScope.launch(Dispatchers.IO){
-            HomeFragment.loginAPI.updateNumberOfStream(song[songPosition - 1].thisId.toInt()).enqueue(object :
-                Callback<ListMessage> {
-                override fun onResponse(call: Call<ListMessage>, response: Response<ListMessage>) {
-                    val mesList = response.body()
-                    for (tmp in mesList!!)
-                        Log.d("Update Done!", tmp.message)
-                }
-                override fun onFailure(call: Call<ListMessage>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Something were wrong!", Toast.LENGTH_SHORT).show()
-                }
-            })
+        lifecycleScope.launch(Dispatchers.IO) {
+            HomeFragment.loginAPI.updateNumberOfStream(song[songPosition - 1].thisId.toInt())
+                .enqueue(object :
+                    Callback<ListMessage> {
+                    override fun onResponse(
+                        call: Call<ListMessage>,
+                        response: Response<ListMessage>
+                    ) {
+                        val mesList = response.body()
+                        for (tmp in mesList!!)
+                            Log.d("Update Done!", tmp.message)
+                    }
+
+                    override fun onFailure(call: Call<ListMessage>, t: Throwable) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Something were wrong!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
         }
         setSongPosition(increment = true)
         createMediaPlayer()
@@ -410,14 +427,16 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
         val imgArt = getImgArt(song[songPosition].songUri)
         val image = imgArt?.let {
             it.size.let { it1 ->
-                BitmapFactory.decodeByteArray(imgArt, 0,
-                    it1)
+                BitmapFactory.decodeByteArray(
+                    imgArt, 0,
+                    it1
+                )
             }
         }
         NowPlaying.binding.imageMusic.setImageBitmap(image)
         try {
             initialSongInformation()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return
         }
     }
