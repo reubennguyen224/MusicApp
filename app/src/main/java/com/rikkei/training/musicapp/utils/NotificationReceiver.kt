@@ -3,16 +3,26 @@ package com.rikkei.training.musicapp.utils
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
-import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.model.favouriteChecker
 import com.rikkei.training.musicapp.model.setSongPosition
+import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
+import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import kotlin.system.exitProcess
 
+@Suppress("DEPRECATION")
+@RequiresApi(Build.VERSION_CODES.O)
 class NotificationReceiver: BroadcastReceiver() {
+
     override fun onReceive(context: Context?, intent: Intent?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            context?.startForegroundService(Intent(context, MusicPlayService::class.java))
+        } else{
+            context?.startService(Intent(context, MusicPlayService::class.java))
+        }
         when(intent?.action){
             MusicApplication.PREVIOUS ->{
                 previousMusic(increment = false, context = context!!)
@@ -32,6 +42,7 @@ class NotificationReceiver: BroadcastReceiver() {
                 exitProcess(1) //  end process of app
             }
         }
+
     }
 
     private fun previousMusic(increment: Boolean, context: Context){

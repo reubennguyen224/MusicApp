@@ -1,6 +1,7 @@
 package com.rikkei.training.musicapp.utils
 
 import android.app.Application
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
@@ -25,7 +26,8 @@ class MusicApplication: Application() {
             val channel = NotificationChannel(CHANNEL_ID, "Now playing", NotificationManager.IMPORTANCE_HIGH)
             channel.setSound(null, null)
             channel.description = "This is important channel for showing song!!"
-            val manager = getSystemService(NotificationManager::class.java) as NotificationManager
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
         }
     }
