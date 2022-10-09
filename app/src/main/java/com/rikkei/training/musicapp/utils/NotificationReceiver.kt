@@ -11,6 +11,7 @@ import com.rikkei.training.musicapp.model.favouriteChecker
 import com.rikkei.training.musicapp.model.setSongPosition
 import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
+import com.rikkei.training.musicapp.viewmodel.MusicModuleViewModel
 import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
@@ -48,14 +49,14 @@ class NotificationReceiver: BroadcastReceiver() {
     private fun previousMusic(increment: Boolean, context: Context){
         setSongPosition(increment = increment)
         PlayMusicFragment.musicPlayService!!.createMediaPlayer()
-        PlayMusicFragment.binding.nameSong.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile
-        PlayMusicFragment.binding.singerName.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist
+        PlayMusicFragment.binding.nameSong.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile
+        PlayMusicFragment.binding.singerName.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist
         Glide.with(context)
-            .load(PlayMusicFragment.song[PlayMusicFragment.songPosition].imageUri)
+            .load(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].imageUri)
             .centerCrop()
             .into(PlayMusicFragment.binding.songImg)
         playMusic()
-        PlayMusicFragment.fIndex = favouriteChecker(PlayMusicFragment.song[PlayMusicFragment.songPosition].thisId)
+        PlayMusicFragment.fIndex = favouriteChecker(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisId)
         if (PlayMusicFragment.isFavourite){
             PlayMusicFragment.binding.btnFavour.setImageResource(R.drawable.ic_favorite)
         } else PlayMusicFragment.binding.btnFavour.setImageResource(R.drawable.ic_favorite_border_24)

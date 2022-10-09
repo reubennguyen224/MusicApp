@@ -10,8 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.MusicItemBinding
 import com.rikkei.training.musicapp.model.Song
-import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.ItemMoveCallback
+import com.rikkei.training.musicapp.viewmodel.MusicModuleViewModel
 import java.util.*
 
 class MusicAdapter :
@@ -81,10 +81,10 @@ class MusicAdapter :
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
-            Collections.swap(PlayMusicFragment.song, fromPosition, toPosition)
+            Collections.swap(MusicModuleViewModel.listOfSongs, fromPosition, toPosition)
 
         } else {
-            Collections.swap(PlayMusicFragment.song, toPosition, fromPosition)
+            Collections.swap(MusicModuleViewModel.listOfSongs, toPosition, fromPosition)
 
         }
         notifyItemMoved(fromPosition, toPosition)

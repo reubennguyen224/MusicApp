@@ -19,6 +19,7 @@ import com.rikkei.training.musicapp.model.getThumb
 import com.rikkei.training.musicapp.ui.moduleMusic.NowPlaying
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.utils.MusicApplication.Companion.CHANNEL_ID
+import com.rikkei.training.musicapp.viewmodel.MusicModuleViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MusicPlayService : Service() {
@@ -37,7 +38,6 @@ class MusicPlayService : Service() {
             return this@MusicPlayService
         }
     }
-
 
     @SuppressLint("RemoteViewLayout", "UnspecifiedImmutableFlag")
     fun sendNotification(playPauseBtn: Int) {
@@ -64,7 +64,7 @@ class MusicPlayService : Service() {
         val exitPendingIntent =
             PendingIntent.getBroadcast(baseContext, 0, exitIntent, PendingIntent.FLAG_IMMUTABLE)
 
-        val imgArt = getImgArt(PlayMusicFragment.song[PlayMusicFragment.songPosition].songUri)
+        val imgArt = getImgArt(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].songUri)
         val image = if (imgArt != null) {
             BitmapFactory.decodeByteArray(imgArt, 0, imgArt.size)
         } else {
@@ -72,8 +72,8 @@ class MusicPlayService : Service() {
         }
 
         val notification = NotificationCompat.Builder(baseContext, CHANNEL_ID)
-            .setContentTitle(PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile)
-            .setContentText(PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist)
+            .setContentTitle(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile)
+            .setContentText(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist)
             .setSmallIcon(R.drawable.ic_library)
             .setLargeIcon(image) //icon of large notification
             .setStyle(
@@ -97,7 +97,7 @@ class MusicPlayService : Service() {
             if (PlayMusicFragment.musicPlayService!!.songPlayer == null) PlayMusicFragment.musicPlayService!!.songPlayer =
                 MediaPlayer()
             PlayMusicFragment.musicPlayService!!.songPlayer!!.reset()
-            PlayMusicFragment.musicPlayService!!.songPlayer!!.setDataSource(PlayMusicFragment.song[PlayMusicFragment.songPosition].songUri)
+            PlayMusicFragment.musicPlayService!!.songPlayer!!.setDataSource(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].songUri)
             PlayMusicFragment.musicPlayService!!.songPlayer!!.prepare()
             PlayMusicFragment.binding.playMusic.setImageResource(R.drawable.ic_pause)
             PlayMusicFragment.binding.timestampSong.progress = 0
@@ -105,9 +105,9 @@ class MusicPlayService : Service() {
             PlayMusicFragment.binding.timestampSong.thumb =
                 getThumb(songPlayer!!.currentPosition, baseContext)
             PlayMusicFragment.nowPlayingId =
-                PlayMusicFragment.song[PlayMusicFragment.songPosition].thisId.toString()
+                MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisId.toString()
             Glide.with(baseContext)
-                .load(PlayMusicFragment.song[PlayMusicFragment.songPosition].imageUri)
+                .load(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].imageUri)
                 .centerCrop()
                 .into(NowPlaying.binding.imageMusic)
         } catch (e: Exception) {
@@ -117,15 +117,15 @@ class MusicPlayService : Service() {
 
     fun initialSongInformation() {
         PlayMusicFragment.binding.nameSong.text =
-            PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile
+            MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile
         NowPlaying.binding.nameSong.text =
-            PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile
+            MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile
         PlayMusicFragment.binding.singerName.text =
-            PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist
+            MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist
         NowPlaying.binding.nameSinger.text =
-            PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist
+            MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist
         Glide.with(baseContext)
-            .load(PlayMusicFragment.song[PlayMusicFragment.songPosition].imageUri)
+            .load(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].imageUri)
             .centerCrop()
             .into(PlayMusicFragment.binding.songImg)
 

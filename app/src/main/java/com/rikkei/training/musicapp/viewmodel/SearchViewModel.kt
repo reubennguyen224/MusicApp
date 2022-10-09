@@ -1,12 +1,12 @@
 package com.rikkei.training.musicapp.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rikkei.training.musicapp.model.MusicAPI
 import com.rikkei.training.musicapp.model.Song
+import com.rikkei.training.musicapp.model.SongDetail
 import com.rikkei.training.musicapp.ui.HomeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,49 +15,82 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchViewModel: ViewModel() {
+class SearchViewModel : ViewModel() {
     private var _localSongList = MutableLiveData<ArrayList<Song>>()
     private var _internetSongList = MutableLiveData<ArrayList<Song>>()
 
-    fun getLocalList(query: String): LiveData<ArrayList<Song>>{
-        return getLocalSongList(query)
+    companion object {
+        val musicListSearch = ArrayList<Song>()
+        val musicListInternetSearch = ArrayList<Song>()
+        val list = ArrayList<SongDetail>()
     }
 
-    fun getInternetList(query: String): LiveData<ArrayList<Song>>{
-        return getInternetSongList(query)
+    fun getList(): MutableLiveData<ArrayList<SongDetail>> {
+        val songDetail = MutableLiveData<ArrayList<SongDetail>>()
+        viewModelScope.launch {
+            list.clear()
+            val tmpList = ArrayList<SongDetail>()
+            tmpList.add(SongDetail("Nhạc trên thiết bị", musicListSearch, null))
+            tmpList.add(SongDetail("Nhạc trực tuyến", musicListInternetSearch, null))
+            list.addAll(tmpList)
+            songDetail.postValue(tmpList)
+        }
+        return songDetail
     }
 
-    private fun getLocalSongList(query: String): MutableLiveData<ArrayList<Song>>{
-        val localSong = MutableLiveData<ArrayList<Song>>()
+    fun setContent(query: String?) {
+        viewModelScope.launch {
+            musicListSearch.clear()
+            musicListInternetSearch.clear()
+            withContext(Dispatchers.IO) {
+                if (query != null) {
+                    val userInput = query.lowercase()
+                    getLocalSongList(userInput)
+
+                    getInternetSongList(query = userInput)
+                    if (userInput == "") {
+                        musicListSearch.clear()
+                        musicListInternetSearch.clear()
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun getLocalSongList(query: String) {
+        musicListSearch.clear()
         val songList = ArrayList<Song>()
-        for (song in PersonalViewModel.songArraylist){
+        for (song in PersonalViewModel.songArraylist) {
             if (song.thisTile.lowercase().contains(query))
                 songList.add(song)
+
         }
-        localSong.postValue(songList)
-        return localSong
+        musicListSearch.addAll(songList)
     }
 
-    private fun getInternetSongList(query: String): MutableLiveData<ArrayList<Song>>{
-        val internetSong = MutableLiveData<ArrayList<Song>>()
+    private fun getInternetSongList(query: String) {
         viewModelScope.launch {
             val song = ArrayList<Song>()
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 HomeFragment.loginAPI.getSearchRequest(query).enqueue(object : Callback<MusicAPI> {
                     override fun onResponse(call: Call<MusicAPI>, response: Response<MusicAPI>) {
                         val musicList = response.body()
-                        for (music in musicList!!){
-                            song.add(Song(
-                                thisId = music.id.toLong(),
-                                thisTile = music.title,
-                                thisArtist = music.artist,
-                                thisAlbum = "",
-                                dateModifier = "",
-                                favourite = false,
-                                imageUri = music.coverURI,
-                                songUri = music.songURI))
-
+                        for (music in musicList!!) {
+                            song.add(
+                                Song(
+                                    thisId = music.id.toLong(),
+                                    thisTile = music.title,
+                                    thisArtist = music.artist,
+                                    thisAlbum = "",
+                                    dateModifier = "",
+                                    favourite = false,
+                                    imageUri = music.coverURI,
+                                    songUri = music.songURI
+                                )
+                            )
                         }
+                        musicListInternetSearch.addAll(song)
                     }
 
                     override fun onFailure(call: Call<MusicAPI>, t: Throwable) {
@@ -65,9 +98,6 @@ class SearchViewModel: ViewModel() {
                     }
                 })
             }
-            _internetSongList.postValue(song)
-            internetSong.postValue(song)
         }
-        return internetSong
     }
 }

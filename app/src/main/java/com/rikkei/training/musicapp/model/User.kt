@@ -7,13 +7,16 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
+import android.os.Build
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
 import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment.Companion.thumbView
 import com.rikkei.training.musicapp.viewmodel.LocalFavouriteViewModel
+import com.rikkei.training.musicapp.viewmodel.MusicModuleViewModel
 import java.util.concurrent.TimeUnit
 
 class User {
@@ -74,19 +77,21 @@ fun getImgArt(path: String?): ByteArray? {
     return retriever.embeddedPicture
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun setSongPosition(increment: Boolean){
     if (increment){
-        if (PlayMusicFragment.song.size - 1 == PlayMusicFragment.songPosition){
+        if (MusicModuleViewModel.listOfSongs.size - 1 == PlayMusicFragment.songPosition){
             PlayMusicFragment.songPosition = 0
         } else ++PlayMusicFragment.songPosition
     } else{
         if (0 == PlayMusicFragment.songPosition){
-            PlayMusicFragment.songPosition = PlayMusicFragment.song.size - 1
+            PlayMusicFragment.songPosition = MusicModuleViewModel.listOfSongs.size - 1
         } else --PlayMusicFragment.songPosition
     }
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SetTextI18n")
 fun getThumb(progress: Int, context: Context): Drawable {
 
@@ -104,6 +109,7 @@ fun getThumb(progress: Int, context: Context): Drawable {
     return BitmapDrawable(context.resources, bitmap)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun favouriteChecker(id: Long): Int{
     PlayMusicFragment.isFavourite = false
     LocalFavouriteViewModel.favouriteList.forEachIndexed { index, song ->

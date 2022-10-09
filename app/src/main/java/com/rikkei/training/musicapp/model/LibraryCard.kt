@@ -15,6 +15,6 @@ data class SingerDetail(
 
 data class SongDetail(
     val title: String,
-    val listSong: ArrayList<Song>,
-    val listener: MusicAdapter.OnItemClickListener
+    var listSong: ArrayList<Song>,
+    var listener: MusicAdapter.OnItemClickListener?
 )

@@ -1,17 +1,21 @@
 package com.rikkei.training.musicapp.ui.moduleMusic
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.databinding.FragmentNowPlayingBinding
 import com.rikkei.training.musicapp.model.setSongPosition
+import com.rikkei.training.musicapp.viewmodel.MusicModuleViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 class NowPlaying : Fragment() {
 
     companion object{
@@ -39,11 +43,11 @@ class NowPlaying : Fragment() {
         binding.nextSongBar.setOnClickListener {
             setSongPosition(increment = true)
             PlayMusicFragment.musicPlayService!!.createMediaPlayer()
-            PlayMusicFragment.binding.nameSong.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile
-            PlayMusicFragment.binding.singerName.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist
+            PlayMusicFragment.binding.nameSong.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile
+            PlayMusicFragment.binding.singerName.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist
             onResume()
             Glide.with(requireContext())
-                .load(PlayMusicFragment.song[PlayMusicFragment.songPosition].imageUri)
+                .load(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].imageUri)
                 .centerCrop()
                 .into(PlayMusicFragment.binding.songImg)
             playMusic()
@@ -65,10 +69,10 @@ class NowPlaying : Fragment() {
         super.onResume()
         if (PlayMusicFragment.musicPlayService != null){
             binding.root.visibility = View.VISIBLE
-            binding.nameSong.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisTile
-            binding.nameSinger.text = PlayMusicFragment.song[PlayMusicFragment.songPosition].thisArtist
+            binding.nameSong.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisTile
+            binding.nameSinger.text = MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].thisArtist
             Glide.with(requireContext())
-                .load(PlayMusicFragment.song[PlayMusicFragment.songPosition].imageUri)
+                .load(MusicModuleViewModel.listOfSongs[PlayMusicFragment.songPosition].imageUri)
                 .centerCrop()
                 .into(binding.imageMusic)
             if(PlayMusicFragment.isPlaying) binding.playPauseSongBar.setImageResource(R.drawable.ic_pause_bar)
