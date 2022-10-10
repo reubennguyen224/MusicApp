@@ -2,6 +2,6 @@
 Final Semester Project
 
 
-#test account
+#test account:
 username: admin2
 password: admin2
