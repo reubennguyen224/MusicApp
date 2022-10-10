@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rikkei.training.musicapp.databinding.SingerRecyclerItemBinding
 import com.rikkei.training.musicapp.model.SingerDetail
+import com.rikkei.training.musicapp.model.Song
 
 class SingerDetailAdapter :
     RecyclerView.Adapter<SingerDetailAdapter.SingerDetailViewModel>() {
@@ -35,12 +36,18 @@ class SingerDetailAdapter :
             )
         )
     }
+    private val childAdapter = MusicAdapter()
+    fun update(position: Int, newItem: ArrayList<Song>) {
+        dataset[position].listSong = newItem
+        childAdapter.dataset = dataset[position].listSong
+        childAdapter.notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: SingerDetailViewModel, position: Int) {
         holder.title.text = dataset[position].title
         val layoutManagers = LinearLayoutManager(ctx)
         layoutManagers.initialPrefetchItemCount = dataset[position].listSong.size
-        val childAdapter = MusicAdapter()
+
         childAdapter.dataset = dataset[position].listSong
         childAdapter.notifyDataSetChanged()
         childAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {

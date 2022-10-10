@@ -23,7 +23,10 @@ class SingerDetailFragment : Fragment() {
     private val viewModel: SingerDetailViewModel by activityViewModels()
 
     private val songAdapter = SingerDetailAdapter()
-    var position = 0
+    companion object{
+        var position = 0
+
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -36,13 +39,24 @@ class SingerDetailFragment : Fragment() {
             position = it.getInt("position")
             when (it.getString("fromWhere")) {
                 "discovery" -> {
-
                     viewModel.setCompanionObject(position)
                 }
             }
         }
+
+        viewModel.getArtistDetail().observe(viewLifecycleOwner){
+            songAdapter.dataset = it
+            songAdapter.notifyDataSetChanged()
+        }
+
         viewModel.getMusicListOfSinger().observe(viewLifecycleOwner){
             binding.numSong.text = "${it.size} bài hát"
+            songAdapter.update(0, it)
+        }
+
+        binding.listSong.apply {
+            adapter = songAdapter
+            layoutManager = LinearLayoutManager(context)
         }
         return view
     }
@@ -53,16 +67,6 @@ class SingerDetailFragment : Fragment() {
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
-        }
-
-        viewModel.pageAdapter().observe(viewLifecycleOwner){
-            songAdapter.dataset = it
-            songAdapter.notifyDataSetChanged()
-        }
-
-        binding.listSong.apply {
-            adapter = songAdapter
-            layoutManager = LinearLayoutManager(context)
         }
 
         viewModel.getSingerDetail().observe(viewLifecycleOwner){

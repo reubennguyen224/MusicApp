@@ -10,7 +10,7 @@ data class LibraryCard (
 
 data class SingerDetail(
     val title: String,
-    val listSong: ArrayList<Song>
+    var listSong: ArrayList<Song>
 )
 
 data class SongDetail(
