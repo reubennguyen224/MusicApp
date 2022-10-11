@@ -8,11 +8,11 @@
         android:title="@string/discovery"
         android:contentDescription="@string/discovery"
         android:icon="@drawable/ic_disc"/>
-    <item android:id="@+id/chart"
+    <item android:id="@+id/charts"
         android:title="@string/bxh"
         android:contentDescription="@string/bxh"
         android:icon="@drawable/ic_chart" />
-    <item android:id="@+id/newFeed"
+    <item android:id="@+id/newFeeds"
         android:title="@string/newfeed"
         android:contentDescription="@string/newfeed"
         android:icon="@drawable/ic_new_feed"/>
