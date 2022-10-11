@@ -10,8 +10,8 @@ import com.rikkei.training.musicapp.databinding.SingerRecyclerItemBinding
 import com.rikkei.training.musicapp.model.Song
 import com.rikkei.training.musicapp.model.SongDetail
 
-class MusicListAdapter :
-    RecyclerView.Adapter<MusicListAdapter.ListViewHolder>() {
+class SearchListAdapter :
+    RecyclerView.Adapter<SearchListAdapter.ListViewHolder>() {
 
     private var viewPool = RecyclerView.RecycledViewPool()
     lateinit var ctx: Context
@@ -23,7 +23,6 @@ class MusicListAdapter :
     }
 
     var dataset = ArrayList<SongDetail>()
-        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -39,27 +38,36 @@ class MusicListAdapter :
             )
         )
     }
+    private lateinit var childAdapter: MusicAdapter
 
-
-    fun update(position: Int, newCartItem: ArrayList<Song>, listener: MusicAdapter.OnItemClickListener) {
-        dataset[position].listSong = newCartItem
+    fun update(position: Int, listener: MusicAdapter.OnItemClickListener) {
+        //dataset[position].listSong = newItem
         dataset[position].listener = listener
         notifyDataSetChanged()
+    }
+
+    fun update(position: Int, newItem: ArrayList<Song>) {
+        dataset[position].listSong = newItem
+
+        notifyDataSetChanged()
+        childAdapter.notifyDataSetChanged()
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.title.text = dataset[position].title
-        val layoutManager = LinearLayoutManager(ctx)
-        layoutManager.initialPrefetchItemCount = dataset[position].listSong.size
-
-        val childAdapter = MusicAdapter()
+        val layoutManagers = LinearLayoutManager(ctx)
+        layoutManagers.initialPrefetchItemCount = dataset[position].listSong.size
+        childAdapter = MusicAdapter()
         childAdapter.dataset = dataset[position].listSong
         childAdapter.notifyDataSetChanged()
-        childAdapter.setOnItemClickListener(dataset[position].listener!!)
-        holder.recyclerView.layoutManager = layoutManager
-        holder.recyclerView.adapter = childAdapter
-        holder.recyclerView.setRecycledViewPool(viewPool)
+        dataset[position].listener?.let { childAdapter.setOnItemClickListener(it )}
+        holder.recyclerView.apply {
+            layoutManager = layoutManagers
+            adapter = childAdapter
+            setRecycledViewPool(viewPool)
+        }
     }
 
     override fun getItemCount(): Int = dataset.size

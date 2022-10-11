@@ -68,7 +68,7 @@ class MusicPlayService : Service() {
         val image = if (imgArt != null) {
             BitmapFactory.decodeByteArray(imgArt, 0, imgArt.size)
         } else {
-            BitmapFactory.decodeResource(resources, R.drawable.ic_logo)
+            BitmapFactory.decodeResource(resources, R.drawable.splash_logo)
         }
 
         val notification = NotificationCompat.Builder(baseContext, CHANNEL_ID)

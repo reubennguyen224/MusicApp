@@ -57,8 +57,8 @@ class SingerDetailAdapter :
         })
         holder.recyclerView.apply {
             layoutManager = layoutManagers
-            holder.recyclerView.adapter = childAdapter
-            holder.recyclerView.setRecycledViewPool(viewPool)
+            adapter = childAdapter
+            setRecycledViewPool(viewPool)
         }
 
     }

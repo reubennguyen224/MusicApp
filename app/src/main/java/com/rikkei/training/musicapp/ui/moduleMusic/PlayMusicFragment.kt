@@ -152,7 +152,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             }
             "DiscoveryFragment" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
-                requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
+                requireContext().bindService(intent, this, Context.BIND_IMPORTANT)
                 requireContext().startService(intent)
                 viewModel.getListFromDiscovery(isSS = false)
                 songPosition = bundle.getInt("position", 0)

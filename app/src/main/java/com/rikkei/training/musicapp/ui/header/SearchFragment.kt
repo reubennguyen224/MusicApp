@@ -6,21 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
-import com.rikkei.training.musicapp.adapter.MusicListAdapter
+import com.rikkei.training.musicapp.adapter.SearchListAdapter
 import com.rikkei.training.musicapp.databinding.FragmentSearchBinding
 import com.rikkei.training.musicapp.viewmodel.SearchViewModel
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    val viewModel: SearchViewModel by viewModels()
-
+    val viewModel: SearchViewModel by activityViewModels()
+    companion object{
+        var searchQuery = ""
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +35,7 @@ class SearchFragment : Fragment() {
         return view
     }
 
-    val musicLocalListener = object : MusicAdapter.OnItemClickListener {
+    private val musicLocalListener = object : MusicAdapter.OnItemClickListener {
         override fun onItemClick(position: Int) {
             val bundle = Bundle()
             bundle.putInt("songPosition", position)
@@ -39,7 +43,8 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.playMusicFragment, bundle)
         }
     }
-    val musicInternetListener = object : MusicAdapter.OnItemClickListener {
+
+    private val musicInternetListener = object : MusicAdapter.OnItemClickListener {
         override fun onItemClick(position: Int) {
             val bundle = Bundle()
             bundle.putInt("songPosition", position)
@@ -48,7 +53,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    val adapter = MusicListAdapter()
+    private val songAdapter = SearchListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,27 +61,37 @@ class SearchFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.getList().observe(viewLifecycleOwner) {
-            adapter.dataset = it
-            adapter.update(0, SearchViewModel.musicListSearch, musicLocalListener)
-            adapter.update(1, SearchViewModel.musicListInternetSearch, musicInternetListener)
-            adapter.notifyDataSetChanged()
+        lifecycleScope.launch{
+            viewModel.getList().observe(viewLifecycleOwner) {
+                songAdapter.dataset = it
+                songAdapter.update(0, musicLocalListener)
+                songAdapter.update(1, musicInternetListener)
+                songAdapter.notifyDataSetChanged()
+            }
         }
 
-        binding.searchResultList.adapter = adapter
-        binding.searchResultList.layoutManager = LinearLayoutManager(context)
+        binding.searchResultList.apply {
+            adapter = songAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = true
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.setContent(newText)
-                adapter.update(0, SearchViewModel.musicListSearch, musicLocalListener)
-                adapter.update(1, SearchViewModel.musicListInternetSearch, musicInternetListener)
-                adapter.notifyDataSetChanged()
+                //viewModel.setContent(newText)
+                searchQuery = newText!!
+                //lifecycleScope.launch{
+                    viewModel.getLocalSongList(query = searchQuery).observe(viewLifecycleOwner){
+                        songAdapter.update(0, SearchViewModel.musicListSearch)
+                    }
+                    viewModel.getInternetSongList(query = searchQuery).observe(viewLifecycleOwner){
+                        songAdapter.update(1, it)
+                    }
+                    binding.searchResultList.adapter = songAdapter
+                //}
                 return true
             }
         })
     }
-
 
 }

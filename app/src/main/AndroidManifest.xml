@@ -21,10 +21,12 @@
         android:theme="@style/Theme.MusicApp"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
+
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustNothing"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

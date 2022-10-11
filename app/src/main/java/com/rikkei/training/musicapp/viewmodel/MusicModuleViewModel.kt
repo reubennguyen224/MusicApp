@@ -68,65 +68,84 @@ class MusicModuleViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun getListFromLocal(isShuffle: Boolean){
-        if (isShuffle){
-            listOfSongs.clear()
-            listOfSongs.addAll(PersonalViewModel.songArraylist)
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(PersonalViewModel.songArraylist)
+        viewModelScope.launch {
+            if (isShuffle){
+                listOfSongs.clear()
+                listOfSongs.addAll(PersonalViewModel.songArraylist)
+            }else{
+                listOfSongs.clear()
+                listOfSongs.addAll(PersonalViewModel.songArraylist)
+            }
         }
     }
 
     fun getListFromFavourite(isShuffle: Boolean){
-        if (isShuffle){
-            listOfSongs.clear()
-            listOfSongs.addAll(LocalFavouriteViewModel.favouriteList)
-            listOfSongs.shuffle()
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(LocalFavouriteViewModel.favouriteList)
+        viewModelScope.launch {
+            if (isShuffle){
+                listOfSongs.clear()
+                listOfSongs.addAll(LocalFavouriteViewModel.favouriteList)
+                listOfSongs.shuffle()
+            }else{
+                listOfSongs.clear()
+                listOfSongs.addAll(LocalFavouriteViewModel.favouriteList)
+            }
         }
+
     }
 
     fun getListFromDiscovery(isSS: Boolean){
-        if (isSS){
-            listOfSongs.clear()
-            listOfSongs.addAll(DiscoveryViewModel.songSuggestList)
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(DiscoveryViewModel.newMusicList)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                if (isSS){
+                    listOfSongs.clear()
+                    listOfSongs.addAll(DiscoveryViewModel.songSuggestList)
+                }else{
+                    listOfSongs.clear()
+                    listOfSongs.addAll(DiscoveryViewModel.newMusicList)
+                }
+            }
+
         }
     }
 
     fun getListFromAlbum(isShuffle: Boolean){
-        if (!isShuffle){
-            listOfSongs.clear()
-            listOfSongs.addAll(NewAlbumViewModel.album)
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(NewAlbumViewModel.album)
-            listOfSongs.shuffle()
+        viewModelScope.launch {
+            if (!isShuffle){
+                listOfSongs.clear()
+                listOfSongs.addAll(NewAlbumViewModel.album)
+            }else{
+                listOfSongs.clear()
+                listOfSongs.addAll(NewAlbumViewModel.album)
+                listOfSongs.shuffle()
+            }
         }
+
     }
 
     fun getListFromSinger(isShuffle: Boolean){
-        if (!isShuffle){
-            listOfSongs.clear()
-            listOfSongs.addAll(SingerDetailViewModel.album)
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(SingerDetailViewModel.album)
-            listOfSongs.shuffle()
+        viewModelScope.launch {
+            if (!isShuffle){
+                listOfSongs.clear()
+                listOfSongs.addAll(SingerDetailViewModel.album)
+            }else{
+                listOfSongs.clear()
+                listOfSongs.addAll(SingerDetailViewModel.album)
+                listOfSongs.shuffle()
+            }
         }
+
     }
 
     fun setListFromSearch(isLocal: Boolean){
-        if (isLocal){
-            listOfSongs.clear()
-            listOfSongs.addAll(SearchViewModel.musicListSearch)
-        }else{
-            listOfSongs.clear()
-            listOfSongs.addAll(SearchViewModel.musicListInternetSearch)
+        viewModelScope.launch {
+            if (isLocal){
+                listOfSongs.clear()
+                listOfSongs.addAll(SearchViewModel.musicListSearch)
+            }else{
+                listOfSongs.clear()
+                listOfSongs.addAll(SearchViewModel.musicListInternetSearch)
+            }
         }
+
     }
 }

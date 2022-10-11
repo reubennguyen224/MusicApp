@@ -25,7 +25,6 @@ class SingerDetailFragment : Fragment() {
     private val songAdapter = SingerDetailAdapter()
     companion object{
         var position = 0
-
     }
 
     @SuppressLint("SetTextI18n")

@@ -123,7 +123,6 @@ class SingerDetailViewModel(application: Application) : AndroidViewModel(applica
                             call: Call<MusicAPI>,
                             response: Response<MusicAPI>
                         ) {
-                            //songList.clear()
                             val songs = response.body()
                             for (music in songs!!) {
                                 singerItem.add(
