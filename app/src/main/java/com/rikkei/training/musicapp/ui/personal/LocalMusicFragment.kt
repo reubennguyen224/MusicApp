@@ -43,7 +43,7 @@ class LocalMusicFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().navigate(findNavController().previousBackStackEntry?.destination!!.id)
+            findNavController().navigate(R.id.personalFragment)
         }
 
         songAdapter.setOnItemClickListener(object : MusicAdapter.OnItemClickListener {

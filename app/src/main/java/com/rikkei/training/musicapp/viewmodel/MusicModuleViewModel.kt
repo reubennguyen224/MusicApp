@@ -126,10 +126,10 @@ class MusicModuleViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             if (!isShuffle){
                 listOfSongs.clear()
-                listOfSongs.addAll(SingerDetailViewModel.album)
+                listOfSongs.addAll(SingerDetailViewModel.songList)
             }else{
                 listOfSongs.clear()
-                listOfSongs.addAll(SingerDetailViewModel.album)
+                listOfSongs.addAll(SingerDetailViewModel.songList)
                 listOfSongs.shuffle()
             }
         }

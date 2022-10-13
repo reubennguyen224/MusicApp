@@ -17,8 +17,6 @@ import com.rikkei.training.musicapp.adapter.ArtistAdapter
 import com.rikkei.training.musicapp.adapter.LibraryAdapter
 import com.rikkei.training.musicapp.adapter.TabAdapter
 import com.rikkei.training.musicapp.databinding.FragmentPersonalBinding
-import com.rikkei.training.musicapp.ui.moduleMusic.PlayMusicFragment
-import com.rikkei.training.musicapp.utils.MusicPlayService
 import com.rikkei.training.musicapp.viewmodel.PersonalViewModel
 
 
@@ -27,10 +25,6 @@ class PersonalFragment : Fragment() {
     private var _binding: FragmentPersonalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonalViewModel by activityViewModels()
-
-    companion object {
-        var musicPlayService: MusicPlayService? = null
-    }
 
     private val artistAdapter = ArtistAdapter()
     private val libAdapter = LibraryAdapter()
@@ -107,8 +101,6 @@ class PersonalFragment : Fragment() {
                     .show()
             }
         })
-
-        if (musicPlayService == null) musicPlayService = PlayMusicFragment.musicPlayService
 
     }
 

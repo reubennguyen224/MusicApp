@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.NewSingerAdapter
 import com.rikkei.training.musicapp.databinding.FragmentLocalMusicBinding
 import com.rikkei.training.musicapp.viewmodel.LocalViewModel
@@ -48,7 +49,7 @@ class LocalSingerFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.personalFragment)
         }
     }
 

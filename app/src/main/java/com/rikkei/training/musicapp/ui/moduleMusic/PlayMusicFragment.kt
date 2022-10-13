@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -40,6 +41,7 @@ import kotlinx.coroutines.launch
 class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
     val viewModel: MusicModuleViewModel by activityViewModels()
+
     companion object {
         var songPosition: Int = 0
         var isPlaying: Boolean = false
@@ -80,25 +82,19 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.setListFromSearch(true)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
             }
             "MusicSearchInternetAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.setListFromSearch(false)
-
+                local = "discovery"
             }
             "MusicShuffleAdapter" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.getListFromLocal(isShuffle = true)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
             }
             "NowPlaying" -> {
                 nowPlaying = true
@@ -121,9 +117,6 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.getListFromAlbum(isShuffle = false)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
                 songPosition = bundle.getInt("position", 0)
             }
             "AlbumSufferFragment" -> {
@@ -131,9 +124,6 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.getListFromAlbum(isShuffle = true)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
                 songPosition = bundle.getInt("position", 0)
             }
             "SingerShuffleFragment" -> {
@@ -142,6 +132,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 viewModel.getListFromSinger(isShuffle = true)
                 songPosition = bundle.getInt("position", 0)
+                local = "discovery"
             }
             "SingerFragment" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
@@ -149,6 +140,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().startService(intent)
                 viewModel.getListFromSinger(isShuffle = false)
                 songPosition = bundle.getInt("position", 0)
+                local = "discovery"
             }
             "DiscoveryFragment" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
@@ -171,18 +163,12 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.getListFromFavourite(isShuffle = false)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
             }
             "FavouriteSuffer" -> {
                 val intent = Intent(requireContext(), MusicPlayService::class.java)
                 requireContext().bindService(intent, this, Context.BIND_AUTO_CREATE)
                 requireContext().startService(intent)
                 viewModel.getListFromFavourite(isShuffle = true)
-                binding.btnFavour.setOnClickListener {
-                    btnFavorView(isFavourite)
-                }
             }
         }
     }
@@ -200,7 +186,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         _binding = FragmentPlayMusicBinding.inflate(inflater, container, false)
@@ -259,15 +245,19 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
             prevNextSong(increment = false)
         }
         binding.btnFavour.setOnClickListener {
-            if (HomeFragment.userToken == "") {
-                val uri = Uri.parse("android-app://com.rikkei.training.musicapp/login")
-                findNavController().navigate(uri)
-            } else btnFavorView(isFavourite)
+            if (findNavController().currentDestination?.id == R.id.playMusicFragment) {
+                if (HomeFragment.userToken == "") {
+                    val uri = Uri.parse("android-app://com.rikkei.training.musicapp/login")
+                    findNavController().navigate(uri)
+                } else btnFavorView(isFavourite)
+            } else {
+                Toast.makeText(requireContext(), "Chức năng chưa được hỗ trợ khi nghe nhạc trực tuyến", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private val playlistListener = View.OnClickListener {
-        if( local == "local") findNavController().navigate(R.id.musicPlayingListFragment)
+        if (findNavController().currentDestination?.id == R.id.playMusicFragment) findNavController().navigate(R.id.musicPlayingListFragment)
         else findNavController().navigate(R.id.musicPlayingListFragment2)
     }
 
@@ -315,7 +305,7 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
     }
 
     private fun initialSongInformation() {
-        viewModel.getMusicList().observe(viewLifecycleOwner){
+        viewModel.getMusicList().observe(viewLifecycleOwner) {
             binding.nameSong.text = it[songPosition].thisTile
             NowPlaying.binding.nameSong.text = it[songPosition].thisTile
             binding.singerName.text = it[songPosition].thisArtist
@@ -377,7 +367,9 @@ class PlayMusicFragment : Fragment(), ServiceConnection, MediaPlayer.OnCompletio
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        viewModel.updateStream()
+        if (local == "discovery") {
+            viewModel.updateStream()
+        }
         setSongPosition(increment = true)
         createMediaPlayer()
         musicPlayService!!.sendNotification(R.drawable.ic_pause_bar)

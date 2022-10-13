@@ -41,7 +41,7 @@ class LocalFavouriteFragment : Fragment() {
 
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.personalFragment)
         }
 
         viewModel.getFavouriteSongList().observe(viewLifecycleOwner){

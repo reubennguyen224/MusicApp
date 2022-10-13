@@ -113,4 +113,13 @@
             android:id="@+id/deepLink4"
             app:uri="android-app://com.rikkei.training.musicapp/update" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.rikkei.training.musicapp.ui.header.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="android-app://com.rikkei.training.musicapp/register" />
+    </fragment>
 </navigation>

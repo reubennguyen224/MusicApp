@@ -1,6 +1,7 @@
 package com.rikkei.training.musicapp.viewmodel
 
 import android.app.Application
+import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rikkei.training.musicapp.model.*
 import com.rikkei.training.musicapp.ui.HomeFragment
-import com.rikkei.training.musicapp.ui.discovery.SingerDetailFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,7 +23,8 @@ class SingerDetailViewModel(application: Application) : AndroidViewModel(applica
     companion object {
         var songList = ArrayList<Song>()
         val album = ArrayList<Song>()
-        lateinit var item: Artist
+        var position = 0
+        var item =  DiscoveryViewModel.newSingerList[position]
     }
 
     fun getArtistDetail(): LiveData<ArrayList<SingerDetail>>{
@@ -32,14 +33,19 @@ class SingerDetailViewModel(application: Application) : AndroidViewModel(applica
     private var singerList = Singer()
 
     init {
-        setCompanionObject(SingerDetailFragment.position)
         songList = getInitItem()
         _artistDetail = pageAdapter()
     }
 
-    fun setCompanionObject(pos: Int) {
-        singerList = DiscoveryViewModel.newSingerList
-        item = singerList[pos]
+    fun setCompanionObject(bundle: Bundle) {
+        position = bundle.getInt("position")
+        when (bundle.getString("fromWhere")) {
+            "discovery" -> {
+                singerList = DiscoveryViewModel.newSingerList
+
+            }
+        }
+        item = singerList[position]
     }
 
     private fun pageAdapter(): MutableLiveData<ArrayList<SingerDetail>> {

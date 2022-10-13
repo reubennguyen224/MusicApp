@@ -1,7 +1,6 @@
 package com.rikkei.training.musicapp.ui.discovery
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +22,6 @@ class SingerDetailFragment : Fragment() {
     private val viewModel: SingerDetailViewModel by activityViewModels()
 
     private val songAdapter = SingerDetailAdapter()
-    companion object{
-        var position = 0
-    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -35,12 +31,7 @@ class SingerDetailFragment : Fragment() {
         _binding = FragmentSingerDetailBinding.inflate(inflater, container, false)
         val view = binding.root
         arguments?.let {
-            position = it.getInt("position")
-            when (it.getString("fromWhere")) {
-                "discovery" -> {
-                    viewModel.setCompanionObject(position)
-                }
-            }
+            viewModel.setCompanionObject(it)
         }
 
         viewModel.getArtistDetail().observe(viewLifecycleOwner){
@@ -65,7 +56,10 @@ class SingerDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+//            if (findNavController().previousBackStackEntry?.destination?.id == R.id.playMusicFragment2){
+                findNavController().navigate(R.id.discoveryFragment)
+//            } else
+//            findNavController().popBackStack()
         }
 
         viewModel.getSingerDetail().observe(viewLifecycleOwner){
@@ -86,9 +80,10 @@ class SingerDetailFragment : Fragment() {
         }
 
         binding.btnPlayShuffle.setOnClickListener {
-            val string = "SingerShuffleFragment"
-            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/play/${string}/${0}")
-            findNavController().navigate(uri)
+            val bundle = Bundle()
+            bundle.putInt("songPosition", 0)
+            bundle.putString("album", "SingerShuffleFragment")
+            findNavController().navigate(R.id.playMusicFragment2, bundle)
         }
 
     }

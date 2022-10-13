@@ -2,6 +2,7 @@ package com.rikkei.training.musicapp.ui.personal
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,7 @@ class LocalAlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.personalFragment)
         }
 
         viewModel.getAlbumList().observe(viewLifecycleOwner) {
@@ -57,6 +58,7 @@ class LocalAlbumFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("album_position", position)
                 bundle.putString("local", "local")
+                Log.e("test", findNavController().currentDestination!!.displayName)
                 findNavController().navigate(R.id.newAlbumFragment2, bundle)
             }
 

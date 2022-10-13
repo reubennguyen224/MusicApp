@@ -1,6 +1,7 @@
 package com.rikkei.training.musicapp.ui.discovery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,17 @@ class NewAlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
+
+            Log.e("test", findNavController().currentDestination!!.id.toString())
+            Log.e("test", R.id.newAlbumFragment2.toString())
+            Log.e("test", findNavController().currentDestination!!.displayName)
+
+
+            if (findNavController().previousBackStackEntry?.destination?.id == R.id.playMusicFragment){
+                findNavController().navigate(R.id.personalFragment)
+            } else if (findNavController().previousBackStackEntry?.destination?.id == R.id.playMusicFragment2){
+                findNavController().navigate(R.id.discoveryFragment)
+            } else
             findNavController().popBackStack()
         }
 
@@ -76,7 +88,8 @@ class NewAlbumFragment : Fragment() {
             val bundle = Bundle()
             bundle.putInt("songPosition", 0)
             bundle.putString("album", "AlbumSufferFragment")
-            findNavController().navigate(R.id.playMusicFragment2, bundle)
+            if (isLocal) findNavController().navigate(R.id.playMusicFragment, bundle)
+            else findNavController().navigate(R.id.playMusicFragment2, bundle)
         }
     }
 
@@ -90,7 +103,8 @@ class NewAlbumFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("songPosition", position)
                 bundle.putString("album", "AlbumFragment")
-                findNavController().navigate(R.id.playMusicFragment2, bundle)
+                if (isLocal) findNavController().navigate(R.id.playMusicFragment, bundle)
+                else findNavController().navigate(R.id.playMusicFragment2, bundle)
             }
 
         })

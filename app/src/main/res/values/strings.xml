@@ -23,4 +23,5 @@
     <string name="btnback">btnBack</string>
     <string name="playlist">Danh sách phát</string>
     <string name="musicChart">Bảng xếp hạng âm nhạc</string>
+    <string name="registerScreenName">ĐĂNG KÝ THÀNH VIÊN</string>
 </resources>

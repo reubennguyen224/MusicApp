@@ -1,6 +1,7 @@
 package com.rikkei.training.musicapp.ui.personal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class NewAlbumFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("album_position", position)
                 bundle.putString("local", "local")
+                Log.e("test", findNavController().currentDestination!!.navigatorName)
                 findNavController().navigate(R.id.newAlbumFragment2, bundle)
             }
 

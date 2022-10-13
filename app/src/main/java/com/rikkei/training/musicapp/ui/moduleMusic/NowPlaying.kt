@@ -60,7 +60,6 @@ class NowPlaying : Fragment() {
             if (findNavController().currentDestination?.id == R.id.personalFragment)
                 findNavController().navigate(R.id.playMusicFragment, bundle)
             else findNavController().navigate(R.id.playMusicFragment2, bundle)
-            findNavController()
         }
 
     }
