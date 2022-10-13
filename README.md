@@ -1,6 +1,5 @@
 # MusicApp
-Final Semester Project
-
+Graduate thesis Project
 
 #test account:
 username: admin2
