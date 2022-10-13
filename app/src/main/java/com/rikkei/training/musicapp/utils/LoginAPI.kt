@@ -31,7 +31,7 @@ interface LoginAPI {
         @Field("dob") dob: String,
         @Field("address") address: String,
         @Field("avataruri") avataruri: String,
-    ): Call<List<UserAPI>>
+    ): Call<ListMessage>
 
     @FormUrlEncoded
     @POST("updateUser.php")

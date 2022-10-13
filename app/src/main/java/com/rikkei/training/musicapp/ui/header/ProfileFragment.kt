@@ -3,7 +3,6 @@ package com.rikkei.training.musicapp.ui.header
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images
@@ -13,23 +12,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.databinding.FragmentProfileBinding
-import com.rikkei.training.musicapp.model.DataAPIX
-import com.rikkei.training.musicapp.model.Message
-import com.rikkei.training.musicapp.model.UserAPI
-import kotlinx.coroutines.Dispatchers
+import com.rikkei.training.musicapp.ui.HomeFragment
+import com.rikkei.training.musicapp.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
 import java.io.FileNotFoundException
 
 
@@ -37,9 +27,8 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val userData = ArrayList<DataAPIX>()
     private var uri: Uri? = null
-    var avatarUri: String? = ""
+    private val viewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +45,7 @@ class ProfileFragment : Fragment() {
         binding.txtFirstName.editText?.setText(HomeFragment.dataAPI[0].firstname.trim())
         binding.txtLastName.editText?.setText(HomeFragment.dataAPI[0].lastname.trim())
         binding.txtUpdateAddress.editText?.setText(HomeFragment.dataAPI[0].address.trim())
-        binding.txtUpdatePassword.editText?.setText(HomeFragment.dataAPI[0].password)
+        binding.txtUpdatePassword.editText?.setText("")
         binding.txtUpdateDob.editText?.setText(HomeFragment.dataAPI[0].dob)
         Glide.with(requireContext())
             .load(HomeFragment.dataAPI[0].avataruri)
@@ -93,26 +82,20 @@ class ProfileFragment : Fragment() {
             val password = binding.txtUpdatePassword.editText?.text.toString()
             val dob = binding.txtUpdateDob.editText?.text.toString()
             if (uri == null)
-                avatarUri = HomeFragment.dataAPI[0].avataruri
+                viewModel.uriNull()
 
-            callUpdateAPI(address, password, dob, firstName, lastName, HomeFragment.dataAPI[0].Id, avatarUri!!)
-        }
-    }
-
-    private fun uploadFile(uri: Uri?, fileName: String) {
-        var link = "https://hoang2204.000webhostapp.com/img/userAvatar/"
-        if (uri == null) return
-        val file = File(getRealPathFromURI(uri)!!)
-        val requestBody =
-            file.asRequestBody(requireActivity().contentResolver.getType(uri)!!.toMediaTypeOrNull())
-        val multipartBody = MultipartBody.Part
-            .createFormData("uploaded_file", fileName, requestBody)
-        avatarUri = link + fileName
-        lifecycleScope.launch(Dispatchers.IO){
-            HomeFragment.loginAPI.uploadPhoto(multipartBody).enqueue(object : Callback<Message>{
-                override fun onResponse(call: Call<Message>, response: Response<Message>) = Unit
-                override fun onFailure(call: Call<Message>, t: Throwable) = Unit
-            })
+            if (password.equals("")){
+                Toast.makeText(context, "Nhập lại mật khẩu", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            viewModel.callUpdateAPI(address, password, dob, firstName, lastName, HomeFragment.dataAPI[0].Id).observe(viewLifecycleOwner){
+                setData()
+                binding.txtFirstName.editText?.setText(it[0].firstname)
+                binding.txtLastName.editText?.setText(it[0].lastname)
+                binding.txtUpdateAddress.editText?.setText(it[0].address)
+                binding.txtUpdateDob.editText?.setText(it[0].dob)
+                binding.txtUpdatePassword.editText?.setText("")
+            }
         }
     }
 
@@ -124,7 +107,7 @@ class ProfileFragment : Fragment() {
                     .load(uri)
                     .centerCrop()
                     .into(binding.imgAvatar)
-                uploadFile(uri, HomeFragment.dataAPI[0].firstname + HomeFragment.dataAPI[0].Id + ".jpg")
+                viewModel.uploadFile(uri, HomeFragment.dataAPI[0].firstname + HomeFragment.dataAPI[0].Id + ".jpg")
 
             }catch (e: FileNotFoundException){
                 e.printStackTrace()
@@ -138,46 +121,6 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
-    private fun callUpdateAPI(address: String, password: String, dob: String, firstName: String, lastName: String, userID: String, avatarUri: String){
-        lifecycleScope.launch(Dispatchers.IO){
-            HomeFragment.loginAPI.updateUser(password = password,
-                firstname = firstName, lastname = lastName, address = address, dob = dob,
-                userID = userID, avataruri = avatarUri).enqueue(object : Callback<List<UserAPI>>{
-                override fun onResponse(call: Call<List<UserAPI>>, response: Response<List<UserAPI>>) {
-                    val body: ArrayList<UserAPI> = response.body() as ArrayList<UserAPI>
-                    if (body.size > 0){
-                        if (body[0].status == 200){
-                            userData.addAll(body[0].data)
-                            HomeFragment.dataAPI[0].avataruri = userData[0].avataruri
-                            HomeFragment.dataAPI[0].dob = userData[0].dob
-                            HomeFragment.dataAPI[0].firstname = userData[0].firstname
-                            HomeFragment.dataAPI[0].lastname= userData[0].lastname
-                            HomeFragment.dataAPI[0].password = userData[0].password
-                            HomeFragment.dataAPI[0].address = userData[0].address
 
-                            setData()
-                            Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
-                        } else{
-                            Toast.makeText(context, body[0].message, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<List<UserAPI>>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Cập nhật thông tin thất bại!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        }
 
-    }
-    private fun getRealPathFromURI(contentURI: Uri): String? {
-        val result: String?
-        val cursor: Cursor =
-            requireActivity().contentResolver.query(contentURI, null, null, null, null)!!
-        cursor.moveToFirst()
-        val idx: Int = cursor.getColumnIndex(Images.ImageColumns.DATA)
-        result = cursor.getString(idx)
-        cursor.close()
-        return result
-    }
 }
