@@ -42,7 +42,13 @@ class RegisterFragment : Fragment() {
             val txtDob = binding.txtdob.editText?.text.toString()
 
             if (txtPassword.equals("") || txtUserName.equals("")) return@setOnClickListener
-            else viewModel.registerUser(username = txtUserName, password = txtPassword, dob = txtDob, address = txtAddress, firstName = txtFirstName, lastName = txtLastName)
+            else viewModel.registerUser(username = txtUserName, password = txtPassword, dob = txtDob, address = txtAddress, firstName = txtFirstName, lastName = txtLastName).observe(viewLifecycleOwner){
+                if (it == "success") success()
+            }
         }
+    }
+
+    fun success(){
+        findNavController().popBackStack()
     }
 }

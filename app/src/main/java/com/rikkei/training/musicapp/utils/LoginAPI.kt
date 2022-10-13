@@ -19,7 +19,7 @@ interface LoginAPI {
     fun login(
         @Field("username") username: String,
         @Field("password") password: String,
-    ): Call<List<UserAPI>>
+    ): Call<List<DataAPIX>>
 
     @FormUrlEncoded
     @POST("register.php")
@@ -30,7 +30,7 @@ interface LoginAPI {
         @Field("lastname") lastname: String,
         @Field("dob") dob: String,
         @Field("address") address: String,
-        @Field("avataruri") avataruri: String,
+        @Field("avatarURI") avataruri: String,
     ): Call<ListMessage>
 
     @FormUrlEncoded

@@ -1,5 +1,6 @@
 package com.rikkei.training.musicapp.ui.header
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rikkei.training.musicapp.databinding.FragmentLoginBinding
-import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.viewmodel.AuthViewModel
 
 class LoginFragment : Fragment() {
@@ -38,24 +38,24 @@ class LoginFragment : Fragment() {
             val password = binding.txtPassword.editText?.text.toString().trim()
             viewModel.sendLogin(username = username, password = password)
                 .observe(viewLifecycleOwner) {
-                    if (HomeFragment.dataAPI.size > 0) {
+                    //if (it.size > 0) {
                         Toast.makeText(context,
                             "Đăng nhập thành công",
                             Toast.LENGTH_SHORT)
                             .show()
                         findNavController().popBackStack()
-                    } else {
-                        Toast.makeText(context,
-                            "Đăng nhập thất bại!",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    //} else {
+//                        Toast.makeText(context,
+//                            "Đăng nhập thất bại!",
+//                            Toast.LENGTH_SHORT).show()
+                    //}
 
                 }
         }
 
         binding.btnRegister.setOnClickListener {
-//            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/register")
-//            findNavController().navigate(uri)
+            val uri = Uri.parse("android-app://com.rikkei.training.musicapp/register")
+            findNavController().navigate(uri)
         }
     }
 

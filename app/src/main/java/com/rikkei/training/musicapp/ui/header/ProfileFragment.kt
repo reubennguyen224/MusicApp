@@ -13,13 +13,11 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rikkei.training.musicapp.databinding.FragmentProfileBinding
 import com.rikkei.training.musicapp.ui.HomeFragment
 import com.rikkei.training.musicapp.viewmodel.AuthViewModel
-import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
 
@@ -56,9 +54,6 @@ class ProfileFragment : Fragment() {
     @SuppressLint("IntentReset")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            binding.btnUpdateProfile.isEnabled = binding.txtUpdatePassword.editText?.text!!.isNotBlank()
-        }
         binding.btnBack.setOnClickListener{
             findNavController().popBackStack()
         }
@@ -86,8 +81,7 @@ class ProfileFragment : Fragment() {
 
             if (password.equals("")){
                 Toast.makeText(context, "Nhập lại mật khẩu", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            } else
             viewModel.callUpdateAPI(address, password, dob, firstName, lastName, HomeFragment.dataAPI[0].Id).observe(viewLifecycleOwner){
                 setData()
                 binding.txtFirstName.editText?.setText(it[0].firstname)

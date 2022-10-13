@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rikkei.training.musicapp.model.DataAPIX
@@ -77,7 +78,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         address: String,
         firstName: String,
         lastName: String,
-    ) {
+    ) : LiveData<String>{
+        val mes = MutableLiveData<String>()
         val userAvatar = "https://hoang2204.000webhostapp.com/img/userAvatar/default_avatar.jpg"
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -94,16 +96,19 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
                         val body = response.body()!!
                         Toast.makeText(getApplication(), body[0].message, Toast.LENGTH_SHORT).show()
+                        mes.postValue("success")
                     }
 
                     override fun onFailure(call: Call<ListMessage>, t: Throwable) {
                         Toast.makeText(getApplication(),
                             "Lỗi đăng ký, thử lại sau",
                             Toast.LENGTH_SHORT).show()
+                        mes.postValue("failed")
                     }
                 })
             }
         }
+        return mes
     }
 
     fun uriNull() {
@@ -170,22 +175,22 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun sendLogin(
         username: String,
         password: String,
-    ): MutableLiveData<ArrayList<DataAPIX>> {
-        val response = MutableLiveData<ArrayList<DataAPIX>>()
+    ): MutableLiveData<String> {
+        val res = MutableLiveData<String>()
         viewModelScope.launch {
             val userData = ArrayList<DataAPIX>()
             withContext(Dispatchers.IO) {
                 if (username.isNotEmpty() && password.length > 4) {
                     HomeFragment.loginAPI.login(username = username, password = password)
-                        .enqueue(object : Callback<List<UserAPI>> {
+                        .enqueue(object : Callback<List<DataAPIX>> {
                             override fun onResponse(
-                                call: Call<List<UserAPI>>,
-                                response: Response<List<UserAPI>>,
+                                call: Call<List<DataAPIX>>,
+                                response: Response<List<DataAPIX>>,
                             ) {
-                                val body: ArrayList<UserAPI> = response.body() as ArrayList<UserAPI>
-                                if (body.size > 0) {
-                                    if (body[0].status == 200) {
-                                        userData.addAll(body[0].data)
+                                val body = response.body()
+                                //if (body.size > 0) {
+                                   // if (body[0].status == 200) {
+                                        userData.addAll(body!!)
                                         HomeFragment.dataAPI.add(
                                             DataAPIX(
                                                 address = userData[0].address,
@@ -202,27 +207,28 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                                         val token = Integer.toHexString(i)
                                         HomeFragment.userToken = token
 
-                                    } else {
-                                        Toast.makeText(getApplication(),
-                                            body[0].message,
-                                            Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+//                                    } else {
+//                                        Toast.makeText(getApplication(),
+//                                            body[0].message,
+//                                            Toast.LENGTH_SHORT).show()
+//                                    }
+                                //}
+                                res.postValue("success")
                             }
 
-                            override fun onFailure(call: Call<List<UserAPI>>, t: Throwable) {
+                            override fun onFailure(call: Call<List<DataAPIX>>, t: Throwable) {
                                 Toast.makeText(getApplication(),
                                     "Đăng nhập thất bại!",
                                     Toast.LENGTH_SHORT).show()
                             }
                         })
-                    response.postValue(userData)
+
                 } else Toast.makeText(getApplication(),
                     "Vui lòng nhập mật khẩu/tên đăng nhập",
                     Toast.LENGTH_SHORT)
                     .show()
             }
         }
-        return response
+        return res
     }
 }
