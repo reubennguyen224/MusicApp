@@ -15,6 +15,7 @@ import com.rikkei.training.musicapp.R
 import com.rikkei.training.musicapp.adapter.MusicAdapter
 import com.rikkei.training.musicapp.databinding.FragmentNewAlbum2Binding
 import com.rikkei.training.musicapp.viewmodel.NewAlbumViewModel
+import kotlin.math.abs
 
 
 class NewAlbumFragment : Fragment() {
@@ -80,6 +81,7 @@ class NewAlbumFragment : Fragment() {
                 .into(binding.albumArt)
             binding.txtAlbumTitle.text = it.name
             binding.txtAlbumArtist.text = it.singer_name
+            binding.titleFragment.text = it.name
         }
 
         setSongView()
@@ -90,6 +92,14 @@ class NewAlbumFragment : Fragment() {
             bundle.putString("album", "AlbumSufferFragment")
             if (isLocal) findNavController().navigate(R.id.playMusicFragment, bundle)
             else findNavController().navigate(R.id.playMusicFragment2, bundle)
+        }
+
+        binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (abs(verticalOffset) - appBarLayout!!.totalScrollRange == 0) { // collapsing toolbar
+                collapsingToolbar()
+            } else { //expand toolbar
+                expandToolbar()
+            }
         }
     }
 
@@ -125,5 +135,20 @@ class NewAlbumFragment : Fragment() {
             musicAdapter.dataset = it
         }
 
+    }
+
+    private fun collapsingToolbar() {
+        binding.btnPlayAlbum.visibility = View.GONE
+        binding.btnBack.setImageResource(R.drawable.ic_back_button)
+        binding.txtAlbumTitle .visibility = View.GONE
+        binding.txtAlbumArtist .visibility = View.GONE
+        binding.titleFragment.visibility = View.VISIBLE
+    }
+
+    private fun expandToolbar() {
+        binding.btnPlayAlbum.visibility = View.VISIBLE
+        binding.txtAlbumTitle.visibility = View.VISIBLE
+        binding.txtAlbumArtist.visibility = View.VISIBLE
+        binding.titleFragment.visibility = View.GONE
     }
 }

@@ -94,8 +94,6 @@ class SingerDetailFragment : Fragment() {
         binding.titleSinger.visibility = View.GONE
         binding.numSong.visibility = View.GONE
         binding.titleFragment.visibility = View.VISIBLE
-        binding.titleSinger.visibility = View.GONE
-        binding.numSong.visibility = View.GONE
     }
 
     private fun expandToolbar() {
